@@ -37,7 +37,7 @@ class SamplePage extends Component<RouteProps<any> & Props, State> {
                 <PageHeader>
                     <PageHeaderTitle>Sample Insights App</PageHeaderTitle>
                 </PageHeader>
-                <section className='ins-l-content'>
+                <Section type='content'>
                     <h1> Sample Component </h1>
                         <SampleComponent> Sample Component </SampleComponent>
                     <h1> Cards </h1>
@@ -47,12 +47,14 @@ class SamplePage extends Component<RouteProps<any> & Props, State> {
                         <CardFooter> Card Footer </CardFooter>
                     </Card>
                     <h1> Buttons </h1>
-                    <Button> PF-Next Primary Button </Button>
-                    <Button type='primary'> PF-Next Primary Button </Button>
-                    <Button type='secondary'> PF-Next Secondary Button </Button>
-                    <Button type='tertiary'> PF-Next Tertiary Button </Button>
-                    <Button type='danger'> PF-Next Danger Button </Button>
-                    <Section type='content'>
+                    <Section type='button-group'>
+                        <Button> PF-Next Primary Button </Button>
+                        <Button type='primary'> PF-Next Primary Button </Button>
+                        <Button type='secondary'> PF-Next Secondary Button </Button>
+                        <Button type='tertiary'> PF-Next Tertiary Button </Button>
+                        <Button type='danger'> PF-Next Danger Button </Button>
+                    </Section>
+                    <Section type='button-group'>
                         <PF3Button> PF-3 Default </PF3Button>
                         <PF3Button bsStyle='primary'> PF-3 Primary </PF3Button>
                         <PF3Button bsStyle='success'> PF-3 Success </PF3Button>
@@ -61,7 +63,7 @@ class SamplePage extends Component<RouteProps<any> & Props, State> {
                         <PF3Button bsStyle='danger'> PF-3 Danger </PF3Button>
                         <PF3Button bsStyle='link'> PF-3 Link </PF3Button>
                     </Section>
-                </section>
+                </Section>
             </React.Fragment>
         );
     }
