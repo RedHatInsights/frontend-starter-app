@@ -1,0 +1,16 @@
+@import './src/Utils/_helpers.scss';
+
+.ins-p-page-header {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-bottom: 1px solid #d1d1d1;
+  margin: 0;
+  @include rem('padding', $global-padding);
+
+  &__title {
+    @include rem('font-size', 18px);
+    font-family: 'Overpass-Light';
+    margin: 0;
+  }
+}

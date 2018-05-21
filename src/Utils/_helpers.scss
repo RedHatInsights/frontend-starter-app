@@ -1,0 +1,79 @@
+$padding: 30px;
+$margin: 45px;
+
+$global-font-size: 14px;
+
+$light: #e9e9e9;
+$medium: #393f44;
+$dark: #292e34;
+
+$primary: #39a5dc;
+$primary-dark: #0088ce;
+$primary-shadow: #00659c;
+
+$accent: #2A2E57;
+$accent-dark: #20253b;
+
+
+// padding
+$global-padding: 20px;
+
+@mixin transition($property) {
+  transition: $property 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@mixin box-shadow() {
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+}
+
+button:focus {
+    outline:none;
+}
+
+// Convert px to rem
+// =================================================================/
+@mixin rem($property, $values) {
+
+  // Create a couple of empty lists as output buffers.
+  $font-size: $global-font-size;
+  $px-values: ();
+  $rem-values: ();
+
+  // Loop through the $values list
+  @each $value in $values {
+
+    // For each property value, if it's in rem or px, derive both rem and
+    // px values for it and add those to the end of the appropriate buffer.
+    // Ensure all pixel values are rounded to the nearest pixel.
+    @if type-of($value) == number and not unitless($value) and (unit($value) == px) {
+
+      // px value given - calculate rem value from font-size
+      $new-rem-value: $value / $font-size;
+      $px-values: join($px-values, round($value));
+      $rem-values: join($rem-values, unquote("#{$new-rem-value}rem"));
+
+    } @else if type-of($value) == number and not unitless($value) and (unit($value) == '%') {
+
+      // % value given - don't add px or rem
+      $px-values: join($px-values, unquote(#{$value}));
+      $rem-values: join($rem-values, unquote(#{$value}));
+
+    } @else if $value == auto {
+
+      // auto - don't add px or rem
+      $px-values: join($px-values, auto);
+      $rem-values: join($rem-values, auto);
+
+    } @else {
+
+      // unitless value - use those directly as rem and calculate the px-fallback
+      $px-values: join($px-values, round($value * $font-size));
+      $rem-values: join($rem-values, unquote("#{$value}rem"));
+    }
+  }
+
+  // output the converted rules
+  #{$property}: $px-values;
+  #{$property}: $rem-values;
+
+}

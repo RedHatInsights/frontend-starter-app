@@ -1,0 +1,39 @@
+@import 'patternfly_specific';
+@import '~@patternfly/patternfly-next/dist/patternfly';
+
+html, body {
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    //font-family: 'Overpass';
+    text-rendering: optimizeLegibility;
+    display: grid;
+    grid-template-areas: 'topbar topbar'
+                          'sidenav content'
+                          'sidenav footer';
+    grid-template-rows: min-content 1fr min-content;
+    grid-template-columns: 1fr 9fr;
+
+    .topbar {
+      grid-area: topbar;
+    }
+
+    .footer {
+      grid-area: footer;
+    }
+
+    .sidenav {
+      grid-area: sidenav;
+    }
+
+    #root {
+      grid-area: content;
+    }
+}
+
+#root { height: 100%; }
+
+body {
+  background: linear-gradient(90deg,#f5f7fa 38px,transparent 1%) 50%,linear-gradient(#f5f7fa 38px,transparent 1%) 50%,rgba(0,0,0,.1);
+  background-size: 40px 40px;
+}
