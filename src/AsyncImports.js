@@ -1,3 +1,3 @@
 export default {
-    './DumbComponents/HelloWorld/hello-world.js': () => import(/* webpackChunkName: "HelloWorld", webpackMode: "lazy" */ './DumbComponents/HelloWorld/hello-world.js')
+    './DumbComponents/SampleComponent/sample-component.js': () => import(/* webpackChunkName: "SampleComponent", webpackMode: "lazy" */ './DumbComponents/SampleComponent/sample-component.js')
 }

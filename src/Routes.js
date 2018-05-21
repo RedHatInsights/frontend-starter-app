@@ -17,11 +17,9 @@ import asyncComponent from './Utils/asyncComponent';
  *         see the difference with DashboardMap and InventoryDeployments.
  *
  */
-const DashboardMap = asyncComponent(() => import('./SmartComponents/overview/DashboardMap'));
-const InventoryDeployments = asyncComponent(() => import(/* webpackChunkName: "InventoryDeployments" */ './SmartComponents/inventory/InventoryDeployments'));
+const SamplePage = asyncComponent(() => import(/* webpackChunkName: "InventoryDeployments" */ './SmartComponents/SamplePage/SamplePage'));
 const paths = {
-    overview_map: '/dashboard/map',
-    inventory_deployments: '/deployments'
+    sample_page: '/samplepage'
 };
 
 type Props = {
@@ -49,11 +47,10 @@ export const Routes = (props: Props) => {
 
     return (
         <Switch>
-            <InsightsRoute exact path={paths.overview_map} component={DashboardMap} rootClass='map' />
-            <InsightsRoute exact path={paths.inventory_deployments} component={InventoryDeployments} rootClass='inventory' />
+            <InsightsRoute exact path={paths.sample_page} component={SamplePage} rootClass='sample' />
 
             {/* Finally, catch all unmatched routes */}
-            <Route render={() => some(paths, p => p === path) ? null : (<Redirect to={paths.overview_map} />)} />
+            <Route render={() => some(paths, p => p === path) ? null : (<Redirect to={paths.sample_page} />)} />
         </Switch>
     );
 };

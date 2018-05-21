@@ -1,5 +1,5 @@
 import React from 'react';
-import './hello-world.scss';
+import './sample-component.scss';
 
 /**
  * This is a dumb component that only recieves properties from a smart component.
@@ -9,6 +9,6 @@ import './hello-world.scss';
  */
 export default props => {
     return (
-        <span className='HelloWorld'> {props.children} </span>
+        <span className='sample-component'> {props.children} </span>
     );
 }
