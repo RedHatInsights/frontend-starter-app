@@ -1,3 +1,5 @@
+// This is the Patternfly-Next version of buttons
+
 import React from 'react';
 
 import classNames from 'classnames';
@@ -16,11 +18,11 @@ export default props => {
 
     let btnClasses = classNames(
       'pf-c-button',
-      [`pf-is-${props.type}`],
-      [`pf-is-${props.size}`],
+      { [`pf-is-${props.type}`]: props.type !== undefined },
+      { [`pf-is-${props.size}`]: props.size !== undefined },
       {
         'pf-has-focus': props.state === 'focused',
-        [`pf-is-${props.state}`]: props.state && props.state !== 'focused'
+        [`pf-is-${props.state}`]: props.state === 'active' || props.state === 'disabled'
       }
     );
 

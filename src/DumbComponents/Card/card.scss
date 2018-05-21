@@ -7,64 +7,8 @@
   margin: $margin;
 
   background: #fff;
-  border-radius: 5px;
+  border-radius: 3px;
 
   box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
-  max-width: 300px;
-
-  .ins-c-card__header {
-    margin: 0;
-    padding: 5px 15px;
-    background: linear-gradient(to right, $primary-dark, $primary);
-    border-radius: 5px 5px 5px 0;
-
-    position: relative;
-    top: -20px;
-    left: -40px;
-
-    display: flex;
-    align-items: center;
-    justify-content: end;
-    width: fit-content;
-
-    color: #fff;
-    font-size: 16px;
-    font-family: 'Overpass';
-    font-weight: 700;
-  }
-
-  .Triangle {
-    position: relative;
-    top: -20px;
-    left: -40px;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 0 10px 10px 0;
-    border-color: transparent $primary-shadow transparent transparent;
-  }
-
-  .ins-c-card__content {
-    color: $dark;
-    font-family: 'Overpass';
-  }
-
-  .ins-c-card__cta {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-    button.ins-c-card__cta-btn {
-      background: #fff;
-      border: 2px solid $primary-dark;
-      border-radius: 20px;
-      padding: 5px 15px;
-      cursor: pointer;
-      transitio: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      &:hover{
-        border: 2px solid $primary;
-      }
-    }
-  }
 
 }

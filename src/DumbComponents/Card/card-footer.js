@@ -9,10 +9,6 @@ import './card.scss';
  */
 export default props => {
     return (
-        <div className='ins-c-card__cta'>
-            <button className='ins-c-card__cta-btn ins-btn btn-default'>
-                <span>{props.children}</span>
-            </button>
-        </div>
+        <div className='ins-c-card__footer'> {props.children} </div>
     );
 }
