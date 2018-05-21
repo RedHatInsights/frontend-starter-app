@@ -9,7 +9,7 @@
   @include rem('padding', 20px $global-padding);
 
   &__title {
-    @include rem('font-size', 18px);
+    @include font-size(18px);
     font-family: 'Overpass-Light';
     margin: 0;
   }

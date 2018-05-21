@@ -39,7 +39,7 @@ class SamplePage extends Component<RouteProps<any> & Props, State> {
                 </PageHeader>
                 <section className='ins-l-content'>
                     <h1> Sample Component </h1>
-                        <SampleComponent> Testing </SampleComponent>
+                        <SampleComponent> Sample Component </SampleComponent>
                     <h1> Cards </h1>
                     <Card>
                         <CardHeader> Card Header </CardHeader>

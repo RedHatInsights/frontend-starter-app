@@ -3,8 +3,8 @@
 .card.ins-c-card {
   display: inline-flex;
   flex-direction: column;
-  padding: $global-padding;
-  margin: $global-margin;
+  @include rem('padding', $global-padding);
+  @include rem('margin', $global-margin);
 
   background: #fff;
 
