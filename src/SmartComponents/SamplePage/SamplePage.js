@@ -9,6 +9,8 @@ const SampleComponent = asyncComponent(() => import('../../DumbComponents/Sample
 const PageHeader = asyncComponent(() => import('../../DumbComponents/PageHeader/page-header'));
 const PageHeaderTitle = asyncComponent(() => import('../../DumbComponents/PageHeader/page-header-title'));
 
+const Alert = asyncComponent(() => import('../../DumbComponents/Alert/alert'));
+
 const Card = asyncComponent(() => import('../../DumbComponents/Card/card'));
 const CardHeader = asyncComponent(() => import('../../DumbComponents/Card/card-header'));
 const CardContent = asyncComponent(() => import('../../DumbComponents/Card/card-content'));
@@ -34,6 +36,7 @@ class SamplePage extends Component<RouteProps<any> & Props, State> {
     render() {
         return (
             <React.Fragment>
+                <Alert type='info'> This is a template for you to build your Insights app</Alert>
                 <PageHeader>
                     <PageHeaderTitle>Sample Insights App</PageHeaderTitle>
                 </PageHeader>
