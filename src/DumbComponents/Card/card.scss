@@ -1,10 +1,10 @@
-@import './src/Utils/_helpers.scss';
+@import './src/Utilities.scss';
 
 .card.ins-c-card {
   display: inline-flex;
   flex-direction: column;
-  padding: $padding;
-  margin: $margin;
+  padding: $global-padding;
+  margin: $global-margin;
 
   background: #fff;
 

@@ -1,5 +1,6 @@
 @import 'patternfly_specific';
 @import '~@patternfly/patternfly-next/dist/patternfly';
+@import './src/Utilities.scss';
 
 html, body {
     height: 100vh;

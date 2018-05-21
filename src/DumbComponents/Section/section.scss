@@ -1,5 +1,5 @@
-@import './src/Utils/_helpers.scss';
+@import './src/Utilities.scss';
 
 section.ins-l-content {
-  padding: $padding;
+  @include rem('padding', $global-padding);
 }
