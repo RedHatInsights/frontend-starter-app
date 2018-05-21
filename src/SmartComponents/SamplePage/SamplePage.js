@@ -17,6 +17,7 @@ const CardFooter = asyncComponent(() => import('../../DumbComponents/Card/card-f
 const Button = asyncComponent(() => import('../../DumbComponents/Button/button'));
 const PF3Button = asyncComponent(() => import('../../DumbComponents/Button/pf-button'));
 
+const Section = asyncComponent(() => import('../../DumbComponents/Section/section'));
 
 type Props = {};
 type State = {};
@@ -51,7 +52,7 @@ class SamplePage extends Component<RouteProps<any> & Props, State> {
                     <Button type='secondary'> PF-Next Secondary Button </Button>
                     <Button type='tertiary'> PF-Next Tertiary Button </Button>
                     <Button type='danger'> PF-Next Danger Button </Button>
-                    <section>
+                    <Section type='content'>
                         <PF3Button> PF-3 Default </PF3Button>
                         <PF3Button bsStyle='primary'> PF-3 Primary </PF3Button>
                         <PF3Button bsStyle='success'> PF-3 Success </PF3Button>
@@ -59,7 +60,7 @@ class SamplePage extends Component<RouteProps<any> & Props, State> {
                         <PF3Button bsStyle='warning'> PF-3 Warning </PF3Button>
                         <PF3Button bsStyle='danger'> PF-3 Danger </PF3Button>
                         <PF3Button bsStyle='link'> PF-3 Link </PF3Button>
-                    </section>
+                    </Section>
                 </section>
             </React.Fragment>
         );
