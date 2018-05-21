@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import some from 'lodash/some';
-import asyncComponent from './Utils/asyncComponent';
+import asyncComponent from './Utilities/asyncComponent';
 
 /**
  * Aysnc imports of components

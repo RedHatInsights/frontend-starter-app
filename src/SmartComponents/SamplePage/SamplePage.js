@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { RouteComponentProps as RouteProps, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import asyncComponent from '../../Utils/asyncComponent';
+import asyncComponent from '../../Utilities/asyncComponent';
 import './sample-page.scss';
 
 const SampleComponent = asyncComponent(() => import('../../DumbComponents/SampleComponent/sample-component'));

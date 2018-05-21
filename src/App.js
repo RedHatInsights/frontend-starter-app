@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Routes } from './Routes';
-import asyncComponent from '../src/Utils/asyncComponent';
+import asyncComponent from '../src/Utilities/asyncComponent';
 import { Button } from 'patternfly-react';
 import './App.scss';
 //import './Utils/_fonts.scss';
