@@ -22,7 +22,7 @@ plugins.push(WriteFileWebpackPlugin);
 const HtmlWebpackPlugin = new (require('html-webpack-plugin'))({
     title: 'My App',
     filename: 'index.html',
-    template: path.resolve(__dirname, 'src/index.html')
+    template: path.resolve(__dirname, '../src/index.html')
 });
 plugins.push(HtmlWebpackPlugin);
 
@@ -86,7 +86,7 @@ plugins.push(ExtractCssWebpackPlugin);
  * Copies files from the specified locations to the corresponding destinations.
  */
 const CopyFilesWebpackPlugin = new (require('copy-webpack-plugin'))([
-    {from: './static/images', to: 'images'}
+    {from: path.resolve(__dirname, '../static/images'), to: 'images'}
 ]);
 plugins.push(CopyFilesWebpackPlugin);
 

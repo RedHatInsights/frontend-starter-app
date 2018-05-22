@@ -58,9 +58,9 @@
     "write-file-webpack-plugin": "^4.2.0"
   },
   "scripts": {
-    "start": "webpack-dev-server --mode development",
-    "prod": "webpack-dev-server --mode production",
+    "start": "webpack-dev-server --mode development --config config/webpack.config.js",
+    "prod": "webpack-dev-server --mode production --config config/webpack.config.js",
     "server:ctr": "node src/server/generateServerKey.js",
-    "build": "webpack"
+    "build": "webpack --config config/webpack.config.js"
   }
 }

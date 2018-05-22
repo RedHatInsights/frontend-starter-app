@@ -2,7 +2,7 @@ const merge = require('lodash/merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const config = require('./webpack.common.js');
 const { resolve } = require('path');
-const pkg = require('./package.json');
+const pkg = require('../package.json');
 
 const webpack_config = {
     mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
@@ -46,7 +46,7 @@ const webpack_config = {
                   options: {
                     includePaths: [
                       ...Object.values(pkg.sassIncludes).map(includePath =>
-                        resolve(__dirname, `./${includePath}`)
+                        resolve(__dirname, `../${includePath}`)
                       )
                     ]
                   }
