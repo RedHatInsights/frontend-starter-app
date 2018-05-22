@@ -82,12 +82,4 @@ const ExtractCssWebpackPlugin = new (require('mini-css-extract-plugin'))({
 });
 plugins.push(ExtractCssWebpackPlugin);
 
-/**
- * Copies files from the specified locations to the corresponding destinations.
- */
-const CopyFilesWebpackPlugin = new (require('copy-webpack-plugin'))([
-    {from: './static/images', to: 'images'}
-]);
-plugins.push(CopyFilesWebpackPlugin);
-
 module.exports = { plugins: plugins };
