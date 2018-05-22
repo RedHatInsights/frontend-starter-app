@@ -6,9 +6,19 @@ React.js starter app for Red Hat Insights products that includes Patternfly 3 an
 
 2. ```npm run start```
     - starts webpack bundler and serves the files with webpack dev server
+
+# Patternfly
+- This project imports for components:
+    - [Patternfly React](https://github.com/patternfly/patternfly-react)
+    - [Patternfly Next](https://github.com/patternfly/patternfly-next)
+        - Because PF-Next is not react based, there is an example on how to use [classnames](https://github.com/JedWatson/classnames) in the [Button component](https://github.com/RedHatInsights/insights-frontend-starter-app/blob/master/src/DumbComponents/Button/button.js) and how to apply classes dynamically.
+        
+# Insights Components
+Insights Platform will deliver components and static assets through npm (TBD). ESI tags are used to import the [chroming](https://github.com/RedHatInsights/insights-chrome) which takes care of the header, sidebar, and footer.
+
 # Technologies
-# Webpack
-## Webpack.config.js
+## Webpack
+### Webpack.config.js
 This file exports an object with the configuration for webpack and webpack dev server.
 
 ```Javascript
@@ -66,7 +76,6 @@ This file exports an object with the configuration for webpack and webpack dev s
 ```
 
 ## React
-### Interesting Concepts
 - High-Order Component
     - a higher-order component is a function that takes a component and returns a new component
     - https://reactjs.org/docs/higher-order-components.html
@@ -144,6 +153,8 @@ Ex) [/src/api/System/getSystems.js](https://github.com/RedHatInsights/turbo-octo
     - Connects a React component to a Redux store
 
 ## React-router-dom
+When setting up the routes, the page content is wrapped with a `.page__{pageName}` class, applied to the `#root` ID that is determined by the `rootClass` in the `Routes.js` which lets you easily reference the page in the styling.
+
 - [BrowserRouter](https://reacttraining.com/react-router/web/api/BrowserRouter)
     - A <Router> that uses the HTML5 history API (pushState, replaceState and the popstate event) to keep your UI in sync with the URL
 - [Route](https://reacttraining.com/react-router/web/api/Route)
