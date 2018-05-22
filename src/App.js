@@ -5,7 +5,6 @@ import { Routes } from './Routes';
 import asyncComponent from '../src/Utilities/asyncComponent';
 import { Button } from 'patternfly-react';
 import './App.scss';
-//import './Utils/_fonts.scss';
 
 /**
  * Allows for type checking.
