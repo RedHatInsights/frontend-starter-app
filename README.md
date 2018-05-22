@@ -11,7 +11,7 @@ React.js starter app for Red Hat Insights products that includes Patternfly 3 an
 - This project imports for components:
     - [Patternfly React](https://github.com/patternfly/patternfly-react)
     - [Patternfly Next](https://github.com/patternfly/patternfly-next)
-        - Because PF-Next is not react based, there is an example on how to use [classnames](https://github.com/JedWatson/classnames) in the [Button component](https://github.com/RedHatInsights/insights-frontend-starter-app/blob/master/src/DumbComponents/Button/button.js) and how to apply classes dynamically.
+        - Because PF-Next is not react based, there is an example on how to use [classnames](https://github.com/JedWatson/classnames) in the [Button component](https://github.com/RedHatInsights/insights-frontend-starter-app/blob/master/src/PresentationalComponents/Button/button.js) and how to apply classes dynamically.
         
 # Insights Components
 Insights Platform will deliver components and static assets through npm (TBD). ESI tags are used to import the [chroming](https://github.com/RedHatInsights/insights-chrome) which takes care of the header, sidebar, and footer.
@@ -79,14 +79,14 @@ This file exports an object with the configuration for webpack and webpack dev s
 - High-Order Component
     - a higher-order component is a function that takes a component and returns a new component
     - https://reactjs.org/docs/higher-order-components.html
-    - Ex) [asyncComponent.js](https://github.com/RedHatInsights/turbo-octo-couscous/src/Utils/asyncComponent.js)
+    - Ex) [asyncComponent.js](https://github.com/RedHatInsights/insights-frontend-starter-app/src/Utils/asyncComponent.js)
     
-- Smart/Dumb Components
+- Smart/Presentational Components
     - https://medium.com/@thejasonfile/dumb-components-and-smart-components-e7b33a698d43
     - Smart components have access to the redux state
-    - Dumb components do not have access to the redux state
+    - Presentational components do not have access to the redux state
     - Smart Components === insights-frontend/app/js/states
-    - Dumb Components === insights-frontend/app/js/components
+    - Presentational Components === insights-frontend/app/js/components
     
     
 - State and lifecycle within class components

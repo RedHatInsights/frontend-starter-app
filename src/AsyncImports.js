@@ -1,3 +1,3 @@
 export default {
-    './DumbComponents/SampleComponent/sample-component.js': () => import(/* webpackChunkName: "SampleComponent", webpackMode: "lazy" */ './DumbComponents/SampleComponent/sample-component.js')
+    './PresentationalComponents/SampleComponent/sample-component.js': () => import(/* webpackChunkName: "SampleComponent", webpackMode: "lazy" */ './PresentationalComponents/SampleComponent/sample-component.js')
 }

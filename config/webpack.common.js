@@ -8,7 +8,7 @@ module.exports = {
         entry: entry,
         public: path.resolve(__dirname, '../dist'),
         src: path.resolve(__dirname, '../src'),
-        dumbComponents: path.resolve(__dirname, '../src/DumbComponents'),
+        presentationalComponents: path.resolve(__dirname, '../src/PresentationalComponents'),
         smartComponents: path.resolve(__dirname, '../src/SmartComponents'),
         pages: path.resolve(__dirname, '../src/pages'),
         static: path.resolve(__dirname, '../static')
