@@ -48,7 +48,8 @@ const Tabs = createReactClass({
                     <a href='#'
                         className={"pf-p-secondary-nav__link " + (this.state.selected === index ? 'pf-is-active' : '')}
                         onClick={this.handleClick.bind(this, index)}
-                        role='tab'>
+                        role='tab'
+                        aria-selected={(this.state.selected === index ? 'true' : undefined)}>
                         {child.props.label}
                     </a>
                 </li>
