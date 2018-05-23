@@ -86,7 +86,7 @@ class SamplePage extends Component<RouteProps<any> & Props, State> {
                                 <br/>
                                 <p>Eu dignissim scribentur nam, usu possim consulatu forensibus in. Similique posidonium ex mel. Homero labore molestiae te quo, an duo nostro sanctus fabellas. Duo novum omnes splendide ex, has no albucius efficiantur, nam ei possit ocurreret.</p>
                             </TabPane>
-                            <TabPane label='Tab 3'>
+                            <TabPane disabled='true' label='Tab 3'>
                                 <br/>
                                 <h3>Tab 3 Content</h3>
                                 <br/>
