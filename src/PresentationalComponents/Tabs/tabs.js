@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 const createReactClass = require('create-react-class');
 
@@ -43,13 +44,19 @@ const Tabs = createReactClass({
     },
     _renderTitles () {
         function labels (child, index) {
+            let tabClasses = classNames(
+                'pf-p-secondary-nav__link',
+                { [`pf-is-active`]: this.state.selected === index && !child.props.disabled },
+                { [`pf-is-disabled`]: child.props.disabled }
+            );
             return (
                 <li className='pf-p-secondary-nav__item' key={index}>
                     <a href='#'
-                        className={"pf-p-secondary-nav__link " + (this.state.selected === index ? 'pf-is-active' : '')}
+                        className={tabClasses}
                         onClick={this.handleClick.bind(this, index)}
                         role='tab'
-                        aria-selected={(this.state.selected === index ? 'true' : undefined)}>
+                        aria-selected={(this.state.selected === index && !child.props.disabled ? 'true' : undefined)}
+                        aria-disabled={(child.props.disabled ? 'true' : undefined)}>
                         {child.props.label}
                     </a>
                 </li>
