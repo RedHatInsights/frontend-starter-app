@@ -27,6 +27,8 @@ export default props => {
     );
 
      return (
-        <button className={btnClasses}> {props.children} </button>
+        <button
+            className={btnClasses}
+            disabled={(props.state === 'disabled' ? 'true' : undefined)}> {props.children} </button>
     );
 }
