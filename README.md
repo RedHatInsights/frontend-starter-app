@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/RedHatInsights/insights-frontend-starter-app.svg?branch=master)](https://travis-ci.org/RedHatInsights/insights-frontend-starter-app)
+
 # insights-frontend-starter-app
 React.js starter app for Red Hat Insights products that includes Patternfly 3 and Patternfly Next.
 
@@ -7,8 +9,12 @@ React.js starter app for Red Hat Insights products that includes Patternfly 3 an
 2. ```npm run start```
     - starts webpack bundler and serves the files with webpack dev server
 
+### Testing
+- Travis is used to test the build for this code.
+    - `npm test` will run the test
+
 # Patternfly
-- This project imports for components:
+- This project imports Patternfly components:
     - [Patternfly React](https://github.com/patternfly/patternfly-react)
     - [Patternfly Next](https://github.com/patternfly/patternfly-next)
         - Because PF-Next is not react based, there is an example on how to use [classnames](https://github.com/JedWatson/classnames) in the [Button component](https://github.com/RedHatInsights/insights-frontend-starter-app/blob/master/src/PresentationalComponents/Button/button.js) and how to apply classes dynamically.
