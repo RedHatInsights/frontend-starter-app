@@ -5,8 +5,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "create-react-class": "^15.6.3",
-    "patternfly-react": "^2.3.4",
-    "react-patternfly": "^1.0.0"
+    "patternfly-react": "^2.3.4"
   },
   "sassIncludes": {
     "patternfly": "node_modules/patternfly/dist/sass",
