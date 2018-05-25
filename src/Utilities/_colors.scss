@@ -1,4 +1,6 @@
-@import 'node_modules/@patternfly/patternfly-next/utilities/colors.scss';
+:root {
+    @import 'node_modules/@patternfly/patternfly-next/utilities/colors.scss';
+}
 
 // Sample Colors
 $light: #e9e9e9;

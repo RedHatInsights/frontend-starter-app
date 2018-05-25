@@ -14,7 +14,7 @@
     "fontAwesome": "node_modules/patternfly/node_modules/font-awesome-sass/assets/stylesheets"
   },
   "devDependencies": {
-    "@patternfly/patternfly-next": "^1.0.2",
+    "@patternfly/patternfly-next": "^1.0.3",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
     "babel-plugin-dual-import": "^1.2.1",
