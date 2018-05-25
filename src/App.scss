@@ -1,6 +1,6 @@
 $pf-global--enable-font-overpass-cdn: true;
 @import 'patternfly_specific';
-@import '~@patternfly/patternfly-next/patternfly';
+@import '~@patternfly/patternfly-next/patternfly.css';
 @import './src/Utilities.scss';
 
 html, body {

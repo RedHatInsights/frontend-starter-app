@@ -15,7 +15,8 @@ import './section.scss';
 export default props => {
 
     let sectionClasses = classNames(
-      { [`ins-l-${props.type}`]: props.type !== undefined }
+      { [`ins-l-${props.type}`]: props.type !== undefined },
+      { [`ins-l-is-dark`]: props.dark }
     );
 
      return (

@@ -53,11 +53,13 @@ class SamplePage extends Component<RouteProps<any> & Props, State> {
                     </Card>
                     <h1> Buttons </h1>
                     <Section type='button-group'>
-                        <Button> PF-Next Primary Button </Button>
                         <Button type='primary'> PF-Next Primary Button </Button>
                         <Button type='secondary'> PF-Next Secondary Button </Button>
                         <Button type='tertiary'> PF-Next Tertiary Button </Button>
                         <Button type='danger'> PF-Next Danger Button </Button>
+                    </Section>
+                    <Section type='button-group' dark='true'>
+                        <Button type='alternate'> PF-Next Primary Button </Button>
                     </Section>
                     <Section type='button-group'>
                         <PF3Button> PF-3 Default </PF3Button>

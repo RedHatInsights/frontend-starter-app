@@ -18,12 +18,12 @@ export default props => {
 
     let btnClasses = classNames(
       'pf-c-button',
-      { [`pf-is-${props.type}`]: props.type !== undefined },
+      { 
+        [`pf-is-${props.type}`]: props.type !== undefined && props.type !== 'alternate',
+        [`pf-is-secondary-alt`]: props.type !== undefined && props.type === 'alternate' 
+      },
       { [`pf-is-${props.size}`]: props.size !== undefined },
-      {
-        'pf-has-focus': props.state === 'focused',
-        [`pf-is-${props.state}`]: props.state === 'active' || props.state === 'disabled'
-      }
+      { [`pf-is-${props.state}`]: props.state !== undefined }
     );
 
      return (
