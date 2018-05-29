@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": false,
   "dependencies": {
+    "@storybook/cli": "^4.0.0-alpha.8",
     "classnames": "^2.2.5",
     "create-react-class": "^15.6.3",
     "patternfly-react": "^2.3.4",
@@ -15,6 +16,8 @@
   },
   "devDependencies": {
     "@patternfly/patternfly-next": "^1.0.2",
+    "@storybook/addon-actions": "^3.4.6",
+    "@storybook/react": "^4.0.0-alpha.8",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
     "babel-plugin-dual-import": "^1.2.1",
@@ -62,6 +65,7 @@
     "prod": "webpack-dev-server --mode production --config config/webpack.config.js",
     "server:ctr": "node src/server/generateServerKey.js",
     "build": "webpack --config config/webpack.config.js",
-    "test": "webpack --config config/webpack-test.config.js"
+    "test": "webpack --config config/webpack-test.config.js",
+    "storybook": "start-storybook -p 9001 -c .storybook"
   }
 }
