@@ -67,6 +67,5 @@ const webpack_config_test = {
 
 module.exports = merge({},
     webpack_config_test,
-    require('./webpack-test.plugins.js'),
-    require('./webpack.server.js')
+    require('./webpack-test.plugins.js')
 );

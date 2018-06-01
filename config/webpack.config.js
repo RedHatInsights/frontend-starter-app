@@ -3,10 +3,23 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const config = require('./webpack.common.js');
 const { resolve } = require('path');
 const pkg = require('../package.json');
+const history = require('connect-history-api-fallback');
+const convert = require('koa-connect');
 
 const webpack_config = {
     mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
     devtool: false,
+    serve: {
+        content: config.paths.public,
+        port: 8002,
+        dev: {
+            publicPath: '/insights'
+        },
+        // https://github.com/webpack-contrib/webpack-serve/blob/master/docs/addons/history-fallback.config.js
+        add: (app, middleware, options) => {
+            app.use(convert(history({})));
+        },
+    },
     optimization: {
         minimize: process.env.NODE_ENV === 'production',
         splitChunks: {
@@ -67,6 +80,5 @@ const webpack_config = {
 
 module.exports = merge({},
     webpack_config,
-    require('./webpack.plugins.js'),
-    require('./webpack.server.js')
+    require('./webpack.plugins.js')
 );
