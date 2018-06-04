@@ -1,27 +1,22 @@
 import React, { Component } from 'react';
+import { Alert } from '@red-hat-insights/insights-frontend-components';
 import { RouteComponentProps as RouteProps, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import asyncComponent from '../../Utilities/asyncComponent';
 import './sample-page.scss';
-import Tabs from '../../PresentationalComponents/Tabs/tabs.js';
-import TabPane from '../../PresentationalComponents/Tabs/tab-pane.js';
+import { Button } from '@red-hat-insights/insights-frontend-components';
+import { Card } from '@red-hat-insights/insights-frontend-components';
+import { CardContent } from '@red-hat-insights/insights-frontend-components';
+import { CardFooter } from '@red-hat-insights/insights-frontend-components';
+import { CardHeader } from '@red-hat-insights/insights-frontend-components';
+import { PageHeader } from '@red-hat-insights/insights-frontend-components';
+import { PageHeaderTitle } from '@red-hat-insights/insights-frontend-components';
+import { PF3Button } from '@red-hat-insights/insights-frontend-components';
+import { Section } from '@red-hat-insights/insights-frontend-components';
+import { Tabs } from '@red-hat-insights/insights-frontend-components';
+import { TabPane } from '@red-hat-insights/insights-frontend-components';
 
 const SampleComponent = asyncComponent(() => import('../../PresentationalComponents/SampleComponent/sample-component'));
-
-const PageHeader = asyncComponent(() => import('../../PresentationalComponents/PageHeader/page-header'));
-const PageHeaderTitle = asyncComponent(() => import('../../PresentationalComponents/PageHeader/page-header-title'));
-
-const Alert = asyncComponent(() => import('../../PresentationalComponents/Alert/alert'));
-
-const Card = asyncComponent(() => import('../../PresentationalComponents/Card/card'));
-const CardHeader = asyncComponent(() => import('../../PresentationalComponents/Card/card-header'));
-const CardContent = asyncComponent(() => import('../../PresentationalComponents/Card/card-content'));
-const CardFooter = asyncComponent(() => import('../../PresentationalComponents/Card/card-footer'));
-
-const Button = asyncComponent(() => import('../../PresentationalComponents/Button/button'));
-const PF3Button = asyncComponent(() => import('../../PresentationalComponents/Button/pf-button'));
-
-const Section = asyncComponent(() => import('../../PresentationalComponents/Section/section'));
 
 type Props = {};
 type State = {};
