@@ -1,13 +1,14 @@
 $pf-global--enable-font-overpass-cdn: true;
 @import 'patternfly_specific';
 @import '~@patternfly/patternfly-next/patternfly.css';
+@import '~@patternfly/patternfly-next/assets/fonts/overpass-webfont/overpass.css';
 @import './src/Utilities.scss';
 
 html, body {
     height: 100vh;
     width: 100vw;
     margin: 0;
-    font-family: 'Overpass', 'OpenSans';
+    font-family: 'Overpass', 'OpenSans', sans-serif;
     text-rendering: optimizeLegibility;
     display: grid;
     grid-template-areas: 'topbar topbar'
