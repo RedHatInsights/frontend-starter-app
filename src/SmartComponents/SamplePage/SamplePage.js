@@ -10,7 +10,6 @@ import { CardFooter } from '@red-hat-insights/insights-frontend-components';
 import { CardHeader } from '@red-hat-insights/insights-frontend-components';
 import { PageHeader } from '@red-hat-insights/insights-frontend-components';
 import { PageHeaderTitle } from '@red-hat-insights/insights-frontend-components';
-import { PF3Button } from '@red-hat-insights/insights-frontend-components';
 import { Section } from '@red-hat-insights/insights-frontend-components';
 import { Tabs } from '@red-hat-insights/insights-frontend-components';
 import { TabPane } from '@red-hat-insights/insights-frontend-components';
