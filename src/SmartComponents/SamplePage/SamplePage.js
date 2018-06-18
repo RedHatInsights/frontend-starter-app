@@ -4,7 +4,6 @@ import { RouteComponentProps as RouteProps, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
 import asyncComponent from '../../Utilities/asyncComponent';
 import './sample-page.scss';
-import { Button } from '@red-hat-insights/insights-frontend-components';
 import { Card } from '@red-hat-insights/insights-frontend-components';
 import { CardContent } from '@red-hat-insights/insights-frontend-components';
 import { CardFooter } from '@red-hat-insights/insights-frontend-components';
@@ -15,6 +14,8 @@ import { PF3Button } from '@red-hat-insights/insights-frontend-components';
 import { Section } from '@red-hat-insights/insights-frontend-components';
 import { Tabs } from '@red-hat-insights/insights-frontend-components';
 import { TabPane } from '@red-hat-insights/insights-frontend-components';
+
+import { Button } from '@patternfly/react-core';
 
 const SampleComponent = asyncComponent(() => import('../../PresentationalComponents/SampleComponent/sample-component'));
 
@@ -48,22 +49,10 @@ class SamplePage extends Component<RouteProps<any> & Props, State> {
                     </Card>
                     <h1> Buttons </h1>
                     <Section type='button-group'>
-                        <Button type='primary'> PF-Next Primary Button </Button>
-                        <Button type='secondary'> PF-Next Secondary Button </Button>
-                        <Button type='tertiary'> PF-Next Tertiary Button </Button>
-                        <Button type='danger'> PF-Next Danger Button </Button>
-                    </Section>
-                    <Section type='button-group' dark='true'>
-                        <Button type='alternate'> PF-Next Primary Button </Button>
-                    </Section>
-                    <Section type='button-group'>
-                        <PF3Button> PF-3 Default </PF3Button>
-                        <PF3Button bsStyle='primary'> PF-3 Primary </PF3Button>
-                        <PF3Button bsStyle='success'> PF-3 Success </PF3Button>
-                        <PF3Button bsStyle='info'> PF-3 Info </PF3Button>
-                        <PF3Button bsStyle='warning'> PF-3 Warning </PF3Button>
-                        <PF3Button bsStyle='danger'> PF-3 Danger </PF3Button>
-                        <PF3Button bsStyle='link'> PF-3 Link </PF3Button>
+                        <Button variant='primary'> PF-Next Primary Button </Button>
+                        <Button variant='secondary'> PF-Next Secondary Button </Button>
+                        <Button variant='tertiary'> PF-Next Tertiary Button </Button>
+                        <Button variant='danger'> PF-Next Danger Button </Button>
                     </Section>
                     <Section>
                         <Tabs selected={0}>
