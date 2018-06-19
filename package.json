@@ -16,6 +16,7 @@
   "devDependencies": {
     "@patternfly/patternfly-next": "^1.0.3",
     "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.3",
     "babel-loader": "^7.1.4",
     "babel-plugin-dual-import": "^1.2.1",
     "babel-plugin-lodash": "^3.3.2",
@@ -33,6 +34,8 @@
     "cross-fetch": "^2.2.0",
     "css-loader": "^0.28.11",
     "d3": "^5.4.0",
+    "eslint": "^4.19.1",
+    "eslint-config-prettier": "^2.9.0",
     "file-loader": "^1.1.11",
     "glob": "^7.1.2",
     "html-webpack-plugin": "^3.0.4",
@@ -60,10 +63,11 @@
     "write-file-webpack-plugin": "^4.3.2"
   },
   "scripts": {
-    "start": "WEBPACK_SERVE=development webpack-serve --config config/webpack.config.js",
+    "build": "webpack --config config/webpack.config.js",
+    "lint": "eslint src",
     "prod": "WEBPACK_SERVE=production webpack-serve --config config/webpack.config.js",
     "server:ctr": "node src/server/generateServerKey.js",
-    "build": "webpack --config config/webpack.config.js",
+    "start": "WEBPACK_SERVE=development webpack-serve --config config/webpack.config.js",
     "test": "webpack --config config/webpack-test.config.js"
   }
 }
