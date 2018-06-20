@@ -1,5 +1,5 @@
-import {applyMiddleware, combineReducers, createStore} from "redux";
-import promiseMiddleware from "redux-promise-middleware";
+import { applyMiddleware, combineReducers, createStore } from 'redux';
+import promiseMiddleware from 'redux-promise-middleware';
 
 /**
  * https://redux.js.org/basics/store
@@ -14,11 +14,11 @@ const store = createStore(combineReducers({}), applyMiddleware(promiseMiddleware
  * http://nicolasgallagher.com/redux-modules-and-code-splitting/
  */
 class ReducerRegistry {
-    constructor() {
+    constructor () {
         this.reducers = {};
     }
 
-    getStore() {
+    getStore () {
         return store;
     }
 
@@ -27,8 +27,8 @@ class ReducerRegistry {
      *
      * @param reducers object where a key maps to a reducer
      */
-    changeListener(reducers) {
-        store.replaceReducer(combineReducers({...this.reducers, ...reducers}));
+    changeListener (reducers) {
+        store.replaceReducer(combineReducers({ ...this.reducers, ...reducers }));
     }
 
     /**
@@ -36,8 +36,8 @@ class ReducerRegistry {
      *
      * @param newReducers the object of new reducers.
      */
-    register(newReducers) {
-        this.reducers = {...this.reducers, ...newReducers};
+    register (newReducers) {
+        this.reducers = { ...this.reducers, ...newReducers };
         this.changeListener(this.reducers);
     }
 }

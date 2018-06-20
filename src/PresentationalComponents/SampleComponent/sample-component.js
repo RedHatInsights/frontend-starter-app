@@ -1,5 +1,6 @@
-import React from 'react';
 import './sample-component.scss';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 /**
  * This is a dumb component that only recieves properties from a smart component.
@@ -7,8 +8,20 @@ import './sample-component.scss';
  *
  * @param props the props given by the smart component.
  */
-export default props => {
+const SampleComponent = (props) => {
+
     return (
         <span className='sample-component'> {props.children} </span>
     );
-}
+};
+
+SampleComponent.displayName = 'sample-component';
+
+SampleComponent.propTypes = {
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node
+    ])
+};
+
+export default SampleComponent;
