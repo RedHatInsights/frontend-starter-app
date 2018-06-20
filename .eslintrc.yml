@@ -4,6 +4,7 @@ env:
 extends:
   - 'eslint:recommended'
   - 'prettier'
+  - 'plugin:react/recommended'
 parserOptions:
   ecmaVersion: 7
   sourceType: module

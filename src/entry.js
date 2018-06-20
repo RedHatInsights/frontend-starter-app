@@ -7,13 +7,12 @@ import promiseMiddleware from 'redux-promise-middleware';
 import App from './App';
 
 function todos(state = [], action) {
-    console.log(action);
-  switch (action.type) {
-    case 'ADD_TODO':
-      return state.concat([action.text]);
-    default:
-      return state;
-  }
+    switch (action.type) {
+        case 'ADD_TODO':
+            return state.concat([action.text]);
+        default:
+            return state;
+    }
 }
 
 const store = createStore(todos, applyMiddleware(promiseMiddleware()));
