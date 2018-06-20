@@ -10,5 +10,4 @@ node_js:
 install:
   - npm ci
 script:
-  - npm run verify
-  - npm run build
+  - npm run travis:verify
