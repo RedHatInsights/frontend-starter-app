@@ -52,7 +52,7 @@ plugins.push(CleanWebpackPlugin);
  * @type {var}
  */
 const LodashWebpackPlugin = new (require('lodash-webpack-plugin'))();
-process.env.ANALYZE && plugins.push(WebpackBundleAnalyzer);
+plugins.push(LodashWebpackPlugin);
 
 /**
  * Optimizes bundle size

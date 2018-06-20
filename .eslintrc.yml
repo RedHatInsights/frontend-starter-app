@@ -9,12 +9,17 @@ parserOptions:
   ecmaVersion: 7
   sourceType: module
 globals:
-  describe: true
-  it: true
-  expect: true
-  insights: true
-  process: true
   beforeAll: true
+  describe: true
+  expect: true
+  global: true
+  insights: true
+  it: true
+  mount: true
+  process: true
+  render: true
+  shallow: true
+  React: true
 rules:
   array-bracket-spacing: 2
   comma-dangle: 2
