@@ -11,14 +11,14 @@ React.js starter app for Red Hat Insights products that includes Patternfly 3 an
 
 ### Testing
 - Travis is used to test the build for this code.
-    - `npm test` will run the test
+    - `npm run test` will run linters and tests
 
 # Patternfly
 - This project imports Patternfly components:
     - [Patternfly React](https://github.com/patternfly/patternfly-react)
     - [Patternfly Next](https://github.com/patternfly/patternfly-next)
         - Because PF-Next is not react based, there is an example on how to use [classnames](https://github.com/JedWatson/classnames) in the [Button component](https://github.com/RedHatInsights/insights-frontend-starter-app/blob/master/src/PresentationalComponents/Button/button.js) and how to apply classes dynamically.
-        
+
 # Insights Components
 Insights Platform will deliver components and static assets through npm (TBD). ESI tags are used to import the [chroming](https://github.com/RedHatInsights/insights-chrome) which takes care of the header, sidebar, and footer.
 
@@ -31,17 +31,17 @@ This file exports an object with the configuration for webpack and webpack dev s
 {
     mode: https://webpack.js.org/concepts/mode/,
     devtool: https://webpack.js.org/configuration/devtool/,
-    
+
     // different bundle options.
-    // allows you to completely separate vendor code from app code and much more. 
+    // allows you to completely separate vendor code from app code and much more.
     // https://webpack.js.org/plugins/split-chunks-plugin/
     optimization: {
         chunks: https://webpack.js.org/plugins/split-chunks-plugin/#optimization-splitchunks-chunks-all,
         runtimeChunk: https://webpack.js.org/plugins/split-chunks-plugin/#optimization-runtimechunk,
-        
+
         // https://webpack.js.org/plugins/split-chunks-plugin/#configuring-cache-groups
         cacheGroups: {
-            
+
             // bundles all vendor code needed to run the entry file
             common_initial: {
                 test: // file regex: /[\\/]node_modules[\\/]/,
@@ -50,16 +50,16 @@ This file exports an object with the configuration for webpack and webpack dev s
             }
         }
     },
-    
-    // each property of entry maps to the name of an entry file 
+
+    // each property of entry maps to the name of an entry file
     // https://webpack.js.org/concepts/entry-points/
     entry: {
-        
+
         // example bunde names
         bundle1: 'src/entry1.js',
         bundle2: 'src/entry2.js'
     },
-    
+
     // bundle output options.
     output: {
             filename: https://webpack.js.org/configuration/output/#output-filename,
@@ -70,11 +70,11 @@ This file exports an object with the configuration for webpack and webpack dev s
      module: {
          rules: https://webpack.js.org/configuration/module/#module-rules
      },
-     
+
      // An array of webpack plugins look at webpack.plugins.js
      // https://webpack.js.org/plugins/
      plugins: [],
-     
+
      // webpack dev serve options
      // https://github.com/webpack/webpack-dev-server
      devServer: {}
@@ -86,15 +86,15 @@ This file exports an object with the configuration for webpack and webpack dev s
     - a higher-order component is a function that takes a component and returns a new component
     - https://reactjs.org/docs/higher-order-components.html
     - Ex) [asyncComponent.js](https://github.com/RedHatInsights/insights-frontend-starter-app/src/Utils/asyncComponent.js)
-    
+
 - Smart/Presentational Components
     - https://medium.com/@thejasonfile/dumb-components-and-smart-components-e7b33a698d43
     - Smart components have access to the redux state
     - Presentational components do not have access to the redux state
     - Smart Components === insights-frontend/app/js/states
     - Presentational Components === insights-frontend/app/js/components
-    
-    
+
+
 - State and lifecycle within class components
     - https://reactjs.org/docs/state-and-lifecycle.html
     - article contains:
@@ -117,7 +117,7 @@ https://redux.js.org/basics/store
     - [dispatch(action)](https://redux.js.org/api-reference/store#dispatch)
     - [subscribe(listener)](https://redux.js.org/api-reference/store#subscribe)
     - [replaceReducer(nextReducer)](https://redux.js.org/api-reference/store#replaceReducer)
-    
+
 ### actions
 Actions are payloads of information that send data from your application to your store. They are the only source of information for the store. You send them to the store using [store.dispatch()](https://redux.js.org/api-reference/store#dispatch).
 Redux actions should only have two properties, type and payload, as a best practice.
