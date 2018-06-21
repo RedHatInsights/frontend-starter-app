@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": false,
   "dependencies": {
+    "@patternfly/react-core": "0.0.4",
     "@red-hat-insights/insights-frontend-components": "^0.1.13",
     "classnames": "^2.2.5",
-    "create-react-class": "^15.6.3",
-    "patternfly-react": "^2.3.4"
+    "create-react-class": "^15.6.3"
   },
   "sassIncludes": {
     "patternfly": "node_modules/patternfly/dist/sass",
@@ -14,7 +14,6 @@
     "fontAwesome": "node_modules/patternfly/node_modules/font-awesome-sass/assets/stylesheets"
   },
   "devDependencies": {
-    "@patternfly/patternfly-next": "^1.0.3",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
     "babel-loader": "^7.1.4",
