@@ -1,7 +1,8 @@
-import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import some from 'lodash/some';
+import PropTypes from 'prop-types';
+import React from 'react';
 import asyncComponent from './Utilities/asyncComponent';
+import some from 'lodash/some';
 
 /**
  * Aysnc imports of components
@@ -17,21 +18,27 @@ import asyncComponent from './Utilities/asyncComponent';
  *         see the difference with DashboardMap and InventoryDeployments.
  *
  */
-const SamplePage = asyncComponent(() => import(/* webpackChunkName: "InventoryDeployments" */ './SmartComponents/SamplePage/SamplePage'));
+const SamplePage = asyncComponent(() => import(
+    /* webpackChunkName: "InventoryDeployments" */ './SmartComponents/SamplePage/SamplePage'));
 const paths = {
-    sample_page: '/samplepage'
+    sample: '/samplepage'
 };
 
 type Props = {
   childProps: any
 };
 
-const InsightsRoute = ({ component: Component, rootClass, ...rest}) => {
+const InsightsRoute = ({ component: Component, rootClass, ...rest }) => {
     const root = document.getElementById('root');
     root.removeAttribute('class');
     root.classList.add(`page__${rootClass}`);
 
     return (<Component {...rest} />);
+};
+
+InsightsRoute.propTypes = {
+    component: PropTypes.func,
+    rootClass: PropTypes.string
 };
 
 /**
@@ -47,10 +54,10 @@ export const Routes = (props: Props) => {
 
     return (
         <Switch>
-            <InsightsRoute exact path={paths.sample_page} component={SamplePage} rootClass='sample' />
+            <InsightsRoute exact path={paths.sample} component={SamplePage} rootClass='sample' />
 
             {/* Finally, catch all unmatched routes */}
-            <Route render={() => some(paths, p => p === path) ? null : (<Redirect to={paths.sample_page} />)} />
+            <Route render={() => some(paths, p => p === path) ? null : (<Redirect to={paths.sample} />)} />
         </Switch>
     );
 };

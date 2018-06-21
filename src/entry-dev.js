@@ -4,7 +4,6 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import ReducerRegistry from './Utilities/ReducerRegistry';
 import App from './App';
-import './AsyncImports';
 
 /**
  * Hooks up redux to app.
