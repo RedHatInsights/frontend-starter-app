@@ -1,10 +1,11 @@
-const merge = require('lodash/merge');
+/* global require, module, __dirname */
+
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const config = require('./webpack.common.js');
 const { resolve } = require('path');
 const pkg = require('../package.json');
 
-const webpack_config_test = {
+const webpackConfig = {
     mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
     devtool: false,
     optimization: {
@@ -13,12 +14,12 @@ const webpack_config_test = {
             cacheGroups: {
                 vendors: false,
                 commons: {
-                  test: /[\\/]node_modules[\\/]/,
-                  name: "vendor",
-                  chunks: "initial"
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendor',
+                    chunks: 'initial'
                 }
-            },
-        },
+            }
+        }
     },
     entry: {
         App: config.paths.entry
@@ -26,30 +27,30 @@ const webpack_config_test = {
     output: {
         filename: 'js/[name].js',
         path: config.paths.public,
-        publicPath: '/insights',
+        publicPath: '/insights/',
         chunkFilename: 'js/[name].js'
     },
     module: {
         rules: [{
             test: /\.js$/,
             exclude: /(node_modules|bower_components)/i,
-            use: [{loader: "source-map-loader"}, {loader: 'babel-loader'}]
+            use: [{ loader: 'source-map-loader' }, { loader: 'babel-loader' }]
         }, {
-           test: /\.s?[ac]ss$/,
+            test: /\.s?[ac]ss$/,
             use: [
                 process.env.NODE_ENV === 'production' ? 'style-loader' : MiniCssExtractPlugin.loader,
                 {
-                    loader: "css-loader"
+                    loader: 'css-loader'
                 },
                 {
-                  loader: 'sass-loader',
-                  options: {
-                    includePaths: [
-                      ...Object.values(pkg.sassIncludes).map(includePath =>
-                        resolve(__dirname, `../${includePath}`)
-                      )
-                    ]
-                  }
+                    loader: 'sass-loader',
+                    options: {
+                        includePaths: [
+                            ...Object.values(pkg.sassIncludes).map(includePath =>
+                                resolve(__dirname, `../${includePath}`)
+                            )
+                        ]
+                    }
                 }
             ]
         }, {
@@ -65,7 +66,4 @@ const webpack_config_test = {
     }
 };
 
-module.exports = merge({},
-    webpack_config_test,
-    require('./webpack-test.plugins.js')
-);
+module.exports = webpackConfig;

@@ -1,3 +1,5 @@
+/* global require, module, __dirname */
+
 const path = require('path');
 const entry = process.env.NODE_ENV === 'production' ?
     path.resolve(__dirname, '../src/entry.js') :
@@ -5,7 +7,7 @@ const entry = process.env.NODE_ENV === 'production' ?
 
 module.exports = {
     paths: {
-        entry: entry,
+        entry,
         public: path.resolve(__dirname, '../dist'),
         src: path.resolve(__dirname, '../src'),
         presentationalComponents: path.resolve(__dirname, '../src/PresentationalComponents'),
