@@ -3,6 +3,11 @@ $pf-global--enable-font-overpass-cdn: true;
 @import '~@patternfly/patternfly-next/assets/fonts/overpass-webfont/overpass.css';
 @import './src/Utilities.scss';
 
+#root {
+  height: 100%;
+  background: #f5f5f5;
+}
+
 html, body {
     height: 100vh;
     width: 100vw;
@@ -31,9 +36,4 @@ html, body {
     #root {
       grid-area: content;
     }
-}
-
-#root {
-  height: 100%;
-  background: #f5f5f5;
 }
