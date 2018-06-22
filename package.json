@@ -67,14 +67,14 @@
     "write-file-webpack-plugin": "^4.3.2"
   },
   "scripts": {
-    "build": "webpack --config config/webpack.config.js",
+    "build": "webpack --config config/prod.webpack.config.js",
     "lint": "npm-run-all lint:*",
-    "lint:js": "eslint src",
+    "lint:js": "eslint config src",
     "lint:sass": "stylelint 'src/**/*.scss' --config .stylelint.json",
-    "prod": "WEBPACK_SERVE=production webpack-serve --config config/webpack.config.js",
+    "prod": "WEBPACK_SERVE=production webpack-serve --config config/dev.webpack.config.js",
     "server:ctr": "node src/server/generateServerKey.js",
-    "start": "WEBPACK_SERVE=development webpack-serve --config config/webpack.config.js",
-    "test": "webpack --config config/webpack-test.config.js",
-    "verify": "npm-run-all lint test"
+    "start": "WEBPACK_SERVE=development webpack-serve --config config/dev.webpack.config.js",
+    "test": "webpack --config config/test.webpack.config.js",
+    "verify": "npm-run-all build lint test"
   }
 }

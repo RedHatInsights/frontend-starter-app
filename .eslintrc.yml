@@ -62,6 +62,7 @@ rules:
   no-unused-vars: 2
   no-var: 2
   no-with: 2
+  object-shorthand: 2
   object-curly-spacing:
     - error
     - always

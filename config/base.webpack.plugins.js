@@ -1,9 +1,11 @@
+/* global require, module, __dirname */
+/* eslint-disable space-unary-ops */
+
 /**
  * Plugins used by webpack bundler
  */
 const path = require('path');
 const webpack = require('webpack');
-const config = require('./webpack.common');
 const plugins = [];
 
 /**
@@ -57,10 +59,10 @@ plugins.push(LodashWebpackPlugin);
  *
  * @type {var}
  */
-const AggressiveSplittingPlugin = new webpack.optimize.AggressiveSplittingPlugin({
-    minSize: 30000,
-    maxSize: 50000
-});
+//const AggressiveSplittingPlugin = new webpack.optimize.AggressiveSplittingPlugin({
+//    minSize: 30000,
+//    maxSize: 50000
+//});
 // plugins.push(AggressiveSplittingPlugin);
 
 /**
@@ -76,8 +78,8 @@ plugins.push(ExtractCssWebpackPlugin);
  * Copies files from the specified locations to the corresponding destinations.
  */
 const CopyFilesWebpackPlugin = new (require('copy-webpack-plugin'))([
-    {from: path.resolve(__dirname, '../static/images'), to: 'images'}
+    { from: path.resolve(__dirname, '../static/images'), to: 'images' }
 ]);
 plugins.push(CopyFilesWebpackPlugin);
 
-module.exports = { plugins: plugins };
+module.exports = { plugins };
