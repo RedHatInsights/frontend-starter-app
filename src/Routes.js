@@ -19,7 +19,7 @@ import some from 'lodash/some';
  *
  */
 const SamplePage = asyncComponent(() => import(
-    /* webpackChunkName: "InventoryDeployments" */ './SmartComponents/SamplePage/SamplePage'));
+    /* webpackChunkName: "SamplePage" */ './SmartComponents/SamplePage/SamplePage'));
 const paths = {
     sample: '/samplepage'
 };
