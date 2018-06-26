@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Alert } from '@red-hat-insights/insights-frontend-components';
 import { withRouter } from 'react-router-dom';
 import asyncComponent from '../../Utilities/asyncComponent';
 import './sample-page.scss';
