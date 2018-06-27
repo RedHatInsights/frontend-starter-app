@@ -23,7 +23,7 @@ class SamplePage extends Component {
         return (
             <React.Fragment>
                 <PageHeader>
-                    <PageHeaderTitle>Sample Insights App</PageHeaderTitle>
+                    <PageHeaderTitle title='Sample Insights App'/>
                 </PageHeader>
                 <Section type='content'>
                     <h1> Sample Component </h1>
