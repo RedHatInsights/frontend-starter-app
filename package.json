@@ -1,10 +1,10 @@
 {
   "name": "insights-frontend-starter-app",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": false,
   "dependencies": {
     "@patternfly/react-core": "0.0.4",
-    "@red-hat-insights/insights-frontend-components": "^0.1.13",
+    "@red-hat-insights/insights-frontend-components": "^1.0.0",
     "classnames": "^2.2.5",
     "create-react-class": "^15.6.3"
   },
