@@ -3,7 +3,15 @@
 # insights-frontend-starter-app
 React.js starter app for Red Hat Insights products that includes Patternfly 3 and Patternfly Next.
 
-# Build app
+## Getting Started
+There is a [comprehensive quick start guide in the Storybook Documentation](https://github.com/RedHatInsights/insights-frontend-storybook/blob/master/src/docs/welcome/quickStart/DOC.md) to setting up an Insights environment complete with:
+    - Insights Frontend Starter App
+    - [Insights Chroming](https://github.com/RedHatInsights/insights-chrome)
+    - [Insights Proxy](https://github.com/RedHatInsights/insights-proxy)
+
+Note: You will need to set up the Insights environment if you want to develop with the starter app due to the consumption of the chroming service as well as setting up your global/app navigation through the API.
+
+## Build app
 1. ```npm install```
 
 2. ```npm run start```
@@ -13,18 +21,16 @@ React.js starter app for Red Hat Insights products that includes Patternfly 3 an
 - Travis is used to test the build for this code.
     - `npm run test` will run linters and tests
 
-# Patternfly
+## Patternfly
 - This project imports Patternfly components:
     - [Patternfly React](https://github.com/patternfly/patternfly-react)
-    - [Patternfly Next](https://github.com/patternfly/patternfly-next)
-        - Because PF-Next is not react based, there is an example on how to use [classnames](https://github.com/JedWatson/classnames) in the [Button component](https://github.com/RedHatInsights/insights-frontend-starter-app/blob/master/src/PresentationalComponents/Button/button.js) and how to apply classes dynamically.
 
-# Insights Components
-Insights Platform will deliver components and static assets through npm (TBD). ESI tags are used to import the [chroming](https://github.com/RedHatInsights/insights-chrome) which takes care of the header, sidebar, and footer.
+## Insights Components
+Insights Platform will deliver components and static assets through [npm](https://www.npmjs.com/package/@red-hat-insights/insights-frontend-components). ESI tags are used to import the [chroming](https://github.com/RedHatInsights/insights-chrome) which takes care of the header, sidebar, and footer.
 
-# Technologies
-## Webpack
-### Webpack.config.js
+## Technologies
+### Webpack
+#### Webpack.config.js
 This file exports an object with the configuration for webpack and webpack dev server.
 
 ```Javascript
@@ -81,7 +87,7 @@ This file exports an object with the configuration for webpack and webpack dev s
 }
 ```
 
-## React
+### React
 - High-Order Component
     - a higher-order component is a function that takes a component and returns a new component
     - https://reactjs.org/docs/higher-order-components.html
@@ -103,8 +109,8 @@ This file exports an object with the configuration for webpack and webpack dev s
         - State Updates May Be Asynchronous
         - State Updates are Merged
 
-## Redux
-### Store
+### Redux
+#### Store
 A store holds the whole [state tree](https://redux.js.org/glossary) of your application.
 Redux doesn't have a Dispatcher or support many stores. Instead, there is just a single store with a single root reducing function.
 
@@ -118,7 +124,7 @@ https://redux.js.org/basics/store
     - [subscribe(listener)](https://redux.js.org/api-reference/store#subscribe)
     - [replaceReducer(nextReducer)](https://redux.js.org/api-reference/store#replaceReducer)
 
-### actions
+#### Actions
 Actions are payloads of information that send data from your application to your store. They are the only source of information for the store. You send them to the store using [store.dispatch()](https://redux.js.org/api-reference/store#dispatch).
 Redux actions should only have two properties, type and payload, as a best practice.
 
@@ -145,20 +151,20 @@ https://redux.js.org/basics/actions
         - Could be a lot to learn initially.
     - [redux-pack](https://github.com/lelandrichardson/redux-pack)
 
-### Reducers
+#### Reducers
 Reducers specify how the application's state changes in response to actions sent to the store.
 
 https://redux.js.org/basics/reducers
 
 Ex) [/src/api/System/getSystems.js](https://github.com/RedHatInsights/turbo-octo-couscous/tree/master/src/api/System/getSystems.js)
 
-## React-redux
+### React-redux
 - [Provider](https://github.com/reactjs/react-redux/blob/master/docs/api.md#provider-store)
     - Makes the Redux store available to the connect()
 - [connect([mapStateToProps], [mapDispatchToProps], [mergeProps], [options])](https://github.com/reactjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options)
     - Connects a React component to a Redux store
 
-## React-router-dom
+### React-router-dom
 When setting up the routes, the page content is wrapped with a `.page__{pageName}` class, applied to the `#root` ID that is determined by the `rootClass` in the `Routes.js` which lets you easily reference the page in the styling.
 
 - [BrowserRouter](https://reacttraining.com/react-router/web/api/BrowserRouter)
