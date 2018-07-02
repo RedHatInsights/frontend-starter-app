@@ -6,8 +6,8 @@ cache:
 notifications:
   email: false
 node_js:
-- '8'
+- '10'
 install:
-  - npm install
+  - npm ci
 script:
-  - npm run verify
+  - npm run travis:verify

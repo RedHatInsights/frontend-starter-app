@@ -13,6 +13,22 @@
     "bootstrap": "node_modules/patternfly/node_modules/bootstrap-sass/assets/stylesheets",
     "fontAwesome": "node_modules/patternfly/node_modules/font-awesome-sass/assets/stylesheets"
   },
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.{js|jsx}",
+      "!src/**/stories/*"
+    ],
+    "setupFiles": [
+      "<rootDir>/config/setupTests.js"
+    ],
+    "roots": [
+      "<rootDir>/src/"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|scss)$": "identity-obj-proxy"
+    }
+  },
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
@@ -33,12 +49,17 @@
     "cross-fetch": "^2.2.0",
     "css-loader": "^0.28.11",
     "d3": "^5.4.0",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.3.4",
     "eslint": "^4.19.1",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-react": "^7.9.1",
     "file-loader": "^1.1.11",
     "glob": "^7.1.2",
     "html-webpack-plugin": "^3.0.4",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^23.1.0",
     "koa-connect": "^2.0.1",
     "lodash-webpack-plugin": "^0.11.5",
     "material-ui": "^0.20.1",
@@ -68,13 +89,15 @@
   },
   "scripts": {
     "build": "webpack --config config/prod.webpack.config.js",
+    "test": "jest",
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint config src",
     "lint:sass": "stylelint 'src/**/*.scss' --config .stylelint.json",
     "prod": "WEBPACK_SERVE=production webpack-serve --config config/dev.webpack.config.js",
     "server:ctr": "node src/server/generateServerKey.js",
     "start": "WEBPACK_SERVE=development webpack-serve --config config/dev.webpack.config.js",
-    "test": "webpack --config config/test.webpack.config.js",
+    "travis:build": "webpack --config config/test.webpack.config.js",
+    "travis:verify": "npm-run-all travis:build lint test",
     "verify": "npm-run-all build lint test"
   }
 }
