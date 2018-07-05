@@ -4,8 +4,10 @@ import asyncComponent from '../../Utilities/asyncComponent';
 
 import { PageHeader, PageHeaderTitle } from '@red-hat-insights/insights-frontend-components';
 
-const ListRules = asyncComponent(() => import(/* webpackChunkName: "ListRules" */ '../../PresentationalComponents/Rules/ListRules'));
-const ViewRule = asyncComponent(() => import(/* webpackChunkName: "VoewRule" */ '../../PresentationalComponents/Rules/ViewRule'));
+const ListRules = asyncComponent(
+    () => import(/* webpackChunkName: "ListRules" */ '../../PresentationalComponents/Rules/ListRules'));
+const ViewRule = asyncComponent(
+    () => import(/* webpackChunkName: "VoewRule" */ '../../PresentationalComponents/Rules/ViewRule'));
 
 const Rules = () => {
     return (
