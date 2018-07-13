@@ -1,36 +1,59 @@
 [![Build Status](https://travis-ci.org/RedHatInsights/insights-frontend-starter-app.svg?branch=master)](https://travis-ci.org/RedHatInsights/insights-frontend-starter-app)
 
 # insights-frontend-starter-app
+
 React.js starter app for Red Hat Insights products that includes Patternfly 3 and Patternfly Next.
 
 ## Getting Started
+
 There is a [comprehensive quick start guide in the Storybook Documentation](https://github.com/RedHatInsights/insights-frontend-storybook/blob/master/src/docs/welcome/quickStart/DOC.md) to setting up an Insights environment complete with:
+
 - Insights Frontend Starter App
+
 - [Insights Chroming](https://github.com/RedHatInsights/insights-chrome)
 - [Insights Proxy](https://github.com/RedHatInsights/insights-proxy)
 
 Note: You will need to set up the Insights environment if you want to develop with the starter app due to the consumption of the chroming service as well as setting up your global/app navigation through the API.
 
 ## Build app
+
 1. ```npm install```
 
 2. ```npm run start```
     - starts webpack bundler and serves the files with webpack dev server
 
 ### Testing
+
 - Travis is used to test the build for this code.
-    - `npm run test` will run linters and tests
+  - `npm run test` will run linters and tests
+
+## Deploying
+
+- The Platform team is using Travis to deploy the application
+  - The Platform team will help you set up the Travis instance if this is the route you are wanting to take
+
+### How it works
+
+- any push to the `{REPO}` `master` branch will deploy to a `{REPO}-build` `master` branch
+- any push to a `{REPO}` `stable/*` branch will deploy to a `{REPO}-build` `stable` branch
+- Pull requests (based on master) will not be pushed to `{REPO}-build` `master` branch
+  - If the PR is accepted and merged, master will be rebuilt and will deploy to `{REPO}-build` `master` branch
 
 ## Patternfly
+
 - This project imports Patternfly components:
-    - [Patternfly React](https://github.com/patternfly/patternfly-react)
+  - [Patternfly React](https://github.com/patternfly/patternfly-react)
 
 ## Insights Components
+
 Insights Platform will deliver components and static assets through [npm](https://www.npmjs.com/package/@red-hat-insights/insights-frontend-components). ESI tags are used to import the [chroming](https://github.com/RedHatInsights/insights-chrome) which takes care of the header, sidebar, and footer.
 
 ## Technologies
+
 ### Webpack
+
 #### Webpack.config.js
+
 This file exports an object with the configuration for webpack and webpack dev server.
 
 ```Javascript
@@ -88,91 +111,91 @@ This file exports an object with the configuration for webpack and webpack dev s
 ```
 
 ### React
+
 - High-Order Component
-    - a higher-order component is a function that takes a component and returns a new component
-    - https://reactjs.org/docs/higher-order-components.html
+
+  - a [higher-order component](https://reactjs.org/docs/higher-order-components.html) is a function that takes a component and returns a new component
     - Ex) [asyncComponent.js](https://github.com/RedHatInsights/insights-frontend-starter-app/src/Utils/asyncComponent.js)
 
-- Smart/Presentational Components
-    - https://medium.com/@thejasonfile/dumb-components-and-smart-components-e7b33a698d43
-    - Smart components have access to the redux state
-    - Presentational components do not have access to the redux state
-    - Smart Components === insights-frontend/app/js/states
-    - Presentational Components === insights-frontend/app/js/components
+- [Smart/Presentational Components](https://medium.com/@thejasonfile/dumb-components-and-smart-components-e7b33a698d43)
+  - Smart components have access to the redux state
+  - Presentational components do not have access to the redux state
+  - Smart Components === insights-frontend/app/js/states
+  - Presentational Components === insights-frontend/app/js/components
 
-
-- State and lifecycle within class components
-    - https://reactjs.org/docs/state-and-lifecycle.html
-    - article contains:
-        - Adding Lifecycle Methods to a Class
-        - Adding Local State to a Class
-        - State Updates May Be Asynchronous
-        - State Updates are Merged
+- [State and lifecycle within class components](https://reactjs.org/docs/state-and-lifecycle.html)
+  - article contains:
+    - Adding Lifecycle Methods to a Class
+    - Adding Local State to a Class
+    - State Updates May Be Asynchronous
+    - State Updates are Merged
 
 ### Redux
+
 #### Store
-A store holds the whole [state tree](https://redux.js.org/glossary) of your application.
+
+A [store](https://redux.js.org/basics/store) holds the whole [state tree](https://redux.js.org/glossary) of your application.
 Redux doesn't have a Dispatcher or support many stores. Instead, there is just a single store with a single root reducing function.
 
-https://redux.js.org/basics/store
-
-```createStore(reducer, preloadedState, enhancer)```: https://redux.js.org/api-reference/createstore
+[Create Store](https://redux.js.org/api-reference/createstore): ```createStore(reducer, preloadedState, enhancer)```
 
 - methods
-    - [getState()](https://redux.js.org/api-reference/store#dispatch)
-    - [dispatch(action)](https://redux.js.org/api-reference/store#dispatch)
-    - [subscribe(listener)](https://redux.js.org/api-reference/store#subscribe)
-    - [replaceReducer(nextReducer)](https://redux.js.org/api-reference/store#replaceReducer)
+  - [getState()](https://redux.js.org/api-reference/store#dispatch)
+  - [dispatch(action)](https://redux.js.org/api-reference/store#dispatch)
+  - [subscribe(listener)](https://redux.js.org/api-reference/store#subscribe)
+  - [replaceReducer(nextReducer)](https://redux.js.org/api-reference/store#replaceReducer)
 
 #### Actions
-Actions are payloads of information that send data from your application to your store. They are the only source of information for the store. You send them to the store using [store.dispatch()](https://redux.js.org/api-reference/store#dispatch).
+
+[Actions](https://redux.js.org/basics/actions) are payloads of information that send data from your application to your store. They are the only source of information for the store. You send them to the store using [store.dispatch()](https://redux.js.org/api-reference/store#dispatch).
 Redux actions should only have two properties, type and payload, as a best practice.
 
-https://redux.js.org/basics/actions
- - Async Actions frameworks
-    - [redux-promise-middleware](https://github.com/pburtchaell/redux-promise-middleware)
-        - Currently using this
-        - look at [/src/api/System/getSystems.js](https://github.com/RedHatInsights/turbo-octo-couscous/tree/master/src/api/System/getSystems.js)
-    - [redux-thunk](https://github.com/gaearon/redux-thunk)
-       - A function that wraps an expression to delay its evaluation
-       ```Javascript
-       // gotSystems(Error) are action creators
-       function getSystems() {      
-            return function (dispatch) {
-              return fetchSystems().then(
-                systems => dispatch(gotSystems(systems)),
-                error => dispatch(gotSystemsError(error))
-              );
-            };
-          }
-       ```
-    - [redux-saga](https://github.com/yelouafi/redux-saga/)
-        - Uses [generator functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*)
-        - Could be a lot to learn initially.
-    - [redux-pack](https://github.com/lelandrichardson/redux-pack)
+- Async Actions frameworks
+
+  - [redux-promise-middleware](https://github.com/pburtchaell/redux-promise-middleware)
+    - Currently using this
+      - look at [/src/api/System/getSystems.js](https://github.com/RedHatInsights/turbo-octo-couscous/tree/master/src/api/System/getSystems.js)
+  - [redux-thunk](https://github.com/gaearon/redux-thunk)
+    - A function that wraps an expression to delay its evaluation
+    ```Javascript
+    // gotSystems(Error) are action creators
+    function getSystems() {
+          return function (dispatch) {
+            return fetchSystems().then(
+              systems => dispatch(gotSystems(systems)),
+              error => dispatch(gotSystemsError(error))
+            );
+          };
+        }
+    ```
+  - [redux-saga](https://github.com/yelouafi/redux-saga/)
+    - Uses [generator functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*)
+    - Could be a lot to learn initially.
+  - [redux-pack](https://github.com/lelandrichardson/redux-pack)
 
 #### Reducers
-Reducers specify how the application's state changes in response to actions sent to the store.
 
-https://redux.js.org/basics/reducers
+[Reducers](https://redux.js.org/basics/reducers) specify how the application's state changes in response to actions sent to the store.
 
 Ex) [/src/api/System/getSystems.js](https://github.com/RedHatInsights/turbo-octo-couscous/tree/master/src/api/System/getSystems.js)
 
 ### React-redux
+
 - [Provider](https://github.com/reactjs/react-redux/blob/master/docs/api.md#provider-store)
-    - Makes the Redux store available to the connect()
+  - Makes the Redux store available to the connect()
 - [connect([mapStateToProps], [mapDispatchToProps], [mergeProps], [options])](https://github.com/reactjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options)
-    - Connects a React component to a Redux store
+  - Connects a React component to a Redux store
 
 ### React-router-dom
+
 When setting up the routes, the page content is wrapped with a `.page__{pageName}` class, applied to the `#root` ID that is determined by the `rootClass` in the `Routes.js` which lets you easily reference the page in the styling.
 
 - [BrowserRouter](https://reacttraining.com/react-router/web/api/BrowserRouter)
-    - A <Router> that uses the HTML5 history API (pushState, replaceState and the popstate event) to keep your UI in sync with the URL
+  - A `<Router>` that uses the HTML5 history API (pushState, replaceState and the popstate event) to keep your UI in sync with the URL
 - [Route](https://reacttraining.com/react-router/web/api/Route)
 - [Switch](https://reacttraining.com/react-router/web/api/Switch)
-    - Renders the first child <Route> or <Redirect> that matches the location.
+  - Renders the first child `<Route>` or `<Redirect>` that matches the location.
 - [Redirect](https://reacttraining.com/react-router/web/api/Redirect)
-    - navigate to a new location
+  - navigate to a new location
 - [withRouter](https://reacttraining.com/react-router/web/api/withRouter)
-    - passes updated match, location, and history props to the wrapped component whenever it renders
+  - passes updated match, location, and history props to the wrapped component whenever it renders
