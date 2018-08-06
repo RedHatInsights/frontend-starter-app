@@ -34,7 +34,7 @@ const webpackConfig = {
         rules: [{
             test: /\.js$/,
             exclude: /(node_modules|bower_components)/i,
-            use: [{ loader: 'source-map-loader' }, { loader: 'babel-loader' }]
+            use: [{ loader: 'source-map-loader' }, { loader: 'babel-loader' }, { loader: 'eslint-loader' }]
         }, {
             test: /\.s?[ac]ss$/,
             use: [
