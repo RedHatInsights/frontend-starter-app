@@ -1,7 +1,7 @@
-@import './src/Utilities.scss';
+@import '~@red-hat-insights/insights-frontend-components/Utilities/_all';
 
 .sample-component {
-  @include font-size(20px);
-  @include rem('margin', $global-margin);
+  font-size: $ins-fontSize;
+  margin: $ins-margin;
   display: block;
 }
