@@ -18,8 +18,8 @@ function todos(state = [], action) {
 const store = createStore(todos, applyMiddleware(promiseMiddleware()));
 
 ReactDOM.render(
-    <Provider store={store}>
-        <Router>
+    <Provider store={ReducerRegistry.getStore()}>
+        <Router basename='/insights/platform/advisor'>
             <App />
         </Router>
     </Provider>,
