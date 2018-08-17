@@ -5,10 +5,6 @@ import { Provider } from 'react-redux';
 import ReducerRegistry from './Utilities/ReducerRegistry';
 import App from './App';
 
-/**
- * Hooks up redux to app.
- *  https://redux.js.org/advanced/usage-with-react-router
- */
 ReactDOM.render(
     <Provider store={ReducerRegistry.getStore()}>
         <Router basename='/insights/platform/advisor'>
