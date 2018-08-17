@@ -27,7 +27,7 @@ const webpackConfig = {
     output: {
         filename: 'js/[name].js',
         path: config.paths.public,
-        publicPath: '/insights/',
+        publicPath: '/insights/platform/advisor/',
         chunkFilename: 'js/[name].js'
     },
     module: {
