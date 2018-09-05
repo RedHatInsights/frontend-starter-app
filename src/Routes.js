@@ -1,7 +1,8 @@
-import { Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React from 'react';
 import asyncComponent from './Utilities/asyncComponent';
+import some from 'lodash/some';
 
 /**
  * Aysnc imports of components
@@ -17,7 +18,16 @@ import asyncComponent from './Utilities/asyncComponent';
  *         see the difference with DashboardMap and InventoryDeployments.
  *
  */
-const SamplePage = asyncComponent(() => import(/* webpackChunkName: "Rules" */ './SmartComponents/SamplePage/SamplePage'));
+const SamplePage = asyncComponent(() => import(/* webpackChunkName: "SamplePage" */ './SmartComponents/SamplePage/SamplePage'));
+const Rules = asyncComponent(() => import(/* webpackChunkName: "Rules" */ './PresentationalComponents/Rules/ListRules'));
+const paths = {
+    samplepage: '/samplepage',
+    rules: '/rules'
+};
+
+type Props = {
+    childProps: any
+};
 
 const InsightsRoute = ({ component: Component, rootClass, ...rest }) => {
     const root = document.getElementById('root');
@@ -38,16 +48,19 @@ InsightsRoute.propTypes = {
  *
  * Route properties:
  *      exact - path must match exactly,
- *      path - https://prod.foo.redhat.com:1337/insights/dashboard/rules
+ *      path - https://prod.foo.redhat.com:1337/insights/advisor/rules
  *      component - component to be rendered when a route has been chosen.
  */
-export const Routes = () => {
+export const Routes = (props: Props) => {
+    const path = props.childProps.location.pathname;
+
     return (
         <Switch>
-            <InsightsRoute exact path='/' component={SamplePage} rootClass='sample' />
+            <InsightsRoute path={paths.samplepage} component={SamplePage} rootClass='samplepage' />
+            <InsightsRoute path={paths.rules} component={Rules} rootClass='rules' />
 
             {/* Finally, catch all unmatched routes */}
-            <Redirect to='/' />
+            <Route render={() => some(paths, p => p === path) ? null : (<Redirect to={paths.samplepage} />)} />
         </Switch>
     );
 };
