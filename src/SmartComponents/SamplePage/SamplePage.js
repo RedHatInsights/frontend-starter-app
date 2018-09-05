@@ -26,17 +26,15 @@ class SamplePage extends Component {
                     <p> This is page header text </p>
                 </PageHeader>
                 <Main>
-                    <Section type='content'>
-                        <h1> Sample Component </h1>
-                        <SampleComponent> Sample Component </SampleComponent>
-                        <h1> Cards </h1>
-                        <h1> Buttons </h1>
-                        <Section type='button-group'>
-                            <Button variant='primary'> PF-Next Primary Button </Button>
-                            <Button variant='secondary'> PF-Next Secondary Button </Button>
-                            <Button variant='tertiary'> PF-Next Tertiary Button </Button>
-                            <Button variant='danger'> PF-Next Danger Button </Button>
-                        </Section>
+                    <h1> Sample Component </h1>
+                    <SampleComponent> Sample Component </SampleComponent>
+                    <h1> Cards </h1>
+                    <h1> Buttons </h1>
+                    <Section type='button-group'>
+                        <Button variant='primary'> PF-Next Primary Button </Button>
+                        <Button variant='secondary'> PF-Next Secondary Button </Button>
+                        <Button variant='tertiary'> PF-Next Tertiary Button </Button>
+                        <Button variant='danger'> PF-Next Danger Button </Button>
                     </Section>
                 </Main>
             </React.Fragment>
