@@ -1,9 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { PageHeader, PageHeaderTitle, Main } from '@red-hat-insights/insights-frontend-components';
 
 const ViewRule = (props) => {
     return (
-        <h1>Rule {props.match.params.id}</h1>
+        <React.Fragment>
+            <PageHeader>
+                <PageHeaderTitle title='Rules Page'/>
+                <p> {props.match.params.id} </p>
+            </PageHeader>
+            <Main>
+                <p> content </p>
+            </Main>
+        </React.Fragment>
     );
 };
 
