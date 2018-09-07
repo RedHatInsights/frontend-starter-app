@@ -1,11 +1,17 @@
 import React from 'react';
-import { Section } from '@red-hat-insights/insights-frontend-components';
+import { PageHeader, PageHeaderTitle, Main } from '@red-hat-insights/insights-frontend-components';
 
 const ListRules = () => {
     return (
-        <Section type='content'>
-            <h1> Rule List </h1>
-        </Section>
+        <React.Fragment>
+            <PageHeader>
+                <PageHeaderTitle title='Rules Page'/>
+                <p> The is the route to the rules page </p>
+            </PageHeader>
+            <Main>
+                <p> Content </p>
+            </Main>
+        </React.Fragment>
     );
 };
 
