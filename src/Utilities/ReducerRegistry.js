@@ -6,8 +6,11 @@ import promiseMiddleware from 'redux-promise-middleware';
  * https://redux.js.org/api-reference/combinereducers
  * https://redux.js.org/api-reference/applymiddleware
  */
-const store = createStore(f => f, applyMiddleware(promiseMiddleware()));
-
+const store = createStore(
+    f => f,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+    applyMiddleware(promiseMiddleware())
+);
 /**
  * Class used to added reducers to the store during runtime.
  *
