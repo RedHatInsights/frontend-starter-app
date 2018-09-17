@@ -7,7 +7,7 @@ const ViewRule = (props) => {
         <React.Fragment>
             <PageHeader>
                 <PageHeaderTitle title='Rules Page'/>
-                <p> {props.match.params.id} </p>
+                <p> { props.match.params.id } </p>
             </PageHeader>
             <Main>
                 <p> content </p>

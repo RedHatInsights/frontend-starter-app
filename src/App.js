@@ -23,7 +23,7 @@ class App extends Component {
 
     render () {
         return (
-            <Routes childProps={this.props} />
+            <Routes childProps={ this.props } />
         );
     }
 }
