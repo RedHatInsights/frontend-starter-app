@@ -11,7 +11,7 @@ import logger from 'redux-logger';
  *  https://redux.js.org/advanced/usage-with-react-router
  */
 ReactDOM.render(
-    <Provider store={init(logger).getStore()}>
+    <Provider store={ init(logger).getStore() }>
         <Router basename='/insights/platform/advisor'>
             <App/>
         </Router>

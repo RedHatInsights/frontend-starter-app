@@ -10,7 +10,7 @@ import React from 'react';
  */
 const SampleComponent = (props) => {
     return (
-        <span className='sample-component'> {props.children} </span>
+        <span className='sample-component'> { props.children } </span>
     );
 };
 

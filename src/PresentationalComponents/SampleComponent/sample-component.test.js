@@ -6,7 +6,7 @@ describe('sample-component', () => {
 
         const wrapper = shallow(
             <SampleComponent>
-                {children}
+                { children }
             </SampleComponent>
         );
         expect(wrapper.prop('children')).toContain(children);
