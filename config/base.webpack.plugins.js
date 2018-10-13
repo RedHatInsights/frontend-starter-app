@@ -6,6 +6,7 @@
  */
 const path = require('path');
 const webpack = require('webpack');
+const config = require('./webpack.common.js');
 const plugins = [];
 
 /**
@@ -81,5 +82,12 @@ const CopyFilesWebpackPlugin = new (require('copy-webpack-plugin'))([
     { from: path.resolve(__dirname, '../static/images'), to: 'images' }
 ]);
 plugins.push(CopyFilesWebpackPlugin);
+
+
+const HtmlReplaceWebpackPlugin = new(require('html-replace-webpack-plugin'))([{
+    pattern: '@@insights',
+    replacement: config.insightsDeployment,
+}, ])
+plugins.push(HtmlReplaceWebpackPlugin);
 
 module.exports = { plugins };
