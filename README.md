@@ -34,10 +34,14 @@ Note: You will need to set up the Insights environment if you want to develop wi
 
 ### How it works
 
-- any push to the `{REPO}` `master` branch will deploy to a `{REPO}-build` `master` branch
-- any push to a `{REPO}` `stable/*` branch will deploy to a `{REPO}-build` `stable` branch
+- any push to the `{REPO}` `master` branch will deploy to a `{REPO}-build` `ci-beta` branch
+- any push to the `{REPO}` `ci-stable` branch will deploy to a `{REPO}-build` `ci-stable` branch
+- any push to the `{REPO}` `qa-beta` branch will deploy to a `{REPO}-build` `qa-beta` branch
+- any push to the `{REPO}` `qa-stable` branch will deploy to a `{REPO}-build` `qa-stable` branch
+- any push to the `{REPO}` `prod-beta` branch will deploy to a `{REPO}-build` `prod-beta` branch
+- any push to the `{REPO}` `prod-stable` branch will deploy to a `{REPO}-build` `prod-stable` branch
 - Pull requests (based on master) will not be pushed to `{REPO}-build` `master` branch
-  - If the PR is accepted and merged, master will be rebuilt and will deploy to `{REPO}-build` `master` branch
+  - If the PR is accepted and merged, master will be rebuilt and will deploy to `{REPO}-build` `ci-beta` branch
 
 ## Patternfly
 
