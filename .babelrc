@@ -1,12 +1,13 @@
 {
-    presets: ["env", "react", "es2017", "es2015"],
+    "presets": [
+        "@babel/env",
+        "@babel/react",
+        "@babel/flow"
+    ],
     "plugins": [
-        ["transform-runtime", {
-            "polyfill": false,
-            "regenerator": true
-        }],
-        "syntax-dynamic-import",
-        "lodash",
-        "babel-plugin-transform-object-rest-spread"
+        "@babel/plugin-transform-runtime",
+        "@babel/plugin-syntax-dynamic-import",
+        "@babel/plugin-proposal-object-rest-spread",
+        "lodash"
     ]
 }
