@@ -6,6 +6,7 @@
  */
 const path = require('path');
 const webpack = require('webpack');
+const config = require('./webpack.common.js');
 const plugins = [];
 
 /**
@@ -81,5 +82,15 @@ const CopyFilesWebpackPlugin = new (require('copy-webpack-plugin'))([
     { from: path.resolve(__dirname, '../static/images'), to: 'images' }
 ]);
 plugins.push(CopyFilesWebpackPlugin);
+
+/**
+ * Replaces any @@insights in the html files with config.insightsDeployment value.
+ * This handles the path being either insights or insightsbeta in the esi:include.
+ */
+const HtmlReplaceWebpackPlugin = new(require('html-replace-webpack-plugin'))([{
+    pattern: '@@insights',
+    replacement: config.insightsDeployment
+}]);
+plugins.push(HtmlReplaceWebpackPlugin);
 
 module.exports = { plugins };
