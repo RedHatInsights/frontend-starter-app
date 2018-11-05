@@ -101,4 +101,10 @@ const Release = new webpack.DefinePlugin({
 });
 plugins.push(Release);
 
+/**
+ * HMR
+ */
+const HotModuleReplacementPlugin = new webpack.HotModuleReplacementPlugin();
+plugins.push(HotModuleReplacementPlugin);
+
 module.exports = { plugins };
