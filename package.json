@@ -5,7 +5,7 @@
   "dependencies": {
     "@babel/runtime": "^7.1.2",
     "@patternfly/patternfly-next": "^1.0.41",
-    "@patternfly/react-core": "1.11.0",
+    "@patternfly/react-core": "1.30.0",
     "@red-hat-insights/insights-frontend-components": "^3.11.0",
     "classnames": "^2.2.5",
     "create-react-class": "^15.6.3"
@@ -46,7 +46,6 @@
     "babel-plugin-dual-import": "^1.2.1",
     "babel-plugin-lodash": "^3.3.2",
     "clean-webpack-plugin": "^0.1.19",
-    "connect-history-api-fallback": "^1.5.0",
     "copy-webpack-plugin": "^4.5.1",
     "cross-fetch": "^2.2.2",
     "css-loader": "^0.28.11",
@@ -65,7 +64,6 @@
     "html-webpack-plugin": "^3.0.4",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^23.5.0",
-    "koa-connect": "^2.0.1",
     "lodash-webpack-plugin": "^0.11.5",
     "material-ui": "^0.20.2",
     "mini-css-extract-plugin": "^0.4.2",
@@ -90,7 +88,7 @@
     "webpack": "^4.17.2",
     "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^2.1.4",
-    "webpack-serve": "^1.0.2",
+    "webpack-dev-server": "3.1.10",
     "webpack-visualizer-plugin": "^0.1.11",
     "write-file-webpack-plugin": "^4.4.0"
   },
@@ -101,9 +99,9 @@
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint config src",
     "lint:sass": "stylelint 'src/**/*.scss' --config .stylelintrc.json",
-    "prod": "WEBPACK_SERVE=production webpack-serve --config config/dev.webpack.config.js",
+    "prod": "NODE_ENV=production webpack-dev-server --config config/dev.webpack.config.js",
     "server:ctr": "node src/server/generateServerKey.js",
-    "start": "WEBPACK_SERVE=development webpack-serve --config config/dev.webpack.config.js",
+    "start": "NODE_ENV=development webpack-dev-server --config config/dev.webpack.config.js",
     "travis:build": "webpack --config config/prod.webpack.config.js",
     "travis:verify": "npm-run-all travis:build lint test",
     "verify": "npm-run-all build lint test"
