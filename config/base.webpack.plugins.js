@@ -93,4 +93,18 @@ const HtmlReplaceWebpackPlugin = new(require('html-replace-webpack-plugin'))([{
 }]);
 plugins.push(HtmlReplaceWebpackPlugin);
 
+/**
+ * Replaces any instance of RELEASE in js files with config.insightsDeployment value.
+ */
+const Release = new webpack.DefinePlugin({
+    RELEASE: JSON.stringify(config.insightsDeployment)
+});
+plugins.push(Release);
+
+/**
+ * HMR
+ */
+const HotModuleReplacementPlugin = new webpack.HotModuleReplacementPlugin();
+plugins.push(HotModuleReplacementPlugin);
+
 module.exports = { plugins };
