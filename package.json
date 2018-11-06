@@ -106,5 +106,8 @@
     "travis:build": "webpack --config config/prod.webpack.config.js",
     "travis:verify": "npm-run-all travis:build lint test",
     "verify": "npm-run-all build lint test"
+  },
+  "insights": {
+    "appname": "starter-app"
   }
 }
