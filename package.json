@@ -5,8 +5,8 @@
   "dependencies": {
     "@babel/runtime": "^7.1.2",
     "@patternfly/patternfly-next": "^1.0.41",
-    "@patternfly/react-core": "1.30.0",
-    "@red-hat-insights/insights-frontend-components": "^3.11.0",
+    "@patternfly/react-core": "1.51.6",
+    "@red-hat-insights/insights-frontend-components": "^3.33.57",
     "classnames": "^2.2.5",
     "create-react-class": "^15.6.3"
   },
