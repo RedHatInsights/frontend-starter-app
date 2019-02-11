@@ -5,8 +5,8 @@
   "dependencies": {
     "@babel/runtime": "^7.1.2",
     "@patternfly/patternfly-next": "^1.0.41",
-    "@patternfly/react-core": "1.30.0",
-    "@red-hat-insights/insights-frontend-components": "^3.11.0",
+    "@patternfly/react-core": "1.51.6",
+    "@red-hat-insights/insights-frontend-components": "^3.33.57",
     "classnames": "^2.2.5",
     "create-react-class": "^15.6.3"
   },
@@ -89,7 +89,7 @@
     "webpack": "^4.17.2",
     "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^2.1.4",
-    "webpack-dev-server": "3.1.10",
+    "webpack-dev-server": "^3.1.14",
     "webpack-visualizer-plugin": "^0.1.11",
     "write-file-webpack-plugin": "^4.4.0"
   },
