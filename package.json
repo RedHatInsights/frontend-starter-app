@@ -16,6 +16,7 @@
     "fontAwesome": "node_modules/patternfly/node_modules/font-awesome-sass/assets/stylesheets"
   },
   "jest": {
+    "coverageDirectory": "./coverage/",
     "collectCoverage": true,
     "collectCoverageFrom": [
       "src/**/*.{js|jsx}",
@@ -95,7 +96,7 @@
   },
   "scripts": {
     "build": "webpack --config config/prod.webpack.config.js",
-    "test": "jest --passWithNoTests",
+    "test": "jest",
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint config src",
     "lint:sass": "stylelint 'src/**/*.scss' --config .stylelintrc.json",
