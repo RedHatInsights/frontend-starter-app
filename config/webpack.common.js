@@ -18,7 +18,7 @@ const betaBranch =
     gitBranch === 'prod-beta';
 if (process.env.NODE_ENV === 'production' && betaBranch) {
     insightsDeployment = 'beta/apps';
-    release = 'beta'
+    release = 'beta';
 }
 
 const publicPath = `/${insightsDeployment}/advisor/`;
@@ -32,8 +32,8 @@ module.exports = {
         smartComponents: path.resolve(__dirname, '../src/SmartComponents'),
         pages: path.resolve(__dirname, '../src/pages'),
         static: path.resolve(__dirname, '../static'),
-        publicPath,
-        release
+        publicPath
     },
-    insightsDeployment
+    insightsDeployment,
+    release
 };
