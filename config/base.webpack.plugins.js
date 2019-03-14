@@ -88,7 +88,7 @@ plugins.push(CopyFilesWebpackPlugin);
  * This handles the path being either insights or insightsbeta in the esi:include.
  */
 const HtmlReplaceWebpackPlugin = new(require('html-replace-webpack-plugin'))([{
-    pattern: '@@insights',
+    pattern: '@@env',
     replacement: config.insightsDeployment
 }]);
 plugins.push(HtmlReplaceWebpackPlugin);

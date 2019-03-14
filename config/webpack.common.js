@@ -19,7 +19,7 @@ if (process.env.NODE_ENV === 'production' && betaBranch) {
     insightsDeployment = 'insightsbeta';
 }
 
-const publicPath = `/${insightsDeployment}/platform/advisor/`;
+const publicPath = `${insightsDeployment}/advisor/`;
 
 module.exports = {
     paths: {
