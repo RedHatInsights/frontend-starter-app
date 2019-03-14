@@ -97,7 +97,7 @@ plugins.push(HtmlReplaceWebpackPlugin);
  * Replaces any instance of RELEASE in js files with config.insightsDeployment value.
  */
 const Release = new webpack.DefinePlugin({
-    RELEASE: JSON.stringify(config.insightsDeployment)
+    RELEASE: JSON.stringify(config.release)
 });
 plugins.push(Release);
 

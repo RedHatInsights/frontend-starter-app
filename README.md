@@ -204,6 +204,13 @@ When setting up the routes, the page content is wrapped with a `.page__{pageName
 - [withRouter](https://reacttraining.com/react-router/web/api/withRouter)
   - passes updated match, location, and history props to the wrapped component whenever it renders
 
+## Running locally
+Have [insights-proxy](https://github.com/RedHatInsights/insights-proxy) installed under PROXY_PATH
+
+```shell
+SPANDX_CONFIG="./config/spandx.config.js" bash $PROXY_PATH/scripts/run.sh
+```
+
 ### Testing - jest
 
 When you want to test your code with unit tests please use `jest` which is preconfigured in a way to colect codecoverage as well. If you want to see your coverage on server the travis config has been set in a way that it will send data to [codecov.io](https://codecov.io) the only thing you have to do is visit their website (register), enable your repository and add CODECOV_TOKEN to your travis web config (do not add it to .travis file, but trough [travis-ci.org](https://travis-ci.org/))
