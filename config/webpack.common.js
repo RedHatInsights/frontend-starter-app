@@ -10,7 +10,6 @@ const entry = process.env.NODE_ENV === 'production' ?
     path.resolve(__dirname, '../src/entry-dev.js');
 
 let deploymentEnv = 'apps';
-let release = '';
 const gitBranch = process.env.BRANCH || gitRevisionPlugin.branch();
 const betaBranch =
     gitBranch === 'master' ||
@@ -18,7 +17,6 @@ const betaBranch =
     gitBranch === 'prod-beta';
 if (process.env.NODE_ENV === 'production' && betaBranch) {
     deploymentEnv = 'beta/apps';
-    release = 'beta';
 }
 
 const publicPath = `/${deploymentEnv}/sample/`;
@@ -34,6 +32,5 @@ module.exports = {
         static: path.resolve(__dirname, '../static'),
         publicPath
     },
-    deploymentEnv,
-    release
+    deploymentEnv
 };
