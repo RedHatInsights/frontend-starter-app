@@ -35,7 +35,7 @@ const InsightsRoute = ({ component: Component, rootClass, ...rest }) => {
     root.classList.add(`page__${rootClass}`, 'pf-c-page__main');
     root.setAttribute('role', 'main');
 
-    return (<Component { ...rest } />);
+    return (<Route { ...rest } component={ Component } />);
 };
 
 InsightsRoute.propTypes = {

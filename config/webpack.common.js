@@ -1,4 +1,4 @@
-/* global require, module, __dirname */
+/* global require, module, __dirname, process */
 
 const path = require('path');
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
@@ -9,17 +9,17 @@ const entry = process.env.NODE_ENV === 'production' ?
     path.resolve(__dirname, '../src/entry.js') :
     path.resolve(__dirname, '../src/entry-dev.js');
 
-let insightsDeployment = 'insights';
+let deploymentEnv = 'apps';
 const gitBranch = process.env.BRANCH || gitRevisionPlugin.branch();
 const betaBranch =
     gitBranch === 'master' ||
     gitBranch === 'qa-beta' ||
     gitBranch === 'prod-beta';
 if (process.env.NODE_ENV === 'production' && betaBranch) {
-    insightsDeployment = 'insightsbeta';
+    deploymentEnv = 'beta/apps';
 }
 
-const publicPath = `/${insightsDeployment}/platform/advisor/`;
+const publicPath = `/${deploymentEnv}/sample/`;
 
 module.exports = {
     paths: {
@@ -32,5 +32,5 @@ module.exports = {
         static: path.resolve(__dirname, '../static'),
         publicPath
     },
-    insightsDeployment
+    deploymentEnv
 };

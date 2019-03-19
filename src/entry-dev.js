@@ -6,17 +6,16 @@ import { init } from './store';
 import App from './App';
 import logger from 'redux-logger';
 
-// exposes webpack variable RELEASE
-/*global RELEASE:true*/
-/*eslint no-undef: "error"*/
+const pathName = window.location.pathname.split('/');
+pathName.shift();
 
-/**
- * Hooks up redux to app.
- *  https://redux.js.org/advanced/usage-with-react-router
- */
+if (pathName[0] === 'beta') {
+    pathName.shift();
+}
+
 ReactDOM.render(
     <Provider store={ init(logger).getStore() }>
-        <Router basename={ `/${RELEASE}/platform/advisor` }>
+        <Router basename={ `${pathName[0]}/${pathName[1]}` }>
             <App/>
         </Router>
     </Provider>,
