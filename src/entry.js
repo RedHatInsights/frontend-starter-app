@@ -8,13 +8,14 @@ import App from './App';
 const pathName = window.location.pathname.split('/');
 pathName.shift();
 
+let release = '/';
 if (pathName[0] === 'beta') {
-    pathName.shift();
+    release = `/beta/${pathName.shift()}`;
 }
 
 ReactDOM.render(
     <Provider store={ init().getStore() }>
-        <Router basename={ `${pathName[0]}/${pathName[1]}` }>
+        <Router basename={ `${release}${pathName[0]}/${pathName[1]}` }>
             <App />
         </Router>
     </Provider>,
