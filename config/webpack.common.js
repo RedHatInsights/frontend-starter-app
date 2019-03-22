@@ -16,7 +16,7 @@ const betaBranch =
     gitBranch === 'qa-beta' ||
     gitBranch === 'prod-beta';
 
-if ((process.env.NODE_ENV === 'production' && betaBranch) || process.env.FORCE_BETA === 'true') {
+if ((process.env.NODE_ENV === 'production' && betaBranch) || process.env.BUILD_BETA === 'true') {
     deploymentEnv = '/beta/';
 }
 
