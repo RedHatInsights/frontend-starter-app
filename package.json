@@ -96,9 +96,10 @@
   },
   "scripts": {
     "build": "webpack --config config/prod.webpack.config.js",
-    "test": "jest",
+    "test": "jest --verbose",
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint config src",
+    "lint:js:fix": "eslint config src --fix",
     "lint:sass": "stylelint 'src/**/*.scss' --config .stylelintrc.json",
     "prod": "NODE_ENV=production webpack-dev-server --config config/dev.webpack.config.js",
     "server:ctr": "node src/server/generateServerKey.js",
@@ -108,6 +109,6 @@
     "verify": "npm-run-all build lint test"
   },
   "insights": {
-    "appname": "starter-app"
+    "appname": "starter"
   }
 }
