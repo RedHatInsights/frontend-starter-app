@@ -1,7 +1,7 @@
 /*global module*/
 
 const SECTION = 'insights';
-const APP_ID = 'starter';
+const APP_ID = require('../package.json').insights.appname;
 const FRONTEND_PORT = 8002;
 const API_PORT = 8888;
 const routes = {};
