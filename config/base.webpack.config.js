@@ -25,10 +25,10 @@ const webpackConfig = {
         App: config.paths.entry
     },
     output: {
-        filename: 'js/[name].js',
+        filename: 'js/[name]-[hash].js',
         path: config.paths.public,
         publicPath: config.paths.publicPath,
-        chunkFilename: 'js/[name].js'
+        chunkFilename: 'js/[name]-[hash].js'
     },
     module: {
         rules: [{
