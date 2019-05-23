@@ -4,11 +4,11 @@ notifications:
   email: false
   slack:
     rooms:
-      - secure: "MznEn3PSSKNqf+H8qWPYXSHF5KJnwvoc1BZ+rGDL2gQtubafiLLib79s8u0UxCW3tVMT6fI8wNlO5V2WMaBZTxa8TdojHTIQDfw45IiFai6GQ1U3oFuv+Um5hXgnvsEWXp8aExK+/7GItJUtxo5SsbggRv9+ZGEbJ4NSmLDM2xqlCiyzVfO2aaDgQ/qxsTQq5ppnNZDy4xaS6jFYbPvf6lau6XD/Fi2toFY6lzovoRcbWP+NUtJ6+uWQrPAg9Ac6QqXJpVArV1xhzfhwYEi7OeSStkGWMgPudoLVxk7W8DkOR+cYqPzxcegJWc9+PGA65lq3AiT5GboGttokomNj3jZE58a//tHZAARHhx0YP4UVB+Y7k8NKCaDW8gE3vIaO7a60bBXd7hdyjjKyyHoxt2B/O0x61t5sjnV+//FD1vP1QncpvhcxQbS20+QJy9vEBVtn2aGw+ugBGmjFDW698vw6bKSsdmgCiO7Bft+9outhhX0XptqfZ6Im3ARmnj2mUMzrSceJxqFWwjbr7BlT+TEylijbp7ZMWGKmXxnte15UIk/UmCx5OQb2Sh7xnzLpy8vzd00HfnpBzRnyrQI9PugefbTyzD1ZqVLHV2nKIpYnHkAZPEjtZEZ8PAO4vxSJ916hYFas3OtUJyJ8fLGCKuIcBi+vJiVcmcNYIM66jZE="
+      - secure: juuizlfiQolXbqy4L2nfODB1K8xiSGvUrzsT3XeXIsQqX7yCYVvnRUssKLbqgLM9m85kgXJk1ef0qwjJoliNqGcrALTZLHPTkxWwTnV7tPEVS/4uQPSyy+DDHDwrTzCrF3qhCqyKJ6vB18z22qm3qLgStmNj4p1ZLznsdJR/u7U3spJ+WLL70QSNHCQy/5QjRDDiR3oqWdXjhVcUCeV+v/2CtfqK3dqYtzCL/b7z8lm/YbV6w1Rd8mwzTgLstbzjrvR/gq2IPALzzJTq1S8lXtV7ZtbYz4bjB8RNCRZFJrjBUH4CqD1oUskit4RRe+ilVs8qNQh0Tt3whsOdbJoRXJn2B/NVxppp2WGlODdsuMgfNh5iBocHKN3Qo4mONbstnHFG99Hr7L8GbUugJHEQlrZn1xRyO9ulyVp+hFp8/F088NNyhnd3+lERUPA5/4+HPQh6Ea+PyKq2TR41VoDGcRDBS4VY/6PfLEJzxEBjwRAAemfvtOFTUu2EocuAllPX1vMA4b1j7Wm+Bs7wft6nEcVdftVanfAgx4dNksnaS8zN9II8rdtBci2yXYJ6J+e+REDn/2IrHaUwr0N9BojYc0ePUElDcygW4Kk1oGklHp681j2zhi1Gt7rbuae1C9fD4QHnryx59uVH5NXqDsXI5EbwTJE3zvzRz9SzmyDqV5A=
 node_js:
 - '10'
 install:
-  - npm ci
+- npm ci
 jobs:
   include:
   - stage: Fail
@@ -20,8 +20,8 @@ jobs:
   - stage: Deploy
     script: npm run build && curl -sSL https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master/src/bootstrap.sh | bash -s
 env:
-    global:
-    - REPO="git@github.com:RedHatInsights/insights-frontend-starter-app-build"
-    - REPO_DIR="insights-frontend-starter-app-build"
-    - BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}
-    - NODE_OPTIONS="--max-old-space-size=4096 --max_old_space_size=4096"
+  global:
+  - REPO="git@github.com:RedHatInsights/insights-frontend-starter-app-build"
+  - REPO_DIR="insights-frontend-starter-app-build"
+  - BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}
+  - NODE_OPTIONS="--max-old-space-size=4096 --max_old_space_size=4096"
