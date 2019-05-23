@@ -24,8 +24,12 @@ Note: You will need to set up the Insights environment if you want to develop wi
 
 ### Testing
 
+- `npm run verify` will run linters and tests
 - Travis is used to test the build for this code.
-  - `npm run test` will run linters and tests
+  - You are always notified on failed builds
+  - You are only notified on successful builds if the build before it failed
+  - By default, both `push` events as well as `pull_request` events send notifications
+  - Travis is defaulted to notify #insights-bots
 
 ## Deploying
 
