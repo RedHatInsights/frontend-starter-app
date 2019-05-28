@@ -16,7 +16,7 @@ jobs:
   - stage: Test
     script: npm run test && npx codecov
   - stage: Deploy
-    script: npm run build && curl -sSL https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master/src/bootstrap.sh | bash -s
+    script: npm run travis:verify && curl -sSL https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master/src/bootstrap.sh | bash -s
 env:
   global:
   - REPO="git@github.com:RedHatInsights/insights-frontend-starter-app-build"
