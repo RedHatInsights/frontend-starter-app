@@ -1,5 +1,5 @@
 import React from 'react';
-import { PageHeader, PageHeaderTitle, Main } from '@red-hat-insights/insights-frontend-components';
+import { PageHeader, PageHeaderTitle, Main } from '@redhat-cloud-services/frontend-components';
 
 const ListRules = () => {
     return (

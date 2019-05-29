@@ -6,7 +6,8 @@
     "@babel/runtime": "^7.1.2",
     "@patternfly/patternfly": "^1.0.219",
     "@patternfly/react-core": "2.1.4",
-    "@red-hat-insights/insights-frontend-components": "^3.38.0",
+    "@redhat-cloud-services/frontend-components": "0.0.4",
+    "@redhat-cloud-services/frontend-components-utilities": "0.0.4",
     "classnames": "^2.2.5",
     "create-react-class": "^15.6.3"
   },
