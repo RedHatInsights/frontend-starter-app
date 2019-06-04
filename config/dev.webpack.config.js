@@ -1,19 +1,14 @@
-/* global require, module */
 
-const _ = require('lodash');
-const webpackConfig = require('./base.webpack.config');
-const config = require('./webpack.common.js');
+/* global require, module, __dirname */
+const { resolve } = require('path');
+const config = require('@redhat-cloud-services/frontend-components-config');
+const { config: webpackConfig, plugins } = config({
+    rootFolder: resolve(__dirname, '../'),
+    debug: true,
+    https: true
+});
 
-webpackConfig.devServer = {
-    contentBase: config.paths.public,
-    hot: true,
-    https: false,
-    port: 8002,
-    disableHostCheck: true,
-    historyApiFallback: true
+module.exports = {
+    ...webpackConfig,
+    plugins
 };
-
-module.exports = _.merge({},
-    webpackConfig,
-    require('./dev.webpack.plugins.js')
-);
