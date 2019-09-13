@@ -9,8 +9,7 @@ function getBaseName(pathname) {
         release = `/beta/`;
     }
 
-    return `${release}${pathName[0]}/${pathName[1]}`;
+    return `${release}${pathName[0]}/${pathName[1] || ''}`;
 }
 
 export default getBaseName;
-
