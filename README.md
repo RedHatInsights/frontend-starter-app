@@ -212,7 +212,7 @@ When setting up the routes, the page content is wrapped with a `.page__{pageName
 Have [insights-proxy](https://github.com/RedHatInsights/insights-proxy) installed under PROXY_PATH
 
 ```shell
-SPANDX_CONFIG="./config/spandx.config.js" bash $PROXY_PATH/scripts/run.sh
+SPANDX_CONFIG="./profiles/local-frontend.js" bash $PROXY_PATH/scripts/run.sh
 ```
 
 ### Testing - jest
