@@ -4,7 +4,7 @@
   "private": false,
   "dependencies": {
     "@babel/runtime": "^7.1.2",
-    "@patternfly/patternfly": "^2.43.4",
+    "@patternfly/patternfly": "^2.51.0",
     "@patternfly/react-core": "3.120.8",
     "@redhat-cloud-services/frontend-components": "0.0.46",
     "@redhat-cloud-services/frontend-components-utilities": "0.0.15",
