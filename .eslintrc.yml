@@ -55,11 +55,11 @@ rules:
   react/jsx-curly-spacing:
     - error
     - always
-    - children: true
     - allowMultiline: false
     - spacing:
       - objectLiterals:
         - never
+    - children: true
   key-spacing: 2
   keyword-spacing: 2
   linebreak-style:

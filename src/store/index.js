@@ -9,7 +9,7 @@ export function init (...middleware) {
     }
 
     registry = new ReducerRegistry({}, [
-        promiseMiddleware(),
+        promiseMiddleware,
         ...middleware
     ]);
 
