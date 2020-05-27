@@ -1,1 +1,3 @@
-src/demoData/*
+node_modules/*
+static/*
+dist/*
