@@ -1,4 +1,5 @@
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import asyncComponent from './Utilities/asyncComponent';
@@ -25,17 +26,13 @@ const paths = {
     rules: '/rules'
 };
 
-type Props = {
-    childProps: any
-};
-
 const InsightsRoute = ({ component: Component, rootClass, ...rest }) => {
     const root = document.getElementById('root');
     root.removeAttribute('class');
     root.classList.add(`page__${rootClass}`, 'pf-c-page__main');
     root.setAttribute('role', 'main');
 
-    return (<Route { ...rest } component={ Component } />);
+    return (<Route {...rest} component={Component} />);
 };
 
 InsightsRoute.propTypes = {
@@ -51,16 +48,16 @@ InsightsRoute.propTypes = {
  *      path - https://prod.foo.redhat.com:1337/insights/advisor/rules
  *      component - component to be rendered when a route has been chosen.
  */
-export const Routes = (props: Props) => {
-    const path = props.childProps.location.pathname;
+export const Routes = () => {
+    const path = useLocation().pathname;
 
     return (
         <Switch>
-            <InsightsRoute path={ paths.samplepage } component={ SamplePage } rootClass='samplepage'/>
-            <InsightsRoute path={ paths.rules } component={ Rules } rootClass='rules'/>
+            <InsightsRoute path={paths.samplepage} component={SamplePage} rootClass='samplepage' />
+            <InsightsRoute path={paths.rules} component={Rules} rootClass='rules' />
 
-            { /* Finally, catch all unmatched routes */ }
-            <Route render={ () => some(paths, p => p === path) ? null : (<Redirect to={ paths.samplepage }/>) }/>
+            { /* Finally, catch all unmatched routes */}
+            <Route render={() => some(paths, p => p === path) ? null : (<Redirect to={paths.samplepage} />)} />
         </Switch>
     );
 };
