@@ -38,7 +38,7 @@
     "@babel/runtime": "7.10.0",
     "@patternfly/patternfly": "2.71.6",
     "@patternfly/react-core": "3.158.1",
-    "@patternfly/react-table": "2.28.47",
+    "@patternfly/react-table": "4.5.7",
     "@redhat-cloud-services/frontend-components": "1.0.28",
     "@redhat-cloud-services/frontend-components-utilities": "1.0.4",
     "classnames": "2.2.6",
