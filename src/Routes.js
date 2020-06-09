@@ -19,11 +19,14 @@ import some from 'lodash/some';
  *         see the difference with DashboardMap and InventoryDeployments.
  *
  */
-const SamplePage = asyncComponent(() => import(/* webpackChunkName: "SamplePage" */ './SmartComponents/SamplePage/SamplePage'));
-const Rules = asyncComponent(() => import(/* webpackChunkName: "Rules" */ './PresentationalComponents/Rules/ListRules'));
+const SamplePage = asyncComponent(() => import(/* webpackChunkName: "SamplePage" */ './Routes/SamplePage/SamplePage'));
+const OopsPage = asyncComponent(() => import(/* webpackChunkName: "OopsPage" */ './Routes/OopsPage/OopsPage'));
+const NoPermissionsPage = asyncComponent(() => import(/* webpackChunkName: "NoPermissionsPage" */ './Routes/NoPermissionsPage/NoPermissionsPage'));
+
 const paths = {
-    samplepage: '/samplepage',
-    rules: '/rules'
+    samplePage: '/sample',
+    oops: '/oops',
+    noPermissions: '/no-permissions'
 };
 
 const InsightsRoute = ({ component: Component, rootClass, ...rest }) => {
@@ -53,11 +56,19 @@ export const Routes = () => {
 
     return (
         <Switch>
-            <InsightsRoute path={paths.samplepage} component={SamplePage} rootClass='samplepage' />
-            <InsightsRoute path={paths.rules} component={Rules} rootClass='rules' />
-
+            <InsightsRoute path={paths.samplePage} component={SamplePage} rootClass='samplePage' />
+            <InsightsRoute path={paths.oops} component={OopsPage} rootClass='oopsPage' />
+            <InsightsRoute path={paths.noPermissions} component={NoPermissionsPage} rootClass='noPermissionsPage' />
             { /* Finally, catch all unmatched routes */}
-            <Route render={() => some(paths, p => p === path) ? null : (<Redirect to={paths.samplepage} />)} />
+            <Route render={() => some(paths, p => p === path) ? null : (<Redirect to={paths.samplePage} />)} />
         </Switch>
     );
+};
+
+Routes.propTypes = {
+    childProps: PropTypes.shape({
+        history: PropTypes.shape({
+            push: PropTypes.func
+        })
+    })
 };
