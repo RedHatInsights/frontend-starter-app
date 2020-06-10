@@ -5,12 +5,18 @@ import { connect } from 'react-redux';
 import { Routes } from './Routes';
 import './App.scss';
 
+import { Provider } from 'react-redux';
+import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
+import { NotificationsPortal, notifications } from '@redhat-cloud-services/frontend-components-notifications/';
+
+const registry = getRegistry();
+registry.register({ notifications });
+
 class App extends Component {
 
     componentDidMount () {
         insights.chrome.init();
         // TODO change this to your appname
-        // TODO should the sample app webpack just rewrite this automatically?
         insights.chrome.identifyApp('insights');
 
         this.appNav = insights.chrome.on('APP_NAVIGATION', event => this.props.history.push(`/${event.navId}`));
@@ -22,7 +28,10 @@ class App extends Component {
 
     render () {
         return (
-            <Routes childProps={ this.props } />
+            <Provider store={ registry.getStore() }>
+                <NotificationsPortal />
+                <Routes childProps={ this.props } />
+            </Provider>
         );
     }
 }
