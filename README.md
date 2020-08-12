@@ -31,6 +31,12 @@ Note: You will need to set up the Insights environment if you want to develop wi
   - By default, both `push` events as well as `pull_request` events send notifications
   - Travis is defaulted to notify #insights-bots
 
+  ### Sitemap
+
+  - When you run the build it also triggers sitemap generation and `sitemap.xml` is created.
+  - You need to have `routes` configured in `package.json` otherwise sitemap will be empty.
+    - For example see `package.json` here or in  [insights-rbac-ui](https://github.com/RedHatInsights/insights-rbac-ui/blob/master/package.json)
+
 ## Deploying
 
 - The Platform team is using Travis to deploy the application
