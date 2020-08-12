@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import asyncComponent from './Utilities/asyncComponent';
 import some from 'lodash/some';
+import { routes as paths } from '../package.json';
 
 /**
  * Aysnc imports of components
@@ -22,12 +23,6 @@ import some from 'lodash/some';
 const SamplePage = asyncComponent(() => import(/* webpackChunkName: "SamplePage" */ './Routes/SamplePage/SamplePage'));
 const OopsPage = asyncComponent(() => import(/* webpackChunkName: "OopsPage" */ './Routes/OopsPage/OopsPage'));
 const NoPermissionsPage = asyncComponent(() => import(/* webpackChunkName: "NoPermissionsPage" */ './Routes/NoPermissionsPage/NoPermissionsPage'));
-
-const paths = {
-    samplePage: '/sample',
-    oops: '/oops',
-    noPermissions: '/no-permissions'
-};
 
 const InsightsRoute = ({ component: Component, rootClass, ...rest }) => {
     const root = document.getElementById('root');
