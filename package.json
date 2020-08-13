@@ -96,7 +96,8 @@
     "appname": "starter"
   },
   "routes": {
-    "prefix": "starter",
+    "prefix": "insights",
+    "appname": "starter",
     "samplePage": "/sample",
     "oops": "/oops",
     "noPermissions": "/no-permissions"
