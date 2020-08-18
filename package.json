@@ -39,7 +39,7 @@
   ],
   "dependencies": {
     "@babel/runtime": "7.10.0",
-    "@patternfly/patternfly": "4.10.31",
+    "@patternfly/patternfly": "4.31.6",
     "@patternfly/react-core": "4.18.5",
     "@patternfly/react-table": "4.5.7",
     "@redhat-cloud-services/frontend-components": "2.0.6",
