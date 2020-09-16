@@ -2,7 +2,7 @@
 
 # insights-frontend-starter-app
 
-React.js starter app for Red Hat Insights products that includes Patternfly 3 and Patternfly Next.
+React.js starter app for Red Hat Insights products that includes Patternfly 4 and shared cloud.redhat.com utilities.
 
 ## Getting Started
 
