@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
@@ -21,6 +21,10 @@ import './sample-page.scss';
 const SamplePage = () => {
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        insights?.chrome?.appAction?.('sample-page');
+    }, []);
 
     const handleAlert = () => {
         dispatch(
