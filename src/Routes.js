@@ -1,28 +1,14 @@
 import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
-import React from 'react';
-import asyncComponent from './Utilities/asyncComponent';
+import React, { Suspense, lazy } from 'react';
 import some from 'lodash/some';
 import { routes as paths } from '../package.json';
+import { Bullseye, Spinner } from '@patternfly/react-core';
 
-/**
- * Aysnc imports of components
- *
- * https://webpack.js.org/guides/code-splitting/
- * https://reactjs.org/docs/code-splitting.html
- *
- * pros:
- *      1) code splitting
- *      2) can be used in server-side rendering
- * cons:
- *      1) nameing chunk names adds unnecessary docs to code,
- *         see the difference with DashboardMap and InventoryDeployments.
- *
- */
-const SamplePage = asyncComponent(() => import(/* webpackChunkName: "SamplePage" */ './Routes/SamplePage/SamplePage'));
-const OopsPage = asyncComponent(() => import(/* webpackChunkName: "OopsPage" */ './Routes/OopsPage/OopsPage'));
-const NoPermissionsPage = asyncComponent(() => import(/* webpackChunkName: "NoPermissionsPage" */ './Routes/NoPermissionsPage/NoPermissionsPage'));
+const SamplePage = lazy(() => import(/* webpackChunkName: "SamplePage" */ './Routes/SamplePage/SamplePage'));
+const OopsPage = lazy(() => import(/* webpackChunkName: "OopsPage" */ './Routes/OopsPage/OopsPage'));
+const NoPermissionsPage = lazy(() => import(/* webpackChunkName: "NoPermissionsPage" */ './Routes/NoPermissionsPage/NoPermissionsPage'));
 
 const InsightsRoute = ({ component: Component, rootClass, ...rest }) => {
     const root = document.getElementById('root');
@@ -50,13 +36,17 @@ export const Routes = () => {
     const path = useLocation().pathname;
 
     return (
-        <Switch>
-            <InsightsRoute path={paths.samplePage} component={SamplePage} rootClass='samplePage' />
-            <InsightsRoute path={paths.oops} component={OopsPage} rootClass='oopsPage' />
-            <InsightsRoute path={paths.noPermissions} component={NoPermissionsPage} rootClass='noPermissionsPage' />
-            { /* Finally, catch all unmatched routes */}
-            <Route render={() => some(paths, p => p === path) ? null : (<Redirect to={paths.samplePage} />)} />
-        </Switch>
+        <Suspense fallback={<Bullseye>
+            <Spinner />
+        </Bullseye>}>
+            <Switch>
+                <InsightsRoute path={paths.samplePage} component={SamplePage} rootClass='samplePage' />
+                <InsightsRoute path={paths.oops} component={OopsPage} rootClass='oopsPage' />
+                <InsightsRoute path={paths.noPermissions} component={NoPermissionsPage} rootClass='noPermissionsPage' />
+                { /* Finally, catch all unmatched routes */}
+                <Route render={() => some(paths, p => p === path) ? null : (<Redirect to={paths.samplePage} />)} />
+            </Switch>
+        </Suspense>
     );
 };
 

@@ -1,40 +1,34 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Routes } from './Routes';
 import './App.scss';
 
-import { Provider } from 'react-redux';
 import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
 import { NotificationsPortal, notifications } from '@redhat-cloud-services/frontend-components-notifications/';
 
-const registry = getRegistry();
-registry.register({ notifications });
-
-class App extends Component {
-
-    componentDidMount () {
+const App = (props) => {
+    useEffect(() => {
+        const registry = getRegistry();
+        registry.register({ notifications });
         insights.chrome.init();
+
         // TODO change this to your appname
         insights.chrome.identifyApp('insights');
-
-        this.appNav = insights.chrome.on('APP_NAVIGATION', event => this.props.history.push(`/${event.navId}`));
-    }
-
-    componentWillUnmount () {
-        this.appNav();
-    }
-
-    render () {
-        return (
-            <Provider store={ registry.getStore() }>
-                <NotificationsPortal />
-                <Routes childProps={ this.props } />
-            </Provider>
+        return insights.chrome.on(
+            'APP_NAVIGATION',
+            event => this.props.history.push(`/${event.navId}`)
         );
-    }
-}
+    }, []);
+
+    return (
+        <Fragment>
+            <NotificationsPortal />
+            <Routes childProps={ props } />
+        </Fragment>
+    );
+};
 
 App.propTypes = {
     history: PropTypes.object
