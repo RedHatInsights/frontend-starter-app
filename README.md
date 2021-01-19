@@ -6,14 +6,12 @@ React.js starter app for Red Hat Insights products that includes Patternfly 4 an
 
 ## Getting Started
 
-There is a [comprehensive quick start guide in the Storybook Documentation](https://github.com/RedHatInsights/insights-frontend-storybook/blob/master/src/docs/welcome/quickStart/DOC.md) to setting up an Insights environment complete with:
+There is a [comprehensive quick start guide in the Storybook Documentation](https://github.com/RedHatInsights/insights-frontend-storybook/blob/master/src/docs/welcome/quickStart/DOC.md) to setting up an environment complete with:
 
-- Insights Frontend Starter App
+- Frontend Starter App
 
 - [Insights Chroming](https://github.com/RedHatInsights/insights-chrome)
 - [Insights Proxy](https://github.com/RedHatInsights/insights-proxy)
-
-Note: You will need to set up the Insights environment if you want to develop with the starter app due to the consumption of the chroming service as well as setting up your global/app navigation through the API.
 
 ## Build app
 
@@ -60,7 +58,7 @@ Note: You will need to set up the Insights environment if you want to develop wi
 
 ## Insights Components
 
-Insights Platform will deliver components and static assets through [npm](https://www.npmjs.com/package/@redhat-cloud-services/frontend-components). ESI tags are used to import the [chroming](https://github.com/RedHatInsights/insights-chrome) which takes care of the header, sidebar, and footer.
+Platform experience will deliver components and static assets through [npm](https://www.npmjs.com/package/@redhat-cloud-services/frontend-components). ESI tags are used to import the [chroming](https://github.com/RedHatInsights/insights-chrome) which takes care of the header, sidebar, and footer.
 
 ## Technologies
 
@@ -68,7 +66,7 @@ Insights Platform will deliver components and static assets through [npm](https:
 
 There is [shared common config](https://www.npmjs.com/package/@redhat-cloud-services/frontend-components-config) with predefined values and lifecycles to build and run your application.
 
-We are used [federated modules](https://webpack.js.org/concepts/module-federation/) to seamlessly load multiple application.
+We use [federated modules](https://webpack.js.org/concepts/module-federation/) to seamlessly load multiple application.
 
 ```
 
@@ -82,8 +80,6 @@ We are used [federated modules](https://webpack.js.org/concepts/module-federatio
 - [Smart/Presentational Components](https://medium.com/@thejasonfile/dumb-components-and-smart-components-e7b33a698d43)
   - Smart components have access to the redux state
   - Presentational components do not have access to the redux state
-  - Smart Components === insights-frontend/app/js/states
-  - Presentational Components === insights-frontend/app/js/components
 
 - [State and lifecycle within class components](https://reactjs.org/docs/state-and-lifecycle.html)
   - article contains:
