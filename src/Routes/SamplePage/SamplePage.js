@@ -1,13 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import { Button, StackItem, Stack, Title } from '@patternfly/react-core';
+import { Button, StackItem, Stack, Title, Spinner } from '@patternfly/react-core';
 import { Main, PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/';
 
-import asyncComponent from '../../Utilities/asyncComponent';
-const SampleComponent = asyncComponent(() => import('../../Components/SampleComponent/sample-component'));
+const SampleComponent = lazy(() => import('../../Components/SampleComponent/sample-component'));
 
 import './sample-page.scss';
 
@@ -49,7 +48,9 @@ const SamplePage = () => {
                         <Button variant='primary' onClick={handleAlert}> Dispatch alert </Button>
                     </StackItem>
                     <StackItem>
-                        <SampleComponent/>
+                        <Suspense fallback={<Spinner />}>
+                            <SampleComponent/>
+                        </Suspense>
                     </StackItem>
                     <StackItem>
                         <Stack hasGutter>
