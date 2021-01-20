@@ -1,19 +1,17 @@
-[![Build Status](https://travis-ci.org/RedHatInsights/insights-frontend-starter-app.svg?branch=master)](https://travis-ci.org/RedHatInsights/insights-frontend-starter-app)
+[![Build Status](https://travis-ci.org/RedHatInsights/frontend-starter-app.svg?branch=master)](https://travis-ci.org/RedHatInsights/frontend-starter-app)
 
-# insights-frontend-starter-app
+# frontend-starter-app
 
 React.js starter app for Red Hat Insights products that includes Patternfly 4 and shared cloud.redhat.com utilities.
 
 ## Getting Started
 
-There is a [comprehensive quick start guide in the Storybook Documentation](https://github.com/RedHatInsights/insights-frontend-storybook/blob/master/src/docs/welcome/quickStart/DOC.md) to setting up an Insights environment complete with:
+There is a [comprehensive quick start guide in the Storybook Documentation](https://github.com/RedHatInsights/insights-frontend-storybook/blob/master/src/docs/welcome/quickStart/DOC.md) to setting up an environment complete with:
 
-- Insights Frontend Starter App
+- Frontend Starter App
 
 - [Insights Chroming](https://github.com/RedHatInsights/insights-chrome)
 - [Insights Proxy](https://github.com/RedHatInsights/insights-proxy)
-
-Note: You will need to set up the Insights environment if you want to develop with the starter app due to the consumption of the chroming service as well as setting up your global/app navigation through the API.
 
 ## Build app
 
@@ -60,68 +58,16 @@ Note: You will need to set up the Insights environment if you want to develop wi
 
 ## Insights Components
 
-Insights Platform will deliver components and static assets through [npm](https://www.npmjs.com/package/@red-hat-insights/insights-frontend-components). ESI tags are used to import the [chroming](https://github.com/RedHatInsights/insights-chrome) which takes care of the header, sidebar, and footer.
+Platform experience will deliver components and static assets through [npm](https://www.npmjs.com/package/@redhat-cloud-services/frontend-components). ESI tags are used to import the [chroming](https://github.com/RedHatInsights/insights-chrome) which takes care of the header, sidebar, and footer.
 
 ## Technologies
 
 ### Webpack
 
-#### Webpack.config.js
+There is [shared common config](https://www.npmjs.com/package/@redhat-cloud-services/frontend-components-config) with predefined values and lifecycles to build and run your application.
 
-This file exports an object with the configuration for webpack and webpack dev server.
+We use [federated modules](https://webpack.js.org/concepts/module-federation/) to seamlessly load multiple application.
 
-```Javascript
-{
-    mode: https://webpack.js.org/concepts/mode/,
-    devtool: https://webpack.js.org/configuration/devtool/,
-
-    // different bundle options.
-    // allows you to completely separate vendor code from app code and much more.
-    // https://webpack.js.org/plugins/split-chunks-plugin/
-    optimization: {
-        chunks: https://webpack.js.org/plugins/split-chunks-plugin/#optimization-splitchunks-chunks-all,
-        runtimeChunk: https://webpack.js.org/plugins/split-chunks-plugin/#optimization-runtimechunk,
-
-        // https://webpack.js.org/plugins/split-chunks-plugin/#configuring-cache-groups
-        cacheGroups: {
-
-            // bundles all vendor code needed to run the entry file
-            common_initial: {
-                test: // file regex: /[\\/]node_modules[\\/]/,
-                name: // filename: 'common.initial',
-                chunks: // chunk type initial, async, all
-            }
-        }
-    },
-
-    // each property of entry maps to the name of an entry file
-    // https://webpack.js.org/concepts/entry-points/
-    entry: {
-
-        // example bunde names
-        bundle1: 'src/entry1.js',
-        bundle2: 'src/entry2.js'
-    },
-
-    // bundle output options.
-    output: {
-            filename: https://webpack.js.org/configuration/output/#output-filename,
-            path: https://webpack.js.org/configuration/output/#output-path,
-            publicPath: https://webpack.js.org/configuration/output/#output-publicpath,
-            chunkFilename: https://webpack.js.org/configuration/output/#output-chunkfilename
-    },
-     module: {
-         rules: https://webpack.js.org/configuration/module/#module-rules
-     },
-
-     // An array of webpack plugins look at webpack.plugins.js
-     // https://webpack.js.org/plugins/
-     plugins: [],
-
-     // webpack dev serve options
-     // https://github.com/webpack/webpack-dev-server
-     devServer: {}
-}
 ```
 
 ### React
@@ -134,8 +80,6 @@ This file exports an object with the configuration for webpack and webpack dev s
 - [Smart/Presentational Components](https://medium.com/@thejasonfile/dumb-components-and-smart-components-e7b33a698d43)
   - Smart components have access to the redux state
   - Presentational components do not have access to the redux state
-  - Smart Components === insights-frontend/app/js/states
-  - Presentational Components === insights-frontend/app/js/components
 
 - [State and lifecycle within class components](https://reactjs.org/docs/state-and-lifecycle.html)
   - article contains:
@@ -152,6 +96,8 @@ A [store](https://redux.js.org/basics/store) holds the whole [state tree](https:
 Redux doesn't have a Dispatcher or support many stores. Instead, there is just a single store with a single root reducing function.
 
 [Create Store](https://redux.js.org/api-reference/createstore): ```createStore(reducer, preloadedState, enhancer)```
+
+There is helper function used to create store with option to plug reducers on the fly called [getRegistry](https://github.com/RedHatInsights/frontend-components/blob/master/packages/utils/doc/redux.md#reducer-registry) you can see the usage of it throughout this repository. 
 
 - methods
   - [getState()](https://redux.js.org/api-reference/store#dispatch)
@@ -199,6 +145,10 @@ Ex) [/src/api/System/getSystems.js](https://github.com/RedHatInsights/turbo-octo
   - Makes the Redux store available to the connect()
 - [connect([mapStateToProps], [mapDispatchToProps], [mergeProps], [options])](https://github.com/reactjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options)
   - Connects a React component to a Redux store
+- [useSelector](https://react-redux.js.org/api/hooks#useselector)
+  - Instead of connect's mapStateToProps you can use this hook in function components
+- [useDispatch](https://react-redux.js.org/api/hooks#usedispatch)
+  - Instead of connect's mapDispatchToProps you can use this hook in function components
 
 ### React-router-dom
 
