@@ -44,7 +44,7 @@
     "@patternfly/react-table": "4.5.7",
     "@redhat-cloud-services/frontend-components": "2.0.6",
     "@redhat-cloud-services/frontend-components-notifications": "^2.0.4",
-    "@redhat-cloud-services/frontend-components-utilities": "2.0.4",
+    "@redhat-cloud-services/frontend-components-utilities": "3.0.1",
     "babel-plugin-transform-imports": "^2.0.0",
     "classnames": "2.2.6",
     "react": "16.13.1",
