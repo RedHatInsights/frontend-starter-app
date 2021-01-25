@@ -5,4 +5,6 @@ import logger from 'redux-logger';
 
 const root = document.getElementById('root');
 
-ReactDOM.render(<AppEntry logger={logger} />, root, () => root.setAttribute('data-ouia-safe', true));
+ReactDOM.render(<AppEntry logger={logger} />, root, () =>
+  root.setAttribute('data-ouia-safe', true)
+);
