@@ -11,7 +11,7 @@ The React app bundled using [Webpack](https://webpack.js.org) includes:
     - @redhat-cloud-services/frontend-components-notifications/redux is provided for chromed notifications
   - [React.lazy and React.Suspense](https://reactjs.org/docs/code-splitting.html#reactlazy) for asynchronously loading components
 
-These assets are loaded via [Insights chrome](https://github.com/RedHatInsights/insights-chrome) which provides user auth and top/side nav.
+These assets are loaded via [Insights chrome](https://github.com/RedHatInsights/insights-chrome) which provides user auth, top and side nav (aka chroming), and a `<main id="root">` to inject into.
 
 ## Webpack
 
