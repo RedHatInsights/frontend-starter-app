@@ -1,13 +1,18 @@
-require.extensions['.css'] = () => undefined;
-
 module.exports = {
-  presets: ['@babel/env', '@babel/react'],
+  presets: [
+    // Polyfills
+    '@babel/env',
+    // Allow JSX syntax
+    '@babel/react'
+  ],
   plugins: [
+    // Put _extends helpers in their own file
     '@babel/plugin-transform-runtime',
-    '@babel/plugin-syntax-dynamic-import',
+    // Support for {...props} via Object.assign({}, props)
     '@babel/plugin-proposal-object-rest-spread',
-    '@babel/plugin-proposal-class-properties',
-    'lodash',
+    // Devs tend to write `import { someIcon } from '@patternfly/react-icons';`
+    // This transforms the import to be specific which prevents having to parse 2k+ icons
+    // Also prevents potential bundle size blowups with CJS
     [
       'transform-imports',
       {

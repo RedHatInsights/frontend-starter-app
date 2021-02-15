@@ -20,28 +20,7 @@
     "test": "jest --verbose",
     "verify": "npm-run-all build lint test"
   },
-  "jest": {
-    "collectCoverage": true,
-    "collectCoverageFrom": [
-      "src/**/*.js",
-      "!src/**/stories/*"
-    ],
-    "coverageDirectory": "./coverage/",
-    "moduleNameMapper": {
-      "\\.(css|scss)$": "identity-obj-proxy"
-    },
-    "roots": [
-      "<rootDir>/src/"
-    ],
-    "setupFiles": [
-      "<rootDir>/config/setupTests.js"
-    ]
-  },
-  "transformIgnorePatterns": [
-    "/node_modules/(?!@redhat-cloud-services)"
-  ],
   "dependencies": {
-    "@babel/runtime": "7.12.13",
     "@patternfly/react-core": "4.90.2",
     "@patternfly/react-table": "4.20.15",
     "@redhat-cloud-services/frontend-components": "^3.0.3",
@@ -59,10 +38,8 @@
   "devDependencies": {
     "@babel/core": "7.12.13",
     "@babel/plugin-proposal-object-rest-spread": "7.12.13",
-    "@babel/plugin-syntax-dynamic-import": "7.8.3",
     "@babel/plugin-transform-runtime": "7.12.13",
     "@babel/preset-env": "7.12.13",
-    "@babel/preset-flow": "7.12.13",
     "@babel/preset-react": "7.12.13",
     "@redhat-cloud-services/eslint-config-redhat-cloud-services": "^1.0.0",
     "@redhat-cloud-services/frontend-components-config": "^4.0.1",
@@ -70,9 +47,7 @@
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "26.6.3",
     "babel-plugin-dual-import": "1.2.1",
-    "babel-plugin-lodash": "3.3.4",
     "babel-plugin-transform-imports": "^2.0.0",
-    "cross-fetch": "^3.0.6",
     "css-loader": "5.0.1",
     "enzyme": "3.11.0",
     "enzyme-to-json": "3.6.1",
@@ -91,12 +66,5 @@
   },
   "insights": {
     "appname": "starter"
-  },
-  "routes": {
-    "prefix": "insights",
-    "appname": "starter",
-    "samplePage": "/sample",
-    "oops": "/oops",
-    "noPermissions": "/no-permissions"
   }
 }
