@@ -3,7 +3,7 @@
 This repo's source code builds a static React app to be served on https://cloud.redhat.com.
 
 The React app bundled using [Webpack](https://webpack.js.org) includes:
-  - [patternfly-react](https://github.com/patternfly/patternfly-react) as the component library
+  - [@patternfly/react-core](https://github.com/patternfly/patternfly-react) as the component library
   - A [react-router-dom BrowserRouter](https://reacttraining.com/react-router/web/api/BrowserRouter) for routing pages
     - Uses the HTML5 history API (pushState, replaceState and the popstate event) to keep UI in sync with the URL
   - [React-redux](https://github.com/reactjs/react-redux) for managing global state (usually for API calls)
