@@ -11,7 +11,7 @@ You'll need to clone:
 - [Insights Proxy](https://github.com/RedHatInsights/insights-proxy)
 - Frontend Starter App (this repo)
 
-1. Run [insights-proxy](https://github.com/RedHatInsights/insights-proxy) (requires [Docker](https://www.docker.com/)). It's recommended to set a PROXY_PATH environment variable in your .bashrc to avoid having to write the full path to where you clone the repo.
+1. Run [insights-proxy](https://github.com/RedHatInsights/insights-proxy) (requires [Docker](https://www.docker.com/) and modifying /etc/hosts). It's recommended to set a PROXY_PATH environment variable in your .bashrc to avoid having to write the full path to where you clone the repo.
 
 ```shell
 SPANDX_CONFIG="./profiles/local-frontend.js" bash $PROXY_PATH/scripts/run.sh
@@ -21,7 +21,11 @@ SPANDX_CONFIG="./profiles/local-frontend.js" bash $PROXY_PATH/scripts/run.sh
 
 3. ```npm run start```
 
-4. Open https://ci.foo.redhat.com:1337/beta/insights/starter behind the Red Hat VPN and accept the certs
+4. Open one of the following environments behind the Red Hat VPN and accept the certs:
+  - https://ci.foo.redhat.com:1337/beta/insights/starter
+  - https://qa.foo.redhat.com:1337/beta/insights/starter
+  - https://stage.foo.redhat.com:1337/beta/insights/starter
+  - https://prod.foo.redhat.com:1337/beta/insights/starter
 
 Should you need more help, there is a [comprehensive quick start guide in the Storybook Documentation.](https://github.com/RedHatInsights/insights-frontend-storybook/blob/master/src/docs/welcome/quickStart/DOC.md)
 

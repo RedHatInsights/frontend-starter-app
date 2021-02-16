@@ -15,6 +15,7 @@ module.exports = {
     "<rootDir>/config/setupTests.js"
   ],
   transformIgnorePatterns: [
-    "/node_modules/(?!@redhat-cloud-services)"
+    "/node_modules/(?!@redhat-cloud-services)",
+    "/node_modules/(?!@patternfly)"
   ],
 };
