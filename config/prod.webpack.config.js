@@ -4,7 +4,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 const { config: webpackConfig, plugins } = config({
   rootFolder: resolve(__dirname, '../'),
-  deployment: process.env.BETA ? 'beta/apps' : 'apps',
+  ...(process.env.BETA && { deployment: 'beta/apps' }),
 });
 
 plugins.push(
