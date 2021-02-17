@@ -5,7 +5,7 @@ const { config: webpackConfig, plugins } = config({
   debug: true,
   https: true,
   useFileHash: false,
-  deployment: process.env.BETA ? 'beta/apps' : 'apps',
+  ...(process.env.BETA && { deployment: 'beta/apps' }),
 });
 
 plugins.push(
