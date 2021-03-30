@@ -4,13 +4,14 @@ import { Provider } from 'react-redux';
 import { init } from './store';
 import App from './App';
 import { getBaseName } from '@redhat-cloud-services/frontend-components-utilities/helpers';
+import logger from 'redux-logger';
 
-const AppEntry = () => (
-  <Provider store={init().getStore()}>
+const DevEntry = () => (
+  <Provider store={init(logger).getStore()}>
     <Router basename={getBaseName(window.location.pathname)}>
       <App />
     </Router>
   </Provider>
 );
 
-export default AppEntry;
+export default DevEntry;

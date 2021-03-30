@@ -13,6 +13,9 @@ plugins.push(
     {
       root: resolve(__dirname, '../'),
       useFileHash: false,
+      exposes: {
+        './RootApp': resolve(__dirname, '../src/DevEntry'),
+      },
     }
   )
 );
