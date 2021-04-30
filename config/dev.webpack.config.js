@@ -5,7 +5,11 @@ const { config: webpackConfig, plugins } = config({
   debug: true,
   https: true,
   useFileHash: false,
-  ...(process.env.BETA && { deployment: 'beta/apps' }),
+  deployment: process.env.BETA ? 'beta/apps' : 'apps',
+  ...(process.env.PROXY && {
+    useProxy: true,
+    appUrl: process.env.BETA ? '/beta/insights/starter' : '/insights/starter',
+  }),
 });
 
 plugins.push(
