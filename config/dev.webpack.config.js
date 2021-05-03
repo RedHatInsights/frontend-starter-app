@@ -8,7 +8,7 @@ const { config: webpackConfig, plugins } = config({
   deployment: process.env.BETA ? 'beta/apps' : 'apps',
   ...(process.env.PROXY && {
     useProxy: true,
-    appUrl: process.env.BETA ? '/beta/insights/starter' : '/insights/starter',
+    appUrl: process.env.BETA ? '/beta/staging/starter' : '/staging/starter',
   }),
 });
 

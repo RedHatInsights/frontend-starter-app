@@ -30,10 +30,10 @@ SPANDX_CONFIG="./profiles/local-frontend.js" bash $PROXY_PATH/scripts/run.sh
 3. ```npm run start```
 
 4. Open one of the following environments behind the Red Hat VPN and accept the certs:
-  - https://ci.foo.redhat.com:1337/beta/insights/starter
-  - https://qa.foo.redhat.com:1337/beta/insights/starter
-  - https://stage.foo.redhat.com:1337/beta/insights/starter
-  - https://prod.foo.redhat.com:1337/beta/insights/starter
+  - https://ci.foo.redhat.com:1337/beta/staging/starter
+  - https://qa.foo.redhat.com:1337/beta/staging/starter
+  - https://stage.foo.redhat.com:1337/beta/staging/starter
+  - https://prod.foo.redhat.com:1337/beta/staging/starter
 
 Should you need more help, there is a [comprehensive quick start guide in the Storybook Documentation.](https://github.com/RedHatInsights/insights-frontend-storybook/blob/master/src/docs/welcome/quickStart/DOC.md)
 
