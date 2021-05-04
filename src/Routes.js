@@ -1,7 +1,6 @@
+import React, { Suspense, lazy } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
-import PropTypes from 'prop-types';
-import React, { Suspense, lazy } from 'react';
 import { Bullseye, Spinner } from '@patternfly/react-core';
 
 const SamplePage = lazy(() =>
@@ -43,11 +42,3 @@ export const Routes = () => (
     </Switch>
   </Suspense>
 );
-
-Routes.propTypes = {
-  childProps: PropTypes.shape({
-    history: PropTypes.shape({
-      push: PropTypes.func,
-    }),
-  }),
-};

@@ -3,7 +3,7 @@ module.exports = {
     // Polyfills
     '@babel/env',
     // Allow JSX syntax
-    '@babel/react'
+    '@babel/react',
   ],
   plugins: [
     // Put _extends helpers in their own file
@@ -26,6 +26,6 @@ module.exports = {
         },
       },
       'react-icons',
-    ]
+    ],
   ],
 };
