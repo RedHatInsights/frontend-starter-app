@@ -17,9 +17,12 @@ const App = (props) => {
 
     // TODO change this to your appname
     insights.chrome.identifyApp('starter');
-    return insights.chrome.on('APP_NAVIGATION', (event) =>
+    const unregister = insights.chrome.on('APP_NAVIGATION', (event) =>
       history.push(`/${event.navId}`)
     );
+    return () => {
+      unregister();
+    };
   }, []);
 
   return (
