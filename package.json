@@ -44,7 +44,7 @@
     "@babel/preset-env": "7.14.7",
     "@babel/preset-react": "7.14.5",
     "@redhat-cloud-services/eslint-config-redhat-cloud-services": "^1.2.1",
-    "@redhat-cloud-services/frontend-components-config": "^4.2.3",
+    "@redhat-cloud-services/frontend-components-config": "^4.2.5",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.2",
     "babel-jest": "27.0.5",
     "babel-plugin-transform-imports": "^2.0.0",
