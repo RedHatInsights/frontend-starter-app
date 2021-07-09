@@ -16,6 +16,7 @@ const { config: webpackConfig, plugins } = config({
   useCloud: true, // Until console.redhat.com is working
   appUrl: process.env.BETA ? '/beta/staging/starter' : '/staging/starter',
   env: process.env.BETA ? 'ci-beta' : 'ci-stable',
+  standalone: Boolean(process.env.STANDALONE),
 });
 plugins.push(...commonPlugins);
 

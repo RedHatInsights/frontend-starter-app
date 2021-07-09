@@ -13,6 +13,7 @@
     "nightly": "npm run deploy",
     "start": "webpack serve --config config/dev.webpack.config.js",
     "start:beta": "BETA=true npm start",
+    "start:standalone": "STANDALONE=true npm start",
     "test": "jest",
     "verify": "npm-run-all build lint test"
   },
@@ -22,6 +23,7 @@
     "@redhat-cloud-services/frontend-components": "^3.3.3",
     "@redhat-cloud-services/frontend-components-notifications": "^3.2.2",
     "@redhat-cloud-services/frontend-components-utilities": "^3.2.2",
+    "classnames": "^2.3.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-redux": "7.2.4",
