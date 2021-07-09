@@ -1,21 +1,15 @@
 const { resolve } = require('path');
 const config = require('@redhat-cloud-services/frontend-components-config');
-const BundleAnalyzerPlugin =
-  require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const commonPlugins = require('./plugins');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+
 const { config: webpackConfig, plugins } = config({
   rootFolder: resolve(__dirname, '../'),
   ...(process.env.BETA && { deployment: 'beta/apps' }),
 });
+plugins.push(...commonPlugins);
 
-plugins.push(
-  require('@redhat-cloud-services/frontend-components-config/federated-modules')(
-    {
-      root: resolve(__dirname, '../'),
-    }
-  )
-);
-
-module.exports = function (env) {
+module.exports = (env) => {
   if (env && env.analyze === 'true') {
     plugins.push(new BundleAnalyzerPlugin());
   }
