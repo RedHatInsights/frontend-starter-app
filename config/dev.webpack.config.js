@@ -1,28 +1,18 @@
 const { resolve } = require('path');
 const config = require('@redhat-cloud-services/frontend-components-config');
+const commonPlugins = require('./plugins');
+
 const { config: webpackConfig, plugins } = config({
   rootFolder: resolve(__dirname, '../'),
   debug: true,
-  https: true,
-  useFileHash: false,
   deployment: process.env.BETA ? 'beta/apps' : 'apps',
-  ...(process.env.PROXY && {
-    useProxy: true,
-    appUrl: process.env.BETA ? '/beta/staging/starter' : '/staging/starter',
-  }),
+  useProxy: true,
+  useCloud: true, // Until console.redhat.com is working
+  appUrl: process.env.BETA ? '/beta/staging/starter' : '/staging/starter',
+  env: process.env.BETA ? 'ci-beta' : 'ci-stable',
+  standalone: Boolean(process.env.STANDALONE),
 });
-
-plugins.push(
-  require('@redhat-cloud-services/frontend-components-config/federated-modules')(
-    {
-      root: resolve(__dirname, '../'),
-      useFileHash: false,
-      exposes: {
-        './RootApp': resolve(__dirname, '../src/DevEntry'),
-      },
-    }
-  )
-);
+plugins.push(...commonPlugins);
 
 module.exports = {
   ...webpackConfig,
