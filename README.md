@@ -26,5 +26,5 @@ Update `config/dev.webpack.config.js` according to your application URL. [Read m
     - `qa-stable` (deployed by pushing to `qa-stable` on this repo)
     - `prod-beta` (deployed by pushing to `prod-beta` on this repo)
     - `prod-stable` (deployed by pushing to `prod-stable` on this repo)
-- Travis uploads results to RedHatInight's [codecov](https://codecov.io) account. To change the account, modify CODECOV_TOKEN on https://travis-ci.com/.
+- Travis uploads results to RedHatInsight's [codecov](https://codecov.io) account. To change the account, modify CODECOV_TOKEN on https://travis-ci.com/.
 
