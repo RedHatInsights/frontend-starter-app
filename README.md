@@ -8,7 +8,9 @@ React.js starter app for Red Hat Insights products that includes Patternfly 4 an
 
 1. ```npm install```
 
-2. ```npm run start:proxy``` / ```npm run start:beta:proxy```
+2. ```PROXY=true npm run start:beta```
+
+3. Open browser in URL listed in the terminal output
 
 Update `config/dev.webpack.config.js` according to your application URL. [Read more](https://github.com/RedHatInsights/frontend-components/tree/master/packages/config#useproxy).
 
