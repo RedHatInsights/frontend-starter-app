@@ -17,7 +17,6 @@
     "nightly": "npm run deploy",
     "start": "webpack serve --config config/dev.webpack.config.js",
     "start:beta": "BETA=true npm start",
-    "start:standalone": "STANDALONE=true npm start",
     "test": "jest",
     "verify": "npm-run-all build lint test"
   },
