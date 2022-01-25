@@ -1,11 +1,11 @@
 import React from 'react';
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
 import SampleComponent from './sample-component';
 
-describe('sample-component', () => {
-  it('expect sample-component to render children', () => {
-    const children = '<h1>Hello</h1>';
+test('expect sample-component to render children', () => {
+  const children = <h1>Hello</h1>;
 
-    const wrapper = shallow(<SampleComponent>{children}</SampleComponent>);
-    expect(wrapper.prop('children')).toContain(children);
-  });
+  render(<SampleComponent>{children}</SampleComponent>);
+  expect(screen.getByRole('heading')).toHaveTextContent('Hello');
 });
