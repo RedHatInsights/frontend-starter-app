@@ -11,8 +11,9 @@ module.exports = {
     '/node_modules/(?!@patternfly)',
   ],
   testEnvironment: 'jest-environment-jsdom',
-  moduleDirectories:[
+  moduleDirectories: [
     'node_modules',
     './src', //the root directory
-  ]
+  ],
+  setupFilesAfterEnv: ['<rootDir>/config/jest.setup.js'],
 };
