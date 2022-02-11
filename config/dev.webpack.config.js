@@ -15,7 +15,7 @@ const { config: webpackConfig, plugins } = config({
   useProxy: true,
   appUrl: process.env.BETA ? '/beta/staging/starter' : '/staging/starter',
   env: env(),
-  routesPath: process.env.ROUTES_PATH
+  routesPath: process.env.ROUTES_PATH,
 });
 plugins.push(...commonPlugins);
 
