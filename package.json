@@ -16,8 +16,8 @@
     "lint:sass": "stylelint 'src/**/*.scss' --config .stylelintrc.json",
     "nightly": "npm run deploy",
     "patch:hosts": "fec patch-etc-hosts",
-    "start": "webpack serve --config config/dev.webpack.config.js",
-    "start:beta": "BETA=true npm start",
+    "start": "env-cmd --no-override --silent webpack serve --config config/dev.webpack.config.js",
+    "start:beta": "BETA=true env-cmd --no-override --silent npm start",
     "test": "jest",
     "verify": "npm-run-all build lint test"
   },
@@ -48,6 +48,7 @@
     "@testing-library/react": "^12.1.2",
     "babel-jest": "27.0.5",
     "babel-plugin-transform-imports": "^2.0.0",
+    "env-cmd": "^10.1.0",
     "eslint": "7.29.0",
     "eslint-loader": "4.0.2",
     "identity-obj-proxy": "3.0.0",

@@ -32,6 +32,14 @@ sudo npm run patch:hosts
 
 Update `config/dev.webpack.config.js` according to your application URL. [Read more](https://github.com/RedHatInsights/frontend-components/tree/master/packages/config#useproxy).
 
+### Managing environmental variables
+
+For development purposes, it's sometimes required to load different environment variables.
+For example, to test in prod-beta you could set `USE_PROD=true BETA=true npm run start`.
+
+An [.env.sample](./.env.sample) file is provided with sample config.
+You can copy it to `.env` and edit as required to provide an easier way to set all your required environment variables.
+
 ### Testing
 
 `npm run verify` will run `npm run lint` (eslint) and `npm test` (Jest)
