@@ -6,7 +6,7 @@ React.js starter app for Red Hat Insights products that includes Patternfly 4 an
 
 ## Alternative
 
-Before using this template, please check the [create-crc-app](https://github.com/RedHatInsights/frontend-components/blob/master/packages/docs/pages/ui-onboarding/create-crc-app.md). It has some extra setup you may like.
+Before using this template, please check the [create-crc-app](https://github.com/RedHatInsights/frontend-components/blob/master/packages/docs/pages/ui-onboarding/create-crc-app.mdx). It has some extra setup you may like.
 
 ## Initial etc/hosts setup
 
