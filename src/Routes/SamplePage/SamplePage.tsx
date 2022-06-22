@@ -16,8 +16,8 @@ import {
 } from '@redhat-cloud-services/frontend-components/PageHeader';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
 
-const SampleComponent = lazy(() =>
-  import('../../Components/SampleComponent/sample-component')
+const SampleComponent = lazy(
+  () => import('../../Components/SampleComponent/sample-component')
 );
 
 import './sample-page.scss';
