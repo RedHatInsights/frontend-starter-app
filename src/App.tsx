@@ -13,14 +13,6 @@ import pckg from '../package.json';
 
 type Unregister = () => void;
 
-type NavDOMEvent = {
-  href: string;
-  id: string;
-  navId: string;
-  type: string;
-  target?: HTMLAnchorElement | null;
-};
-
 const App = () => {
   const history = useHistory();
   const chrome = useChrome();
@@ -30,11 +22,11 @@ const App = () => {
     if (chrome) {
       const registry = getRegistry();
       registry.register({ notifications: notificationsReducer as Reducer });
-      const { identifyApp, on: onChromeEvent } = chrome.init();
+      const { identifyApp, on } = chrome.init();
 
       // You can use directly the name of your app
       identifyApp(pckg.insights.appname);
-      unregister = onChromeEvent('APP_NAVIGATION', (event: NavDOMEvent) =>
+      unregister = on('APP_NAVIGATION', (event) =>
         history.push(`/${event.navId}`)
       );
     }
