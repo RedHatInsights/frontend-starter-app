@@ -1,13 +1,13 @@
 import React, { Suspense, lazy, useEffect } from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import {
   Button,
-  StackItem,
-  Stack,
-  Title,
   Spinner,
+  Stack,
+  StackItem,
+  Title,
 } from '@patternfly/react-core';
 import { Main } from '@redhat-cloud-services/frontend-components/Main';
 import {

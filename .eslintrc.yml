@@ -4,3 +4,7 @@ globals:
   shallow: readonly
   render: 'readonly'
   mount: 'readonly'
+rules:
+  sort-imports:
+    - error
+    - ignoreDeclarationSort: true
