@@ -4,6 +4,7 @@ module.exports = {
     '@babel/env',
     // Allow JSX syntax
     '@babel/react',
+    '@babel/preset-typescript',
   ],
   plugins: [
     // Put _extends helpers in their own file

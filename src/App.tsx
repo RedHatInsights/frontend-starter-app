@@ -1,5 +1,7 @@
 import React, { Fragment, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { Reducer } from 'redux';
+
 import { Routes } from './Routes';
 import './App.scss';
 
@@ -9,20 +11,22 @@ import { notificationsReducer } from '@redhat-cloud-services/frontend-components
 import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 import pckg from '../package.json';
 
-const App = (props) => {
+type Unregister = () => void;
+
+const App = () => {
   const history = useHistory();
   const chrome = useChrome();
 
   useEffect(() => {
-    let unregister;
+    let unregister: Unregister;
     if (chrome) {
       const registry = getRegistry();
-      registry.register({ notifications: notificationsReducer });
-      const { identifyApp, on: onChromeEvent } = chrome.init();
+      registry.register({ notifications: notificationsReducer as Reducer });
+      const { identifyApp, on } = chrome.init();
 
       // You can use directly the name of your app
       identifyApp(pckg.insights.appname);
-      unregister = onChromeEvent('APP_NAVIGATION', (event) =>
+      unregister = on('APP_NAVIGATION', (event) =>
         history.push(`/${event.navId}`)
       );
     }
@@ -34,7 +38,7 @@ const App = (props) => {
   return (
     <Fragment>
       <NotificationsPortal />
-      <Routes childProps={props} />
+      <Routes />
     </Fragment>
   );
 };
