@@ -36,9 +36,9 @@ export const Routes = () => (
     }
   >
     <Switch>
-      <Route path="/sample" component={SamplePage} />
-      <Route path="/oops" component={OopsPage} />
-      <Route path="/no-permissions" component={NoPermissionsPage} />
+      <Route component={SamplePage} path="/sample" />
+      <Route component={OopsPage} path="/oops" />
+      <Route component={NoPermissionsPage} path="/no-permissions" />
       {/* Finally, catch all unmatched routes */}
       <Route>
         <Redirect to="/sample" />

@@ -59,7 +59,7 @@ const SamplePage = () => {
               {' '}
               Alerts{' '}
             </Title>
-            <Button variant="primary" onClick={handleAlert}>
+            <Button onClick={handleAlert} variant="primary">
               {' '}
               Dispatch alert{' '}
             </Button>
