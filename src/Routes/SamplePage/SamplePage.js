@@ -1,24 +1,13 @@
 import React, { Suspense, lazy, useEffect } from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import {
-  Button,
-  StackItem,
-  Stack,
-  Title,
-  Spinner,
-} from '@patternfly/react-core';
+import { Button, Spinner, Stack, StackItem, Title } from '@patternfly/react-core';
 import { Main } from '@redhat-cloud-services/frontend-components/Main';
-import {
-  PageHeader,
-  PageHeaderTitle,
-} from '@redhat-cloud-services/frontend-components/PageHeader';
+import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
 
-const SampleComponent = lazy(() =>
-  import('../../Components/SampleComponent/sample-component')
-);
+const SampleComponent = lazy(() => import('../../Components/SampleComponent/sample-component'));
 
 import './sample-page.scss';
 
@@ -59,7 +48,7 @@ const SamplePage = () => {
               {' '}
               Alerts{' '}
             </Title>
-            <Button variant="primary" onClick={handleAlert}>
+            <Button onClick={handleAlert} variant="primary">
               {' '}
               Dispatch alert{' '}
             </Button>

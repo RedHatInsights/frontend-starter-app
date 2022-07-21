@@ -22,9 +22,7 @@ const App = (props) => {
 
       // You can use directly the name of your app
       identifyApp(pckg.insights.appname);
-      unregister = onChromeEvent('APP_NAVIGATION', (event) =>
-        history.push(`/${event.navId}`)
-      );
+      unregister = onChromeEvent('APP_NAVIGATION', (event) => history.push(`/${event.navId}`));
     }
     return () => {
       unregister();
