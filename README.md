@@ -10,9 +10,15 @@ Before using this template, please check the [create-crc-app](https://github.com
 
 ## Initial etc/hosts setup
 
-In order to access the https://[env].foo.redhat.com in your browser, you have to add entries to your `/etc/hosts` file. This is a **one-time** setup that has to be done only once (unless you modify hosts) on each machine.
+In order to access the https://[env].foo.redhat.com in your browser, you have to add entries to your `/etc/hosts` file. This is a **one-time** setup that has to be done only once (unless you modify hosts) on each devel machine.
 
-To setup the hosts file run following command:
+Best way is to edit manually `/etc/hosts` on your localhost line:
+
+```
+127.0.0.1 <your-fqdn> localhost prod.foo.redhat.com stage.foo.redhat.com
+```
+
+Alternatively you can do this by running following command:
 ```bash
 npm run patch:hosts
 ```
@@ -47,4 +53,3 @@ Update `config/dev.webpack.config.js` according to your application URL. [Read m
     - `prod-beta` (deployed by pushing to `prod-beta` on this repo)
     - `prod-stable` (deployed by pushing to `prod-stable` on this repo)
 - Travis uploads results to RedHatInsight's [codecov](https://codecov.io) account. To change the account, modify CODECOV_TOKEN on https://travis-ci.com/.
-
