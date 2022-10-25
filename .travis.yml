@@ -17,6 +17,7 @@ jobs:
   - stage: Test
     script: npm run test && npx codecov
   - stage: Deploy
+    if: branch = master
     script: npm run deploy && curl -sSL https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master/src/bootstrap.sh | bash -s
 env:
   global:
