@@ -11,7 +11,7 @@ import { notificationsReducer } from '@redhat-cloud-services/frontend-components
 import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 import pckg from '../package.json';
 
-type Unregister = () => void;
+type Unregister = (() => void) | undefined;
 
 const App = () => {
   const history = useHistory();
@@ -31,7 +31,9 @@ const App = () => {
       );
     }
     return () => {
-      unregister();
+      if (unregister) {
+        unregister();
+      }
     };
   }, [chrome]);
 
