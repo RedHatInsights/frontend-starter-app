@@ -9,33 +9,26 @@ import { getRegistry } from '@redhat-cloud-services/frontend-components-utilitie
 import NotificationsPortal from '@redhat-cloud-services/frontend-components-notifications/NotificationPortal';
 import { notificationsReducer } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
-import pckg from '../package.json';
-
-type Unregister = (() => void) | undefined;
 
 const App = () => {
   const history = useHistory();
-  const chrome = useChrome();
+  const { on, updateDocumentTitle } = useChrome();
 
   useEffect(() => {
-    let unregister: Unregister;
-    if (chrome) {
-      const registry = getRegistry();
-      registry.register({ notifications: notificationsReducer as Reducer });
-      const { identifyApp, on } = chrome.init();
+    const registry = getRegistry();
+    registry.register({ notifications: notificationsReducer as Reducer });
 
-      // You can use directly the name of your app
-      identifyApp(pckg.insights.appname);
-      unregister = on('APP_NAVIGATION', (event) =>
-        history.push(`/${event.navId}`)
-      );
-    }
+    // You can use directly the name of your app
+    updateDocumentTitle('Starter app');
+    const unregister = on('APP_NAVIGATION', (event) =>
+      history.push(`/${event.navId}`)
+    );
     return () => {
       if (unregister) {
         unregister();
       }
     };
-  }, [chrome]);
+  }, []);
 
   return (
     <Fragment>
