@@ -32,11 +32,11 @@ sudo npm run patch:hosts
 
 1. ```npm install```
 
-2. ```PROXY=true npm run start:beta```
+2. ```npm run start```
 
 3. Open browser in URL listed in the terminal output
 
-Update `config/dev.webpack.config.js` according to your application URL. [Read more](https://github.com/RedHatInsights/frontend-components/tree/master/packages/config#useproxy).
+Update `appUrl` string inside `fec.config.js` according to your application URL. [Read more](http://front-end-docs-insights.apps.ocp4.prod.psi.redhat.com/ui-onboarding/fec-binary#TODO:documentalloptions).
 
 ### Testing
 
