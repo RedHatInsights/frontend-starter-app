@@ -14,6 +14,7 @@ module.exports = {
       extends: ['plugin:@typescript-eslint/recommended'],
       rules: {
         'react/prop-types': 'off',
+        '@typescript-eslint/no-unused-vars': 'error',
       },
     },
   ],

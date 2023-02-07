@@ -2,9 +2,9 @@ import { getRegistry } from '@redhat-cloud-services/frontend-components-utilitie
 import promiseMiddleware from 'redux-promise-middleware';
 import notificationsMiddleware from '@redhat-cloud-services/frontend-components-notifications/notificationsMiddleware';
 import ReducerRegistry from '@redhat-cloud-services/frontend-components-utilities/ReducerRegistry';
-import { Middleware } from 'redux';
+import { Middleware, Reducer } from 'redux';
 
-export let registry: ReducerRegistry<any>;
+export let registry: ReducerRegistry<Reducer>;
 
 export function init(...middleware: Middleware[]) {
   registry = getRegistry({}, [
