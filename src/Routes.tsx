@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Route, Routes as RouterRoutes } from 'react-router-dom';
+import { InvalidObject } from '@redhat-cloud-services/frontend-components/InvalidObject';
 
 import { Bullseye, Spinner } from '@patternfly/react-core';
 
@@ -19,14 +20,6 @@ const NoPermissionsPage = lazy(
     )
 );
 
-/**
- * the Switch component changes routes depending on the path.
- *
- * Route properties:
- *      exact - path must match exactly,
- *      path - https://prod.foo.redhat.com:1337/insights/advisor/rules
- *      component - component to be rendered when a route has been chosen.
- */
 export const Routes = () => (
   <Suspense
     fallback={
@@ -35,14 +28,12 @@ export const Routes = () => (
       </Bullseye>
     }
   >
-    <Switch>
-      <Route path="/sample" component={SamplePage} />
-      <Route path="/oops" component={OopsPage} />
-      <Route path="/no-permissions" component={NoPermissionsPage} />
+    <RouterRoutes>
+      <Route path="no-permissions" element={<NoPermissionsPage />} />
+      <Route path="oops" element={<OopsPage />} />
+      <Route path="/" element={<SamplePage />} />
       {/* Finally, catch all unmatched routes */}
-      <Route>
-        <Redirect to="/sample" />
-      </Route>
-    </Switch>
+      <Route path="*" element={<InvalidObject />} />
+    </RouterRoutes>
   </Suspense>
 );

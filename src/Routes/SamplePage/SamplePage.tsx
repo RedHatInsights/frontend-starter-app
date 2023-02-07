@@ -1,5 +1,4 @@
 import React, { Suspense, lazy, useEffect } from 'react';
-import { Link, withRouter } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import {
@@ -21,6 +20,7 @@ const SampleComponent = lazy(
 );
 
 import './sample-page.scss';
+import AppLink from '../../Components/AppLink';
 
 /**
  * A smart component that handles all the api calls and data needed by the dumb components.
@@ -78,10 +78,12 @@ const SamplePage = () => {
                 </Title>
               </StackItem>
               <StackItem>
-                <Link to="/oops"> How to handle 500s in app </Link>
+                <AppLink to="/oops"> How to handle 500s in app </AppLink>
               </StackItem>
               <StackItem>
-                <Link to="/no-permissions"> How to handle 403s in app </Link>
+                <AppLink to="/no-permissions">
+                  How to handle 403s in app
+                </AppLink>
               </StackItem>
             </Stack>
           </StackItem>
@@ -91,4 +93,4 @@ const SamplePage = () => {
   );
 };
 
-export default withRouter(SamplePage);
+export default SamplePage;
