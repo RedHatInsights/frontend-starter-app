@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from 'react';
 import { Reducer } from 'redux';
 
-import { Routes } from './Routes';
+import Routing from './Routing';
 import './App.scss';
 
 import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/Registry';
@@ -22,7 +22,7 @@ const App = () => {
   return (
     <Fragment>
       <NotificationsPortal />
-      <Routes />
+      <Routing />
     </Fragment>
   );
 };

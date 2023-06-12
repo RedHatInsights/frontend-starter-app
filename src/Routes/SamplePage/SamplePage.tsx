@@ -14,6 +14,7 @@ import {
   PageHeaderTitle,
 } from '@redhat-cloud-services/frontend-components/PageHeader';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
+import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 
 const SampleComponent = lazy(
   () => import('../../Components/SampleComponent/sample-component')
@@ -30,10 +31,11 @@ import AppLink from '../../Components/AppLink';
  * https://medium.com/@thejasonfile/dumb-components-and-smart-components-e7b33a698d43
  */
 const SamplePage = () => {
+  const { appAction } = useChrome();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    insights?.chrome?.appAction?.('sample-page');
+    appAction('sample-page');
   }, []);
 
   const handleAlert = () => {
