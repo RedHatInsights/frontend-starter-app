@@ -67,6 +67,6 @@
     "webpack-bundle-analyzer": "4.4.2"
   },
   "insights": {
-    "appname": "starter"
+    "appname": "frontend-starter-app"
   }
 }

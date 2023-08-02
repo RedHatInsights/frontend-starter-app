@@ -1,0 +1,34 @@
+---
+apiVersion: v1
+kind: Template
+metadata:
+  name: frontend-starter-app
+objects:
+  - apiVersion: cloud.redhat.com/v1alpha1
+    kind: Frontend
+    metadata:
+      name: frontend-starter-app
+    spec:
+      envName: ${ENV_NAME}
+      title: Starter App
+      deploymentRepo: https://github.com/RedHatInsights/frontend-starter-app
+      frontend:
+        paths:
+          - /apps/frontend-starter-app
+      image: ${IMAGE}:${IMAGE_TAG}
+
+      module:
+        manifestLocation: '/apps/frontend-starter-app/fed-mods.json'
+        modules:
+          - id: 'overview'
+            module: './RootApp'
+            routes:
+              - pathname: /staging/starter
+
+parameters:
+  - name: ENV_NAME
+    required: true
+  - name: IMAGE_TAG
+    required: true
+  - name: IMAGE
+    value: quay.io/cloudservices/frontend-starter-app
