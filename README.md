@@ -2,6 +2,7 @@
 
 # frontend-starter-app
 
+
 React.js starter app for Red Hat Insights products that includes Patternfly 4 and shared Red Hat cloud service frontend components.
 
 ## Alternative
