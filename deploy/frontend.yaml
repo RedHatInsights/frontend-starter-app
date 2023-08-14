@@ -9,6 +9,9 @@ objects:
     metadata:
       name: frontend-starter-app
     spec:
+      API:
+        versions:
+          - v1
       envName: ${ENV_NAME}
       title: Starter App
       deploymentRepo: https://github.com/RedHatInsights/frontend-starter-app
