@@ -26,7 +26,7 @@ module.exports = {
         'react-router-dom': {
           singleton: true,
           import: false,
-          requiredVersion: '^6.3.0',
+          version: '^6.3.0',
         },
       },
     ],

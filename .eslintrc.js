@@ -2,9 +2,6 @@ module.exports = {
   extends: '@redhat-cloud-services/eslint-config-redhat-cloud-services',
   globals: {
     insights: 'readonly',
-    shallow: 'readonly',
-    render: 'readonly',
-    mount: 'readonly',
   },
   overrides: [
     {
@@ -25,5 +22,7 @@ module.exports = {
         ignoreDeclarationSort: true,
       },
     ],
+    // Enable this if you want to use absolute import paths
+    "rulesdir/forbid-pf-relative-imports": "off"
   },
 };
