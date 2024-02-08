@@ -2,36 +2,60 @@
 apiVersion: v1
 kind: Template
 metadata:
-  name: frontend-starter-app
+  name: ${{ values.name }}
 objects:
-  - apiVersion: cloud.redhat.com/v1alpha1
-    kind: Frontend
-    metadata:
-      name: frontend-starter-app
-    spec:
-      API:
-        versions:
-          - v1
-      envName: ${ENV_NAME}
-      title: Starter App
-      deploymentRepo: https://github.com/RedHatInsights/frontend-starter-app
-      frontend:
-        paths:
-          - /apps/frontend-starter-app
-      image: ${IMAGE}:${IMAGE_TAG}
+- apiVersion: cloud.redhat.com/v1alpha1
+  kind: Frontend
+  metadata:
+    name: ${{ values.app_name }}
+  spec:
+    API:
+      versions:
+      - v1
+    envName: ${ENV_NAME}
+    title: ${{ values.title }}
+    deploymentRepo: https://github.com/${{ values.gh_org }}/${{ values.gh_repo }}
+    frontend:
+      paths:
+      - /apps/${{ values.app_name }}
+    image: ${IMAGE}:${IMAGE_TAG}
+    navItems:
+    {%- if (values.camel_case) %}
+    - appId: "${{ values.camel_case}}"
+      title: "${{ values.title }}"
+      href: "/${{ values.bundle }}/${{ values.app_name }}"
+      {%- if (values.product_name) %}
+      product: "${{ values.product_name }}"
+      {%- endif %}
+    {%- else %}
+    - appId: "${{ values.app_name}}"
+      title: "${{ values.title }}"
+      href: "/${{ values.bundle }}/${{ values.app_name }}"
+      {%- if (values.product_name) %}
+      product: "${{ values.product_name }}"
+      {%- endif %}
+    {%- endif %}
 
-      module:
-        manifestLocation: '/apps/frontend-starter-app/fed-mods.json'
-        modules:
-          - id: 'overview'
-            module: './RootApp'
-            routes:
-              - pathname: /staging/starter
+    module:
+    {%- if (values.camel_case) %}
+      manifestLocation: '/apps/${{ values.camel_case }}/fed-mods.json'
+    {%- else %}
+      manifestLocation: '/apps/${{ values.app_name }}/fed-mods.json'
+    {%- endif %}
+      modules:
+      {%- if (values.camel_case) %}
+      - id: '${{ values.camel_case }}'
+      {%- else %}
+      - id: '${{ values.app_name }}'
+      {%- endif %}
+        module: './RootApp'
+        routes:
+        - pathname: /${{ values.bundle }}/${{ values.app_name }}
 
 parameters:
-  - name: ENV_NAME
-    required: true
-  - name: IMAGE_TAG
-    required: true
-  - name: IMAGE
-    value: quay.io/cloudservices/frontend-starter-app
+- name: ENV_NAME
+  required: true
+- name: IMAGE_TAG
+  required: true
+- name: IMAGE
+  value: quay.io/${{ values.quay_org }}/${{ values.app_name }}

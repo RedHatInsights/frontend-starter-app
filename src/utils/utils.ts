@@ -1,6 +1,6 @@
 import { To } from 'react-router-dom';
 
-export const linkBasename = '/staging/starter';
+export const linkBasename = '/${{ values.bundle }}/${{ values.app_name }}';
 export const mergeToBasename = (to: To, basename: string): To => {
   if (typeof to === 'string') {
     // replace possible "//" after basename

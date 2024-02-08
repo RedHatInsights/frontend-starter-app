@@ -1,5 +1,5 @@
 {
-  "name": "frontend-starter-app",
+  "name": "${{ values.name }}",
   "version": "1.2.0",
   "private": false,
   "engines": {
@@ -58,6 +58,6 @@
     "webpack-bundle-analyzer": "4.10.0"
   },
   "insights": {
-    "appname": "frontend-starter-app"
+    "app_name": "${{ values.app_name }}"
   }
 }
