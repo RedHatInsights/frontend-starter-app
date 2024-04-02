@@ -5,7 +5,7 @@
 <!-- Must include RHCLOUD-XXXXXX link (if proposed change involves tracked issue or story) -->
 description text...
 
-[RHCLOUD-XXXXX](https://issues.redhat.com/browse/RHCLOUD-XXXXX)
+[RHCLOUDXXXX](https://issues.redhat.com/browse/RHCLOUDXXXX)
 
 ---
 
