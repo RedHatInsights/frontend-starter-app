@@ -34,6 +34,7 @@ sudo npm run patch:hosts
 1. ```npm install```
 
 2. ```npm run start```
+   1. If you are running the [chrome-service-backend](https://github.com/RedHatInsights/chrome-service-backend) locally, set the environment variable `CHROME_SERVICE` to the port that it is listening on (by default `8000`). For example, `CHROME_SERVICE=8000 npm run start`.
 
 3. Open browser in URL listed in the terminal output
 
