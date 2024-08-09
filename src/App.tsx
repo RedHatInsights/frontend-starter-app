@@ -21,6 +21,7 @@ const App = () => {
 
   return (
     <Fragment>
+      <div>AAAA</div>
       <NotificationsPortal />
       <Routing />
     </Fragment>
