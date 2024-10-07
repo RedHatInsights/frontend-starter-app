@@ -1,5 +1,4 @@
 import React, { Suspense, lazy, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 
 import {
   Button,
@@ -13,7 +12,6 @@ import {
   PageHeader,
   PageHeaderTitle,
 } from '@redhat-cloud-services/frontend-components/PageHeader';
-import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 
 const SampleComponent = lazy(
@@ -22,6 +20,7 @@ const SampleComponent = lazy(
 
 import './sample-page.scss';
 import AppLink from '../../Components/AppLink';
+import { useAddNotification } from '../../state/notificationsAtom';
 
 /**
  * A smart component that handles all the api calls and data needed by the dumb components.
@@ -32,20 +31,18 @@ import AppLink from '../../Components/AppLink';
  */
 const SamplePage = () => {
   const { appAction } = useChrome();
-  const dispatch = useDispatch();
+  const addNotification = useAddNotification();
 
   useEffect(() => {
     appAction('sample-page');
   }, []);
 
   const handleAlert = () => {
-    dispatch(
-      addNotification({
-        variant: 'success',
-        title: 'Notification title',
-        description: 'notification description',
-      })
-    );
+    addNotification({
+      variant: 'success',
+      title: 'Notification title',
+      description: 'notification description',
+    });
   };
 
   return (
@@ -63,7 +60,7 @@ const SamplePage = () => {
             </Title>
             <Button variant="primary" onClick={handleAlert}>
               {' '}
-              Dispatch alert{' '}
+              Add alert{' '}
             </Button>
           </StackItem>
           <StackItem>
