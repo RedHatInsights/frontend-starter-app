@@ -55,3 +55,5 @@ Update `appUrl` string inside `fec.config.js` according to your application URL.
     - `prod-beta` (deployed by pushing to `prod-beta` on this repo)
     - `prod-stable` (deployed by pushing to `prod-stable` on this repo)
 - Travis uploads results to RedHatInsight's [codecov](https://codecov.io) account. To change the account, modify CODECOV_TOKEN on https://travis-ci.com/.
+
+
