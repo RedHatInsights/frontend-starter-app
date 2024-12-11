@@ -1,0 +1,4 @@
+[submodule "build-tools"]
+	path = build-tools
+	url = https://github.com/Victoremepunto/insights-frontend-builder-common.git
+	branch = refactor-build
