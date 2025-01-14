@@ -9,6 +9,15 @@ objects:
     metadata:
       name: frontend-starter-app
     spec:
+      feoConfigEnabled: true
+      bundleSegments:
+        - segmentId: starter-app
+          bundleId: staging
+          position: 100
+          navItems:
+            - id: frontend-starter-app
+              title: Starter app link
+              href: /staging/starter
       API:
         versions:
           - v1
