@@ -10,7 +10,22 @@ objects:
       name: frontend-starter-app
     spec:
       feoConfigEnabled: true
+      searchEntries:
+        - id: "starter"
+          title: "Starter app FEO testing link"
+          href: /staging/foo/starter
+          description: "An experimental link to test FEO features integration"
+          alt_title:
+            - Starter
+            - Starter app
       bundleSegments:
+        - segmentId: starter-app-two
+          bundleId: staging
+          position: 200
+          navItems:
+            - id: frontend-starter-app-two
+              title: Starter app link two
+              href: /staging/foo/starter
         - segmentId: starter-app
           bundleId: staging
           position: 100
@@ -36,6 +51,10 @@ objects:
             module: './RootApp'
             routes:
               - pathname: /staging/starter
+          - id: 'feo-hidden-route'
+            module: './RootApp'
+            routes:
+              - pathname: /staging/foo/starter
 
 parameters:
   - name: ENV_NAME
