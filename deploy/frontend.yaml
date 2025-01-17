@@ -11,11 +11,12 @@ objects:
     spec:
       feoConfigEnabled: true
       serviceTiles:
-        - section: automation
+        - id: starter-link
+          section: automation
           group: ansible
           title: Starter app FEO integration testing tile
           href: /staging/starter
-          description: This tile will not show in production and exists only for integration etsting purposes
+          description: This tile will not show in production and exists only for integration testing purposes
           icon: AnsibleIcon
       searchEntries:
         - id: "starter"
