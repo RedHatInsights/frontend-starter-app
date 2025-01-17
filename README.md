@@ -40,3 +40,4 @@ Update `appUrl` string inside `fec.config.js` according to your application URL.
 ### Testing
 
 `npm run verify` will run `npm run lint` (eslint) and `npm test` (Jest)
+
