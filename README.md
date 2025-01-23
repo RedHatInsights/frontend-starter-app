@@ -1,10 +1,6 @@
 # frontend-starter-app
 
-React.js starter app for Red Hat Insights products that includes Patternfly 4 and shared Red Hat cloud service frontend components.
-
-## Alternative
-
-Before using this template, please check the [create-crc-app](https://github.com/RedHatInsights/frontend-components/blob/master/packages/docs/pages/ui-onboarding/create-crc-app.mdx). It has some extra setup you may like.
+React.js starter app for Red Hat Hybrid cloud console UI modules that includes Patternfly and shared Red Hat cloud service frontend components.
 
 ## Initial etc/hosts setup
 
@@ -36,6 +32,12 @@ sudo npm run patch:hosts
 3. Open browser in URL listed in the terminal output
 
 Update `appUrl` string inside `fec.config.js` according to your application URL. [Read more](http://front-end-docs-insights.apps.ocp4.prod.psi.redhat.com/ui-onboarding/fec-binary#TODO:documentalloptions).
+
+### Frontend operator
+
+HCC uses OpenShift frontend operator to collect metadata about individual UI modules and creates environment based UI configuration that is used by the Chrome UI shell application to construct the frontend.
+
+To learn about the operator and its configuration follow [this link](./docs/frontend-operator/index.md)
 
 ### Testing
 

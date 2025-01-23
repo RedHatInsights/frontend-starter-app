@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/RedHatInsights/frontend-components/ed56132536059df2c96e3c8db1429e1e5a1b0497/packages/config-utils/src/feo/spec/frontend-crd.schema.json
+# the reference needs to be updated once the schema is not just in PR
 ---
 apiVersion: v1
 kind: Template
