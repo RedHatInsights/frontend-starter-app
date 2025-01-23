@@ -3,7 +3,7 @@
 This documentation does not include technical details about the operator itself. If you are interested in the operator, rather than the integration of HCC UI modules with it, please follow [this link](https://github.com/RedHatInsights/frontend-operator).
 
 ## Migration guide
-If your UI modules do not leverage the FEO integration features, please follow the [migration guide](#tbd).
+If your UI modules do not leverage the FEO integration features, please follow the [migration guide](https://github.com/RedHatInsights/chrome-service-backend/blob/main/docs/feo-migration-guide.md).
 
 ## Why?
 
