@@ -7,7 +7,7 @@ If your UI modules do not leverage the FEO integration features, please follow t
 
 ## Why?
 
-Having the Chroming UI configuration defined in a centralized project is no longer viable solution. Though working and effective, centralized configuration is efficient. In order to further scale the number of UI modules, the configuration of UI features has to be moved directly to the UI modules repositories.
+Having the Chroming UI configuration defined in a centralized project is no longer viable solution. Though working and effective, centralized configuration is not efficient. In order to further scale the number of UI modules, the configuration of UI features has to be moved directly to the UI modules repositories.
 
 Moving the UI module configuration directly to the source repositories, will enable individual teams to control and maintain relevant configuration, enabling self servicing the changes.
 
