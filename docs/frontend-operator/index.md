@@ -2,6 +2,10 @@
 
 This documentation does not include technical details about the operator itself. If you are interested in the operator, rather than the integration of HCC UI modules with it, please follow [this link](https://github.com/RedHatInsights/frontend-operator).
 
+## Pre requisites
+
+Please check the [pre-requisites section](./pre-requisites.md) first.
+
 ## Migration guide
 If your UI modules do not leverage the FEO integration features, please follow the [migration guide](https://github.com/RedHatInsights/chrome-service-backend/blob/main/docs/feo-migration-guide.md).
 
@@ -21,7 +25,21 @@ Each frontend module must have a k8s template that defines the Frontend resource
 
 The Frontend resource is by default located in the [`deploy/frontend.yaml` file](../../deploy/frontend.yaml).
 
+## Resource scheme
+
+If your IDE supports validating yaml files from a json schema, you can reference it on this link:
+
+```bash
+https://raw.githubusercontent.com/RedHatInsights/frontend-components/refs/heads/master/packages/config-utils/src/feo/spec/frontend-crd.schema.json
+```
+For VSCode, you can add a following line to the top of the yaml
+
+```yaml
+# yaml-language-server: $schema=https://raw.githubusercontent.com/RedHatInsights/frontend-components/refs/heads/master/packages/config-utils/src/feo/spec/frontend-crd.schema.json
+```
+
 ## Documentation topics
+- [Pre requisites](./pre-requisites.md)
 - [Deployment configuration](./basic-configuration.md)
 - [UI module routing configuration](./modules.md)
 - [Main navigation](./navigation.md)
