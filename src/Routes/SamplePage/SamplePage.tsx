@@ -15,7 +15,7 @@ import {
 import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 
 const SampleComponent = lazy(
-  () => import('../../Components/SampleComponent/sample-component')
+  () => import('../../Components/SampleComponent/sample-component'),
 );
 
 import './sample-page.scss';

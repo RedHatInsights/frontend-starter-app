@@ -7,9 +7,9 @@ export const removeNotification = atom(
   null,
   (_get, set, id: NotificationProps['id']) => {
     set(notificationsAtom, (notifications) =>
-      notifications.filter((notification) => notification.id !== id)
+      notifications.filter((notification) => notification.id !== id),
     );
-  }
+  },
 );
 export const addNotification = atom(
   null,
@@ -21,7 +21,7 @@ export const addNotification = atom(
       { id, onDismiss, ...notification },
     ]);
     return id;
-  }
+  },
 );
 export const clearNotifications = atom(null, (_get, set) => {
   set(notificationsAtom, []);

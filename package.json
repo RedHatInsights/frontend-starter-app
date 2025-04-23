@@ -30,7 +30,7 @@
     "react-router-dom": "^6.26.2"
   },
   "devDependencies": {
-    "@redhat-cloud-services/eslint-config-redhat-cloud-services": "^2.0.4",
+    "@redhat-cloud-services/eslint-config-redhat-cloud-services": "^3.0.0",
     "@redhat-cloud-services/frontend-components-config": "^6.4.4",
     "@redhat-cloud-services/tsc-transform-imports": "^1.0.16",
     "@testing-library/jest-dom": "^6.5.0",
@@ -40,9 +40,7 @@
     "@types/react-dom": "^18.3.0",
     "@types/react-router-dom": "^5.3.3",
     "@types/redux-logger": "^3.0.13",
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
-    "eslint": "^8.57.1",
+    "@typescript-eslint/parser": "^8.31.0",
     "identity-obj-proxy": "^3.0.0",
     "jest-environment-jsdom": "^29.7.0",
     "npm-run-all": "^4.1.5",
@@ -50,6 +48,7 @@
     "ts-jest": "^29.2.5",
     "ts-patch": "^3.2.1",
     "typescript": "^5.6.2",
+    "typescript-eslint": "^8.31.0",
     "webpack-bundle-analyzer": "4.10.2"
   },
   "insights": {
