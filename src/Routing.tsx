@@ -7,16 +7,16 @@ const SamplePage = lazy(
   () =>
     import(
       /* webpackChunkName: "SamplePage" */ './Routes/SamplePage/SamplePage'
-    )
+    ),
 );
 const OopsPage = lazy(
-  () => import(/* webpackChunkName: "OopsPage" */ './Routes/OopsPage/OopsPage')
+  () => import(/* webpackChunkName: "OopsPage" */ './Routes/OopsPage/OopsPage'),
 );
 const NoPermissionsPage = lazy(
   () =>
     import(
       /* webpackChunkName: "NoPermissionsPage" */ './Routes/NoPermissionsPage/NoPermissionsPage'
-    )
+    ),
 );
 
 const routes = [
