@@ -1,6 +1,0 @@
-name: Call Shared Workflow
-on: push
-
-jobs:
-  call-workflow:
-    uses: RedHatInsights/shared-workflows/.github/workflows/example.yml@master
