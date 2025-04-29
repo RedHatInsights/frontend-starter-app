@@ -20,8 +20,7 @@ const SampleComponent = lazy(
 
 import './sample-page.scss';
 import AppLink from '../../Components/AppLink';
-import { useAddNotification } from '../../state/notificationsAtom';
-
+import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 
 const SamplePage = () => {
   const { appAction } = useChrome();
