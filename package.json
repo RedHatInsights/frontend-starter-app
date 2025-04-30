@@ -19,12 +19,11 @@
     "verify": "npm-run-all build lint test"
   },
   "dependencies": {
-    "@patternfly/react-core": "^5.4.1",
-    "@patternfly/react-table": "^5.4.1",
-    "@redhat-cloud-services/frontend-components": "^4.2.16",
-    "@redhat-cloud-services/frontend-components-notifications": "^4.1.0",
-    "@redhat-cloud-services/frontend-components-utilities": "^4.0.17",
-    "jotai": "^2.10.0",
+    "@patternfly/react-core": "^6.2.2",
+    "@patternfly/react-table": "^6.2.2",
+    "@redhat-cloud-services/frontend-components": "^6.0.7",
+    "@redhat-cloud-services/frontend-components-notifications": "^6.0.0",
+    "@redhat-cloud-services/frontend-components-utilities": "^6.0.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2"
@@ -39,7 +38,6 @@
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.0",
     "@types/react-router-dom": "^5.3.3",
-    "@types/redux-logger": "^3.0.13",
     "@typescript-eslint/parser": "^8.31.0",
     "identity-obj-proxy": "^3.0.0",
     "jest-environment-jsdom": "^29.7.0",

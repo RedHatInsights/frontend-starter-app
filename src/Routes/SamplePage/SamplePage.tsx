@@ -20,15 +20,8 @@ const SampleComponent = lazy(
 
 import './sample-page.scss';
 import AppLink from '../../Components/AppLink';
-import { useAddNotification } from '../../state/notificationsAtom';
+import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 
-/**
- * A smart component that handles all the api calls and data needed by the dumb components.
- * Smart components are usually classes.
- *
- * https://reactjs.org/docs/components-and-props.html
- * https://medium.com/@thejasonfile/dumb-components-and-smart-components-e7b33a698d43
- */
 const SamplePage = () => {
   const { appAction } = useChrome();
   const addNotification = useAddNotification();
