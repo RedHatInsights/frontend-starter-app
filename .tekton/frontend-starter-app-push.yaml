@@ -588,7 +588,8 @@ spec:
       optional: true
     - name: netrc
       optional: true
-  taskRunTemplate: {}
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-frontend-starter-app
   workspaces:
   - name: git-auth
     secret:
