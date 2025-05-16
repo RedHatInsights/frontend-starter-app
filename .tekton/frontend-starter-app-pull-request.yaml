@@ -41,7 +41,7 @@ spec:
       npm test --  --runInBand --no-cache
   pipelineRef:
     name: docker-build
-    taskRunTemplate:
+  taskRunTemplate:
     serviceAccountName: build-pipeline-frontend-starter-app
   workspaces:
   - name: git-auth
