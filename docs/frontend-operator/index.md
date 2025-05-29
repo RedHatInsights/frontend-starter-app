@@ -45,3 +45,4 @@ For VSCode, you can add a following line to the top of the yaml
 - [Main navigation](./navigation.md)
 - [Search](./search.md)
 - [Services tiles](./services.md)
+- [Local development](./local-development.md)
