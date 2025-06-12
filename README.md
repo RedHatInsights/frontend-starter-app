@@ -39,7 +39,6 @@ HCC uses OpenShift frontend operator to collect metadata about individual UI mod
 
 To learn about the operator and its configuration follow [this link](./docs/frontend-operator/index.md)
 
-
 ### Testing
 
 `npm run verify` will run `npm run lint` (eslint) and `npm test` (Jest)
