@@ -1,0 +1,61 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  annotations:
+    build.appstudio.openshift.io/repo: https://github.com/RedHatInsights/frontend-starter-app?rev={{revision}}
+    build.appstudio.redhat.com/commit_sha: '{{revision}}'
+    build.appstudio.redhat.com/pull_request_number: '{{pull_request_number}}'
+    build.appstudio.redhat.com/target_branch: '{{target_branch}}'
+    pipelinesascode.tekton.dev/max-keep-runs: "3"
+    pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch
+      == "security-compliance"
+    pipelinesascode.tekton.dev/pipeline: https://github.com/RedHatInsights/konflux-pipelines/raw/main/pipelines/platform-ui/docker-build-run-unit-tests.yaml
+  creationTimestamp: null
+  labels:
+    appstudio.openshift.io/application: frontend-starter-app-sc
+    appstudio.openshift.io/component: frontend-starter-app-sc
+    pipelines.appstudio.openshift.io/type: build
+  name: frontend-starter-app-sc-on-pull-request
+  namespace: rh-platform-experien-tenant
+spec:
+  params:
+  - name: git-url
+    value: '{{source_url}}'
+  - name: revision
+    value: '{{revision}}'
+  - name: output-image
+    value: quay.io/redhat-user-workloads/rh-platform-experien-tenant/frontend-starter-app-sc/frontend-starter-app-sc:on-pr-{{revision}}
+  - name: image-expires-after
+    value: 5d
+  - name: dockerfile
+    value: build-tools/Dockerfile
+  - name: path-context
+    value: .
+  - name: unit-tests-script
+    value: |
+      #!/bin/bash
+      set -ex
+      
+      npm install
+      npm run lint
+      npm test --  --runInBand --no-cache
+  pipelineRef:
+    name: docker-build
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-frontend-starter-app-sc
+  workspaces:
+  - name: workspace
+    volumeClaimTemplate:
+      metadata:
+        creationTimestamp: null
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+      status: {}
+  - name: git-auth
+    secret:
+      secretName: '{{ git_auth_secret }}'
+status: {}
