@@ -36,6 +36,8 @@ spec:
       #!/bin/bash
       set -ex
       
+      curl https://console.stage.redhat.com
+      
       npm install
       npm run lint
       npm test --  --runInBand --no-cache
