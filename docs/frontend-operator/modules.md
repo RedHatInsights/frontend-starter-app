@@ -122,7 +122,7 @@ See [`modules[].routes[].supportCaseData`](#modulesroutessupportcasedata)
 
 This is a global configuration for support case context. If a route has support defined, it will override the global support config.
 
-**`moduleConfig.ssoScopes`**
+### **`moduleConfig.ssoScopes`**
 *array*
 *(optional)*
 
