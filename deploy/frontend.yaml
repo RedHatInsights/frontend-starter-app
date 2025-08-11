@@ -52,6 +52,7 @@ objects:
         paths:
           - /apps/frontend-starter-app
       image: ${IMAGE}:${IMAGE_TAG}
+      pushCacheEnabled: true
 
       module:
         manifestLocation: '/apps/frontend-starter-app/fed-mods.json'
