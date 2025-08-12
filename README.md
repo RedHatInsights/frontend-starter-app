@@ -42,4 +42,3 @@ To learn about the operator and its configuration follow [this link](./docs/fron
 ### Testing
 
 `npm run verify` will run `npm run lint` (eslint) and `npm test` (Jest)
-
