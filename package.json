@@ -21,16 +21,16 @@
   "dependencies": {
     "@patternfly/react-core": "^6.2.2",
     "@patternfly/react-table": "^6.2.2",
-    "@redhat-cloud-services/frontend-components": "^6.0.7",
+    "@redhat-cloud-services/frontend-components": "^7.0.3",
     "@redhat-cloud-services/frontend-components-notifications": "^6.0.0",
-    "@redhat-cloud-services/frontend-components-utilities": "^6.0.5",
+    "@redhat-cloud-services/frontend-components-utilities": "^7.0.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2"
   },
   "devDependencies": {
     "@redhat-cloud-services/eslint-config-redhat-cloud-services": "^3.0.0",
-    "@redhat-cloud-services/frontend-components-config": "^6.6.1",
+    "@redhat-cloud-services/frontend-components-config": "^6.6.9",
     "@redhat-cloud-services/tsc-transform-imports": "^1.0.16",
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^14.3.1",
