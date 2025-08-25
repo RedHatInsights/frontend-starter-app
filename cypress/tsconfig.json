@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "sourceMap": false,
+    "noImplicitAny": true,
+    "module": "esnext",
+    "target": "esnext",
+    "jsx": "react-jsx",
+    "moduleResolution": "node",
+    "removeComments": false,
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "baseUrl": "./",
+    "types": ["cypress", "node"],
+    "allowJs": false
+  },
+  "include": ["./**/*.ts", "./**/*.tsx"],
+  "exclude": [
+    "../src/**/*.test.ts",
+    "../src/**/*.test.tsx",
+    "../src/**/*.spec.tsx",
+    "../src/**/*.spec.ts",
+    "../src/**/__mocks__/**/*.ts",
+    "../src/**/__mocks__/**/*.tsx"
+  ]
+}

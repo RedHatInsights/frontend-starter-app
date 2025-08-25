@@ -23,3 +23,9 @@ coverage
 # cache folder
 .cache
 .swc
+
+# cypress output
+.cypress-cache
+cypress/screenshots
+cypress/videos
+.nyc_output

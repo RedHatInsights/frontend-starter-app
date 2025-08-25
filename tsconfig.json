@@ -23,5 +23,7 @@
       "src/**/*.js",
       "src/**/*.jsx",
       "config/**/*.ts",
+      "cypress/**/*.ts",
+      "cypress/**/*.tsx",
   ]
 }
