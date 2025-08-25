@@ -42,3 +42,13 @@ To learn about the operator and its configuration follow [this link](./docs/fron
 ### Testing
 
 `npm run verify` will run `npm run lint` (eslint) and `npm test` (Jest)
+
+#### Cypress Component Testing
+
+This project includes component tests using Cypress for testing React components in isolation:
+
+- `npm run test:cypress` - Run all component tests headlessly
+- `npm run test:cypress:open` - Open Cypress UI for interactive component testing
+- `npm run test:cypress:component` - Run component tests (same as test:cypress)
+
+Component tests are fast, reliable, and don't require a running server. They're perfect for testing individual UI components with different props and states.
