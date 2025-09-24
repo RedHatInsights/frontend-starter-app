@@ -1,4 +1,4 @@
-# frontend-starter-app
+# frontend-starter-app 
 
 React.js starter app for Red Hat Hybrid cloud console UI modules that includes Patternfly and shared Red Hat cloud service frontend components.
 
