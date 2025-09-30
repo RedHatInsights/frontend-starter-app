@@ -27,6 +27,7 @@ objects:
           alt_title:
             - Starter
             - Starter app
+            - Hidden App Link
       bundleSegments:
         - segmentId: starter-app-two
           bundleId: staging
