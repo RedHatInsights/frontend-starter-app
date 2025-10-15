@@ -31,4 +31,9 @@ module.exports = {
       },
     ],
   },
+  routes: {
+    '/api/chrome-service/v1/user': {
+      target: 'http://localhost:9001',
+    },
+  },
 };
