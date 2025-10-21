@@ -14,6 +14,8 @@
     "lint:js:fix": "eslint src --fix",
     "patch:hosts": "fec patch-etc-hosts",
     "start": "HOT=true fec dev",
+    "start:dev-proxy": "HOT=true fec dev-proxy",
+    "start:mock:server": "ts-node --project src/api-mock/tsconfig.json src/api-mock/dev-server.ts",
     "test": "jest",
     "test:cypress": "cypress run --component",
     "test:cypress:open": "cypress open --component",
@@ -29,13 +31,15 @@
     "@redhat-cloud-services/frontend-components-utilities": "^7.0.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.26.2"
+    "react-router-dom": "^6.26.2",
+    "ts-node": "^10.9.2"
   },
   "devDependencies": {
     "@cypress/code-coverage": "^3.14.6",
     "@cypress/react": "^9.0.1",
+    "@mswjs/http-middleware": "^0.10.3",
     "@redhat-cloud-services/eslint-config-redhat-cloud-services": "^3.0.0",
-    "@redhat-cloud-services/frontend-components-config": "^6.6.9",
+    "@redhat-cloud-services/frontend-components-config": "^6.7.4",
     "@redhat-cloud-services/tsc-transform-imports": "^1.0.16",
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^14.3.1",
@@ -47,13 +51,15 @@
     "cypress": "^15.0.0",
     "identity-obj-proxy": "^3.0.0",
     "jest-environment-jsdom": "^29.7.0",
+    "msw": "^2.11.5",
     "npm-run-all": "^4.1.5",
     "rimraf": "^5.0.10",
     "ts-jest": "^29.2.5",
     "ts-patch": "^3.2.1",
     "typescript": "^5.6.2",
     "typescript-eslint": "^8.31.0",
-    "webpack-bundle-analyzer": "4.10.2"
+    "webpack-bundle-analyzer": "4.10.2",
+    "whatwg-fetch": "^3.6.20"
   },
   "insights": {
     "appname": "frontend-starter-app"
