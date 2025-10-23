@@ -38,7 +38,7 @@
     "@redhat-cloud-services/frontend-components-config": "^6.7.4",
     "@redhat-cloud-services/tsc-transform-imports": "^1.0.26",
     "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "^14.3.1",
+    "@testing-library/react": "^16.0.0",
     "@types/jest": "^29.5.14",
     "@types/react": "^18.3.26",
     "@types/react-dom": "^18.3.7",
