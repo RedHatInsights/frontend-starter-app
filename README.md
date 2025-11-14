@@ -39,6 +39,14 @@ HCC uses OpenShift frontend operator to collect metadata about individual UI mod
 
 To learn about the operator and its configuration follow [this link](./docs/frontend-operator/index.md)
 
+### Scalprum Remote Hooks and Shared Stores
+
+This project demonstrates cross-micro-frontend state management using Scalprum's remote hooks and shared stores pattern. This enables event-driven state synchronization across independently deployed applications with optimal rendering performance.
+
+See the complete implementation in `/src/Routes/SharedStoresDemo/` and read the documentation:
+- [Full Guide](./docs/scalprum-remote-hooks-shared-stores.md) - Comprehensive documentation
+- [Quick Reference](./docs/scalprum-quick-reference.md) - Code snippets and cheat sheet
+
 ### Testing
 
 `npm run verify` will run `npm run lint` (eslint) and `npm test` (Jest)
