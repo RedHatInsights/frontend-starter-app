@@ -70,6 +70,11 @@ const SamplePage = () => {
                 </Title>
               </StackItem>
               <StackItem>
+                <AppLink to="/shared-stores-demo">
+                  Shared Stores Demo - Remote Hooks & Data Visualization
+                </AppLink>
+              </StackItem>
+              <StackItem>
                 <AppLink to="/oops"> How to handle 500s in app </AppLink>
               </StackItem>
               <StackItem>
