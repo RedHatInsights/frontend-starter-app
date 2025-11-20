@@ -14,6 +14,7 @@
     "lint:js:fix": "eslint src --fix",
     "patch:hosts": "fec patch-etc-hosts",
     "start": "HOT=true fec dev",
+    "static": "fec static",
     "test": "jest",
     "test:cypress": "cypress run --component",
     "test:cypress:open": "cypress open --component",
@@ -23,10 +24,13 @@
   },
   "dependencies": {
     "@patternfly/react-core": "^6.4.0",
+    "@patternfly/react-data-view": "^6.4.0",
     "@patternfly/react-table": "^6.4.0",
     "@redhat-cloud-services/frontend-components": "^7.0.13",
     "@redhat-cloud-services/frontend-components-notifications": "^6.1.14",
     "@redhat-cloud-services/frontend-components-utilities": "^7.0.9",
+    "@scalprum/core": "^0.9.0",
+    "@scalprum/react-core": "^0.11.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.30.2"

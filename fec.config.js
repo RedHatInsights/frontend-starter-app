@@ -18,8 +18,15 @@ module.exports = {
    * Add additional webpack plugins
    */
   plugins: [],
-  _unstableHotReload: process.env.HOT === 'true',
+  hotReload: process.env.HOT === 'true',
   moduleFederation: {
+    exposes: {
+      './RootApp': './src/AppEntry',
+      './frontendModules/useFedModulesStore':
+        './src/hooks/sharedStores/useFedModulesStore',
+      './frontendModules/useFedModulesFilter':
+        './src/hooks/sharedStores/useFedModulesFilter',
+    },
     exclude: ['react-router-dom'],
     shared: [
       {
