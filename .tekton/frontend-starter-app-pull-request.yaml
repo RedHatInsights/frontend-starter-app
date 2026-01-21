@@ -59,13 +59,6 @@ spec:
       #!/bin/bash
       set -ex
 
-      echo "DEBUG: E2E tests starting - checking workspace"
-      pwd
-      echo "DEBUG: Workspace contents:"
-      ls -la
-      echo "DEBUG: Checking for node_modules:"
-      ls -la node_modules/.bin/playwright || echo "DEBUG: node_modules/.bin/playwright NOT FOUND"
-
       echo "E2E_USER is ${E2E_USER}"
       getent hosts stage.foo.redhat.com
       timeout 120s bash -c 'until curl -k https://stage.foo.redhat.com:1337 > /dev/null 2>&1; do
