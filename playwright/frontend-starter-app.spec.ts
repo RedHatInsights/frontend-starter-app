@@ -3,8 +3,7 @@ import { Page, test, expect } from '@playwright/test';
 test.use({ ignoreHTTPSErrors: true });
 
 // This can be changed to hit stage directly, but by default devs should be using stage.foo
-// const APP_TEST_HOST_PORT = 'stage.foo.redhat.com:1337';
-const APP_TEST_HOST_PORT = 'console.stage.redhat.com';
+const APP_TEST_HOST_PORT = 'stage.foo.redhat.com:1337';
 
 // Prevents inconsistent cookie prompting that is problematic for UI testing
 async function disableCookiePrompt(page: Page) {
