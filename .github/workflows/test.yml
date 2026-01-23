@@ -22,11 +22,12 @@ jobs:
       - uses: actions/cache@v3
         id: node_modules-cache
         with:
-          path: | 
+          path: |
             **/node_modules
             /home/runner/.cache/Cypress
           key: install-cache-${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-      - run: npm i # use cached modules
+      - if: steps.node_modules-cache.outputs.cache-hit != 'true'
+        run: npm i # use cached modules
   # unit testing job
   test-unit:
     runs-on: ubuntu-latest
@@ -44,7 +45,8 @@ jobs:
         with:
           path: "**/node_modules"
           key: install-cache-${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-      - run: npm i
+      - if: steps.node_modules-cache.outputs.cache-hit != 'true'
+        run: npm i
       - run: npm run test -- --coverage
       - uses: codecov/codecov-action@v3
         with:
@@ -66,7 +68,8 @@ jobs:
         with:
           path: "**/node_modules"
           key: install-cache-${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-      - run: npm i
+      - if: steps.node_modules-cache.outputs.cache-hit != 'true'
+        run: npm i
       - run: npm run lint
   # cypress component testing
   cypress-component:
@@ -89,7 +92,8 @@ jobs:
             /home/runner/.cache/Cypress
           key: install-cache-${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
       # Install dependencies if cache miss
-      - run: npm i
+      - if: steps.node_modules-cache.outputs.cache-hit != 'true'
+        run: npm i
       # Run Cypress component tests
       - uses: cypress-io/github-action@v6
         with:

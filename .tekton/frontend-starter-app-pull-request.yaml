@@ -9,7 +9,7 @@ metadata:
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch
       == "master"
-    pipelinesascode.tekton.dev/pipeline: https://github.com/RedHatInsights/konflux-pipelines/raw/main/pipelines/platform-ui/docker-build-run-unit-tests.yaml
+    pipelinesascode.tekton.dev/pipeline: https://raw.githubusercontent.com/RedHatInsights/konflux-pipelines/refs/heads/main/pipelines/platform-ui/docker-build-run-all-tests.yaml
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: frontend-starter-app
@@ -31,18 +31,92 @@ spec:
     value: build-tools/Dockerfile
   - name: path-context
     value: .
+  - name: rebuild
+    value: "true"
+  - name: test-app-name
+    value: frontend-starter-app
+  - name: test-app-port
+    value: "8000"
+  - name: chrome-port
+    value: "9912"
+  - name: workspace-setup-script
+    value: |
+      #!/bin/bash
+      set -ex
+
+      npm install
   - name: unit-tests-script
     value: |
       #!/bin/bash
       set -ex
-      
-      npm install
+
       npm run lint
-      npm test --  --runInBand --no-cache
+      npm test -- --runInBand --no-cache
+  - name: run-app-script
+    value: |
+      #!/bin/sh
+      # Script that runs the test application with Caddy using ConfigMap-mounted Caddyfile
+
+      set -e
+
+      echo "Starting application with Caddy using ConfigMap Caddyfile..."
+      exec caddy run --config /etc/caddy/Caddyfile
+  - name: e2e-tests-script
+    value: |
+      #!/bin/bash
+      set -ex
+
+      echo "E2E_USER is ${E2E_USER}"
+      getent hosts stage.foo.redhat.com
+      timeout 120s bash -c 'until curl -k https://stage.foo.redhat.com:1337 > /dev/null 2>&1; do
+        echo "Waiting for dev server to be ready"
+        sleep 5
+      done'
+      echo "Dev server ready!"
+
+      echo "Installing Playwright browsers..."
+      ./node_modules/.bin/playwright install --with-deps
+
+      echo "Running Playwright tests ..."
+      ./node_modules/.bin/playwright test
+  - name: e2e-credentials-secret
+    value: frontend-starter-app-credentials-secret
+  - name: frontend-proxy-routes-configmap
+    value: frontend-starter-app-dev-proxy-caddyfile
   pipelineRef:
-    name: docker-build
+    resolver: git
+    params:
+    - name: url
+      value: https://github.com/catastrophe-brandon/konflux-pipelines
+    - name: revision
+      value: btweed/add-workspace-setup-script-v2
+    - name: pathInRepo
+      value: pipelines/platform-ui/docker-build-run-all-tests.yaml
   taskRunTemplate:
     serviceAccountName: build-pipeline-frontend-starter-app
+  taskRunSpecs:
+    - pipelineTaskName: run-e2e-tests
+      serviceAccountName: build-pipeline-frontend-starter-app
+      podTemplate:
+        # Override /etc/hosts to redirect stage.foo.redhat.com to localhost
+        hostAliases:
+          - ip: "::1"
+            hostnames:
+              - "stage.foo.redhat.com"
+          - ip: "127.0.0.1"
+            hostnames:
+              - "stage.foo.redhat.com"
+        # Add ConfigMap volume for test app Caddyfile
+        volumes:
+          - name: test-app-caddyfile
+            configMap:
+              name: frontend-starter-app-test-app-caddyfile
+      sidecarSpecs:
+        # Mount test app Caddyfile into run-application sidecar
+        - name: run-application
+          volumeMounts:
+            - name: test-app-caddyfile
+              mountPath: /etc/caddy
   workspaces:
   - name: workspace
     volumeClaimTemplate:
@@ -53,7 +127,7 @@ spec:
         - ReadWriteOnce
         resources:
           requests:
-            storage: 1Gi
+            storage: 3Gi
       status: {}
   - name: git-auth
     secret:
