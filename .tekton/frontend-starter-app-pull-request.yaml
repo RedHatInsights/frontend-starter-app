@@ -59,6 +59,12 @@ spec:
       #!/bin/bash
       set -ex
 
+      # Ensure dependencies are installed
+      if [ ! -d "node_modules" ]; then
+        echo "node_modules not found, installing..."
+        npm install
+      fi
+
       echo "E2E_USER is ${E2E_USER}"
       getent hosts stage.foo.redhat.com
       timeout 120s bash -c 'until curl -k https://stage.foo.redhat.com:1337 > /dev/null 2>&1; do
