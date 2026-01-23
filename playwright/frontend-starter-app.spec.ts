@@ -3,8 +3,8 @@ import { Page, test, expect } from '@playwright/test';
 test.use({ ignoreHTTPSErrors: true });
 
 // This can be changed to hit stage directly, but by default devs should be using stage.foo
-const APP_TEST_HOST_PORT = 'stage.foo.redhat.com:1337';
-const APP_URL = `https://${APP_TEST_HOST_PORT}/staging/foo/starter`;
+// const APP_TEST_HOST_PORT = 'stage.foo.redhat.com:1337';
+const APP_TEST_HOST_PORT = 'console.stage.redhat.com';
 
 // Prevents inconsistent cookie prompting that is problematic for UI testing
 async function disableCookiePrompt(page: Page) {
@@ -62,7 +62,11 @@ test.describe('frontend starter app', async () => {
 
     test('starter app page loads and has the expected content', async({page}) => {
         // navigate to the sample app and wait for it to load
-        await page.goto(APP_URL, { waitUntil: 'load' });
+        await page.getByLabel('Expandable search input toggle').click();
+        await page.getByLabel('Search input').first().pressSequentially('star');
+        await page.getByText('Starter app').click();
+        // await page.locator('[data-quickstart-id=staging_foo_starter]').click();
+
 
         // confirm that the expected content is present
         await expect(page.getByText('Sample Insights App')).toBeVisible();
