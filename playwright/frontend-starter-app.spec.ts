@@ -64,8 +64,6 @@ test.describe('frontend starter app', async () => {
         await page.getByLabel('Expandable search input toggle').click();
         await page.getByLabel('Search input').first().pressSequentially('star');
         await page.getByText('Starter app').click();
-        // await page.locator('[data-quickstart-id=staging_foo_starter]').click();
-
 
         // confirm that the expected content is present
         await expect(page.getByText('Sample Insights App')).toBeVisible();
