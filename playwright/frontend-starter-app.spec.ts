@@ -63,7 +63,7 @@ test.describe('frontend starter app', async () => {
         // navigate to the sample app and wait for it to load
         await page.getByLabel('Expandable search input toggle').click();
         await page.getByLabel('Search input').first().pressSequentially('star');
-        await page.getByText('Starter app').click();
+        await page.getByText('Starter app').first().click();
 
         // confirm that the expected content is present
         await expect(page.getByText('Sample Insights App')).toBeVisible();
