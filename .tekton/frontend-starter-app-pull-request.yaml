@@ -39,12 +39,19 @@ spec:
     value: "8000"
   - name: chrome-port
     value: "9912"
-  - name: unit-tests-script
+  - name: workspace-setup-script
     value: |
       #!/bin/bash
       set -ex
 
       npm install
+  - name: unit-tests-script
+    value: |
+      #!/bin/bash
+      set -ex
+
+      npm run lint
+      npm test -- --runInBand --no-cache
   - name: run-app-script
     value: |
       #!/bin/sh
@@ -58,12 +65,6 @@ spec:
     value: |
       #!/bin/bash
       set -ex
-
-      # Ensure dependencies are installed
-      if [ ! -d "node_modules" ]; then
-        echo "node_modules not found, installing..."
-        npm install
-      fi
 
       echo "E2E_USER is ${E2E_USER}"
       getent hosts stage.foo.redhat.com
@@ -88,7 +89,7 @@ spec:
     - name: url
       value: https://github.com/RedHatInsights/konflux-pipelines
     - name: revision
-      value: main
+      value: btweed/add-workspace-setup-script-v2
     - name: pathInRepo
       value: pipelines/platform-ui/docker-build-run-all-tests.yaml
   taskRunTemplate:
