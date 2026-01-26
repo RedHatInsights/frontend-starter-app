@@ -57,7 +57,8 @@
     "ts-patch": "^3.3.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.53.0",
-    "webpack-bundle-analyzer": "4.10.2"
+    "webpack-bundle-analyzer": "4.10.2",
+    "@playwright/test": "^1.56.1"
   },
   "insights": {
     "appname": "frontend-starter-app"
