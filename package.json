@@ -23,9 +23,9 @@
     "verify": "npm-run-all build lint test"
   },
   "dependencies": {
-    "@patternfly/react-core": "^6.4.0",
+    "@patternfly/react-core": "^6.4.1",
     "@patternfly/react-data-view": "^6.4.0",
-    "@patternfly/react-table": "^6.4.0",
+    "@patternfly/react-table": "^6.4.1",
     "@redhat-cloud-services/frontend-components": "^7.0.40",
     "@redhat-cloud-services/frontend-components-notifications": "^6.1.41",
     "@redhat-cloud-services/frontend-components-utilities": "^7.0.36",
@@ -44,11 +44,11 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^14.3.1",
     "@types/jest": "^29.5.14",
-    "@types/react": "^18.3.27",
+    "@types/react": "^18.3.28",
     "@types/react-dom": "^18.3.7",
     "@types/react-router-dom": "^5.3.3",
-    "@typescript-eslint/parser": "^8.53.1",
-    "cypress": "^15.9.0",
+    "@typescript-eslint/parser": "^8.54.0",
+    "cypress": "^15.10.0",
     "identity-obj-proxy": "^3.0.0",
     "jest-environment-jsdom": "^29.7.0",
     "npm-run-all2": "^5.0.2",
@@ -56,9 +56,9 @@
     "ts-jest": "^29.4.6",
     "ts-patch": "^3.3.0",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.53.1",
+    "typescript-eslint": "^8.54.0",
     "webpack-bundle-analyzer": "4.10.2",
-    "@playwright/test": "^1.58.0"
+    "@playwright/test": "^1.58.2"
   },
   "insights": {
     "appname": "frontend-starter-app"
