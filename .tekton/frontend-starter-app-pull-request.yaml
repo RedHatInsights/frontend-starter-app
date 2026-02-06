@@ -9,7 +9,7 @@ metadata:
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch
       == "master"
-    pipelinesascode.tekton.dev/pipeline: https://raw.githubusercontent.com/RedHatInsights/konflux-pipelines/refs/heads/main/pipelines/platform-ui/docker-build-run-all-tests.yaml
+    pipelinesascode.tekton.dev/pipeline: https://raw.githubusercontent.com/catastrophe-brandon/konflux-pipelines/fda9a7eafca825083d50ffadf149f944a3ebd4b3/pipelines/platform-ui/docker-build-run-all-tests.yaml
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: frontend-starter-app
@@ -33,12 +33,8 @@ spec:
     value: .
   - name: rebuild
     value: "true"
-  - name: test-app-name
-    value: frontend-starter-app
-  - name: test-app-port
+  - name: e2e-app-port
     value: "8000"
-  - name: chrome-port
-    value: "9912"
   - name: unit-tests-script
     value: |
       #!/bin/bash
@@ -75,41 +71,18 @@ spec:
   - name: e2e-credentials-secret
     value: frontend-starter-app-credentials-secret
   - name: frontend-proxy-routes-configmap
-    value: frontend-starter-app-dev-proxy-caddyfile
+    value: frontend-starter-app-dev-proxy-caddyfile-v2
   pipelineRef:
     resolver: git
     params:
     - name: url
-      value: https://github.com/RedHatInsights/konflux-pipelines
+      value: https://github.com/catastrophe-brandon/konflux-pipelines
     - name: revision
-      value: main
+      value: fda9a7eafca825083d50ffadf149f944a3ebd4b3
     - name: pathInRepo
       value: pipelines/platform-ui/docker-build-run-all-tests.yaml
   taskRunTemplate:
     serviceAccountName: build-pipeline-frontend-starter-app
-  taskRunSpecs:
-    - pipelineTaskName: run-e2e-tests
-      serviceAccountName: build-pipeline-frontend-starter-app
-      podTemplate:
-        # Override /etc/hosts to redirect stage.foo.redhat.com to localhost
-        hostAliases:
-          - ip: "::1"
-            hostnames:
-              - "stage.foo.redhat.com"
-          - ip: "127.0.0.1"
-            hostnames:
-              - "stage.foo.redhat.com"
-        # Add ConfigMap volume for test app Caddyfile
-        volumes:
-          - name: test-app-caddyfile
-            configMap:
-              name: frontend-starter-app-test-app-caddyfile
-      sidecarSpecs:
-        # Mount test app Caddyfile into run-application sidecar
-        - name: run-application
-          volumeMounts:
-            - name: test-app-caddyfile
-              mountPath: /etc/caddy
   workspaces:
   - name: workspace
     volumeClaimTemplate:
