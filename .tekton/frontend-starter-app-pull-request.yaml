@@ -78,7 +78,7 @@ spec:
     - name: url
       value: https://github.com/RedHatInsights/konflux-pipelines
     - name: revision
-      value: fda9a7eafca825083d50ffadf149f944a3ebd4b3
+      value: main
     - name: pathInRepo
       value: pipelines/platform-ui/docker-build-run-all-tests.yaml
   taskRunTemplate:
