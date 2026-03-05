@@ -35,7 +35,7 @@ spec:
     value: "true"
   - name: e2e-app-port
     value: "8000"
-  - name: e2e-test-image
+  - name: e2e-playwright-image
     value: mcr.microsoft.com/playwright:v1.58.2-noble
   - name: workspace-setup-script
     value: |
