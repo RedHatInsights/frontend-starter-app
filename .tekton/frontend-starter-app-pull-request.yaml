@@ -35,12 +35,21 @@ spec:
     value: "true"
   - name: e2e-app-port
     value: "8000"
-  - name: unit-tests-script
+  - name: e2e-playwright-image
+    value: mcr.microsoft.com/playwright:v1.58.2-noble
+  - name: workspace-setup-script
     value: |
       #!/bin/bash
       set -ex
 
       npm install
+  - name: unit-tests-script
+    value: |
+      #!/bin/bash
+      set -ex
+
+      npm run lint
+      npm test -- --runInBand --no-cache
   - name: run-app-script
     value: |
       #!/bin/sh
@@ -63,11 +72,8 @@ spec:
       done'
       echo "Dev server ready!"
 
-      echo "Installing Playwright browsers..."
-      ./node_modules/.bin/playwright install --with-deps
-
-      echo "Running Playwright tests ..."
-      ./node_modules/.bin/playwright test
+      echo "Running Playwright tests..."
+      npx playwright test
   - name: e2e-credentials-secret
     value: frontend-starter-app-credentials-secret
   - name: frontend-proxy-routes-configmap
