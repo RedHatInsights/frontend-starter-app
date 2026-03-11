@@ -43,6 +43,8 @@ spec:
       set -ex
 
       npm install
+  - name: unit-test-image
+    value: registry.access.redhat.com/ubi9/nodejs-22:latest
   - name: unit-tests-script
     value: |
       #!/bin/bash
