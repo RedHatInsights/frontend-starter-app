@@ -2,14 +2,14 @@ apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
   annotations:
-    build.appstudio.openshift.io/repo: https://github.com/RedHatInsights/frontend-starter-app?rev={{revision}}
+    build.appstudio.openshift.io/repo: https://github.com/catastrophe-brandon/frontend-starter-app?rev={{revision}}
     build.appstudio.redhat.com/commit_sha: '{{revision}}'
     build.appstudio.redhat.com/pull_request_number: '{{pull_request_number}}'
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch
       == "master"
-    pipelinesascode.tekton.dev/pipeline: https://raw.githubusercontent.com/RedHatInsights/konflux-pipelines/refs/heads/main/pipelines/platform-ui/docker-build-run-all-tests.yaml
+    pipelinesascode.tekton.dev/pipeline: https://raw.githubusercontent.com/catastrophe-brandon/konflux-pipelines/refs/heads/btweed/test-pipeline-refactor/pipelines/platform-ui/docker-build-run-all-tests.yaml
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: frontend-starter-app
@@ -82,9 +82,9 @@ spec:
     resolver: git
     params:
     - name: url
-      value: https://github.com/RedHatInsights/konflux-pipelines
+      value: https://github.com/catastrophe-brandon/konflux-pipelines
     - name: revision
-      value: main
+      value: btweed/test-pipeline-refactorn
     - name: pathInRepo
       value: pipelines/platform-ui/docker-build-run-all-tests.yaml
   taskRunTemplate:
