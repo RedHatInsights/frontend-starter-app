@@ -9,7 +9,7 @@ metadata:
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch
       == "master"
-    pipelinesascode.tekton.dev/pipeline: https://raw.githubusercontent.com/catastrophe-brandon/konflux-pipelines/refs/heads/btweed/test-pipeline-refactor/pipelines/platform-ui/docker-build-run-all-tests.yaml
+    pipelinesascode.tekton.dev/pipeline: https://raw.githubusercontent.com/catastrophe-brandon/konflux-pipelines/refs/heads/add-hcc-env-params/pipelines/platform-ui/docker-build-run-all-tests.yaml
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: frontend-starter-app
@@ -84,7 +84,7 @@ spec:
     - name: url
       value: https://github.com/catastrophe-brandon/konflux-pipelines
     - name: revision
-      value: btweed/test-pipeline-refactorn
+      value: add-hcc-env-params
     - name: pathInRepo
       value: pipelines/platform-ui/docker-build-run-all-tests.yaml
   taskRunTemplate:
