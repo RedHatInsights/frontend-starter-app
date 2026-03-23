@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "hcc-patternfly-data-view": {
+      "command": "npx",
+      "args": ["@redhat-cloud-services/hcc-pf-mcp"]
+    },
+    "hcc-feo-mcp": {
+      "command": "npx",
+      "args": ["@redhat-cloud-services/hcc-feo-mcp"]
+    }
+  }
+}
