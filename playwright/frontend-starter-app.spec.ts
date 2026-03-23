@@ -1,10 +1,5 @@
 import { Page, test, expect } from '@playwright/test';
 
-test.use({ ignoreHTTPSErrors: true });
-
-// This can be changed to hit stage directly, but by default devs should be using stage.foo
-const APP_TEST_HOST_PORT = 'stage.foo.redhat.com:1337';
-
 // Prevents inconsistent cookie prompting that is problematic for UI testing
 async function disableCookiePrompt(page: Page) {
     await page.route('**/*', async (route, request) => {
@@ -20,8 +15,6 @@ async function login(page: Page, user: string, password: string): Promise<void> 
     // Fail in a friendly way if the proxy config is not set up correctly
     await expect(page.locator("text=Lockdown"), 'proxy config incorrect').toHaveCount(0)
 
-    await disableCookiePrompt(page)
-
     // Wait for and fill username field
     await page.getByLabel('Red Hat login').first().fill(user);
     await page.getByRole('button', { name: 'Next' }).click();
@@ -36,7 +29,8 @@ async function login(page: Page, user: string, password: string): Promise<void> 
 
 test.describe('frontend starter app', async () => {
     test.beforeEach(async ({page}): Promise<void> => {
-        await page.goto(`https://${APP_TEST_HOST_PORT}`, { waitUntil: 'load', timeout: 60000 });
+        await disableCookiePrompt(page);
+        await page.goto('/', { waitUntil: 'load', timeout: 60000 });
         const loggedIn = await page.getByText('Hi,').isVisible();
         if (!loggedIn) {
             const user = process.env.E2E_USER!;

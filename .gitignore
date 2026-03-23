@@ -29,3 +29,7 @@ coverage
 cypress/screenshots
 cypress/videos
 .nyc_output
+
+# playwright
+playwright-report
+test-results
