@@ -96,7 +96,7 @@ spec:
     - pipelineTaskName: run-e2e-tests
       serviceAccountName: build-pipeline-frontend-starter-app
       stepSpecs:
-        - name: run-e2e-tests
+        - name: e2e-tests
           envFrom:
             - secretRef:
                 name: frontend-starter-app-credentials-secret
