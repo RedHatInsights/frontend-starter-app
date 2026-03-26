@@ -36,8 +36,10 @@
     "react-router-dom": "^6.30.3"
   },
   "devDependencies": {
+    "@currents/playwright": "^1.22.2",
     "@cypress/code-coverage": "^3.14.7",
     "@cypress/react": "^9.0.1",
+    "@playwright/test": "^1.58.2",
     "@redhat-cloud-services/eslint-config-redhat-cloud-services": "^3.0.31",
     "@redhat-cloud-services/frontend-components-config": "^6.7.54",
     "@redhat-cloud-services/tsc-transform-imports": "^1.0.56",
@@ -57,8 +59,7 @@
     "ts-patch": "^3.3.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.57.0",
-    "webpack-bundle-analyzer": "4.10.2",
-    "@playwright/test": "^1.58.2"
+    "webpack-bundle-analyzer": "4.10.2"
   },
   "insights": {
     "appname": "frontend-starter-app"
