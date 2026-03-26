@@ -72,7 +72,10 @@ spec:
       done'
       echo "Dev server ready!"
 
-      echo "Running Playwright tests..."
+      echo "Running Playwright tests with Currents reporting..."
+      export CURRENTS_PROJECT_ID=wzCT4R
+      export CURRENTS_CI_BUILD_ID="${PIPELINE_RUN_NAME:-$RANDOM}"
+      export CURRENTS_TAG="pr-{{pull_request_number}}"
       npx playwright test
   - name: e2e-credentials-secret
     value: frontend-starter-app-credentials-secret
