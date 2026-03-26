@@ -95,6 +95,11 @@ spec:
   taskRunSpecs:
     - pipelineTaskName: run-e2e-tests
       serviceAccountName: build-pipeline-frontend-starter-app
+      stepSpecs:
+        - name: run-e2e-tests
+          envFrom:
+            - secretRef:
+                name: frontend-starter-app-credentials-secret
       podTemplate:
         # Override /etc/hosts to redirect stage.foo.redhat.com to localhost
         hostAliases:
