@@ -72,6 +72,13 @@ spec:
       done'
       echo "Dev server ready!"
 
+      echo "Checking for required Currents environment variables..."
+      if [ -z "$CURRENTS_RECORD_KEY" ]; then
+        echo "ERROR: CURRENTS_RECORD_KEY is not set"
+        exit 1
+      fi
+      echo "CURRENTS_RECORD_KEY is set"
+
       echo "Running Playwright tests with Currents reporting..."
       export CURRENTS_PROJECT_ID=wzCT4R
       export CURRENTS_CI_BUILD_ID="${PIPELINE_RUN_NAME:-$RANDOM}"
