@@ -97,9 +97,12 @@ spec:
       serviceAccountName: build-pipeline-frontend-starter-app
       stepSpecs:
         - name: e2e-tests
-          envFrom:
-            - secretRef:
-                name: frontend-starter-app-credentials-secret
+          env:
+            - name: CURRENTS_RECORD_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: frontend-starter-app-credentials-secret
+                  key: currents-record-key
       podTemplate:
         # Override /etc/hosts to redirect stage.foo.redhat.com to localhost
         hostAliases:
