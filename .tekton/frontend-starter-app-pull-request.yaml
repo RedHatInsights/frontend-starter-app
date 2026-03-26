@@ -72,6 +72,10 @@ spec:
       done'
       echo "Dev server ready!"
 
+      echo "=== Dumping full environment ==="
+      env | sort
+      echo "=== End environment dump ==="
+
       echo "Checking for required Currents environment variables..."
       if [ -z "$CURRENTS_RECORD_KEY" ]; then
         echo "ERROR: CURRENTS_RECORD_KEY is not set"
