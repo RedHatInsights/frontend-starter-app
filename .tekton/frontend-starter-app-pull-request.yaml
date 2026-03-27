@@ -76,7 +76,8 @@ spec:
       env | sort
       echo "=== End environment dump ==="
 
-      npx playwright test
+      # Run playwright tests via testdino
+      npx tdpw test -t $TESTDINO_TOKEN
   - name: e2e-credentials-secret
     value: frontend-starter-app-credentials-secret
   - name: frontend-proxy-routes-configmap
