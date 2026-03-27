@@ -31,12 +31,13 @@
     "@redhat-cloud-services/frontend-components-utilities": "^7.0.39",
     "@scalprum/core": "^0.9.0",
     "@scalprum/react-core": "^0.11.1",
+    "@testdino/playwright": "^1.0.11",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.30.3"
+    "react-router-dom": "^6.30.3",
+    "tdpw": "^1.0.33"
   },
   "devDependencies": {
-    "@currents/playwright": "^1.22.2",
     "@cypress/code-coverage": "^3.14.7",
     "@cypress/react": "^9.0.1",
     "@playwright/test": "^1.58.2",

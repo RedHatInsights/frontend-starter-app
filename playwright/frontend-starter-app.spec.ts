@@ -59,6 +59,9 @@ test.describe('frontend starter app', async () => {
         await page.getByLabel('Search input').first().pressSequentially('star');
         await page.getByText('Starter app').first().click();
 
+        // induce a failure to try out testdino's evidence panel
+        throw new Error();
+
         // confirm that the expected content is present
         await expect(page.getByText('Sample Insights App')).toBeVisible();
         await expect(page.getByRole('button', {name: 'Add alert'})).toBeVisible();

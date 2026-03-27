@@ -1,5 +1,4 @@
 import { defineConfig, devices } from '@playwright/test';
-import { currentsReporter } from "@currents/playwright";
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -8,7 +7,7 @@ export default defineConfig({
   testDir: './playwright',
 
   /* Run tests in files in parallel */
-  fullyParallel: true,
+  fullyParallel: false,
 
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
@@ -19,7 +18,13 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
 
-  reporter: [currentsReporter()], // 👈🏻 add Currents reporter
+  // set up reporting for testdino
+  reporter: [
+    // Mandatory reporter for JSON results
+    ['json', { outputFile: './playwright-report/report.json' }],
+    // Optional, enables native HTML upload
+    ['html', { outputDir: './playwright-report' }],
+  ],
 
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
@@ -28,7 +33,7 @@ export default defineConfig({
 
     /* Ignore HTTPS errors */
     ignoreHTTPSErrors: true,
-    trace: "on",
+    trace: "on-first-retry",
     video: "on",
     screenshot: "on",
   },
