@@ -36,7 +36,9 @@ module.exports = defineConfig(
   },
   {
     files: ['cypress/**/*.ts', 'cypress/**/*.tsx'],
-    parser: '@typescript-eslint/parser',
+    languageOptions: {
+      parser: tsParser,
+    },
     plugins: ['jest'],
     rules: {
       'jest/expect-expect': 'off',

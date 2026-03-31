@@ -1,0 +1,434 @@
+# CodeRabbit Configuration for Frontend Starter App
+# HCC (Hybrid Cloud Console) Frontend Application - Seed/Template Repository
+# Last updated: 2026-03-26
+#
+# This is a template repository used by HCC teams to bootstrap new applications.
+# Reviews focus on maintaining template quality and demonstrating best practices.
+
+# Language for reviews and chat responses
+language: "en-US"
+
+# Enable early access to experimental features
+early_access: false
+
+# Review configuration
+reviews:
+  # Review profile: "chill" for lighter feedback, "assertive" for detailed feedback
+  profile: "assertive"
+
+  # Request changes workflow - require approval when issues are resolved
+  request_changes_workflow: true
+
+  # High-level summary at the top of each review
+  high_level_summary: true
+
+  # Collapse the detailed walkthrough in a collapsible section
+  collapse_walkthrough: false
+
+  # Generate PR title automatically when placeholder is used
+  auto_title_placeholder: "@coderabbitai title"
+  auto_title_instructions: |
+    Format: "<type>: <description>"
+
+    Type must be one of:
+    - feat: New feature
+    - fix: Bug fix
+    - refactor: Code refactoring
+    - perf: Performance improvement
+    - test: Adding or updating tests
+    - docs: Documentation changes
+    - chore: Maintenance tasks
+    - ci: CI/CD changes
+    - style: Code style/formatting changes
+
+    Description should be concise (max 50 chars), lowercase, no period at end.
+    Example: "feat: add playwright e2e tests for authentication"
+
+  # Disable poem/ASCII art in reviews
+  poem: false
+
+  # PR assessment features
+  assess_linked_issues: true
+  related_issues: true
+  related_prs: true
+  suggested_labels: true
+  suggested_reviewers: true
+
+  # Review status comments
+  review_status: true
+  commit_status: true
+
+  # Path-based filters for what to review
+  path_filters:
+    - "!dist/**"
+    - "!build/**"
+    - "!node_modules/**"
+    - "!coverage/**"
+    - "!.cache/**"
+    - "!*.lock"
+    - "!package-lock.json"
+    - "!*.min.js"
+    - "!*.min.css"
+    - "!*.map"
+    - "!build-tools/**"
+
+  # Path-specific review instructions
+  path_instructions:
+    - path: "src/**/*.{ts,tsx}"
+      instructions: |
+        For TypeScript files:
+        - Enforce strict type safety (no 'any' types without justification)
+        - Verify proper TypeScript types for all function parameters and return values
+        - Check for proper error handling with typed errors
+        - Ensure React hooks follow rules of hooks
+        - Verify proper cleanup in useEffect hooks
+        - Check for potential memory leaks or performance issues
+        - IMPORTANT: Enforce PatternFly 6 usage - flag any imports from @patternfly/react-core/deprecated
+        - Verify no legacy PatternFly v5 patterns are used
+        - For module federation: ensure exports are properly typed and stable
+
+    - path: "**/*.{test,spec}.{ts,tsx}"
+      instructions: |
+        For unit test files:
+
+        IMPORTANT: Unit tests are ALWAYS REQUIRED for any source code changes.
+        This is the foundation of our testing strategy (unit → component → e2e).
+
+        When reviewing unit tests:
+        - MUST use @testing-library/react for DOM operations (not enzyme or direct DOM manipulation)
+        - Verify meaningful test descriptions that explain user behavior
+        - Check for proper test isolation (no shared state between tests)
+        - Ensure mocks are appropriate and minimal (don't mock what you own)
+        - Verify edge cases and error scenarios are tested
+        - Check that tests test user-visible behavior, not implementation details
+        - Ensure proper cleanup in beforeEach/afterEach hooks
+        - Snapshot tests should be meaningful and minimal (not just for coverage)
+        - Use role-based queries (getByRole, getByLabelText) for accessibility
+
+        When unit tests are MISSING:
+        - BLOCK THE PR if src/**/*.{ts,tsx} changed without corresponding tests
+        - Explain which files need test coverage
+        - Suggest test cases for the new/modified functionality
+
+    - path: "**/*.{scss,css}"
+      instructions: |
+        For style files:
+        - Verify use of PatternFly CSS variables (no hardcoded colors/spacing)
+        - Check for accessibility (color contrast, focus indicators)
+        - Ensure no inline styles in components (use SCSS modules)
+        - Verify responsive design considerations
+
+    - path: "src/Components/**/*.tsx"
+      instructions: |
+        For React components:
+        - Verify proper use of PatternFly 6 components
+        - Check accessibility (ARIA labels, semantic HTML, keyboard nav)
+        - Ensure components are not too large (< 200 lines)
+        - Verify proper prop types with TypeScript interfaces
+        - Check for performance optimizations (React.memo, useMemo, useCallback where appropriate)
+        - Ensure no XSS vulnerabilities (no dangerouslySetInnerHTML without sanitization)
+
+    - path: "deploy/frontend.yaml"
+      instructions: |
+        For Frontend Operator configuration:
+        - Verify navigation routes match module routes
+        - Check that all required FEO fields are present
+        - Ensure service tiles have proper icon references
+        - Verify bundleSegments position values don't conflict
+        - Check searchEntries have proper descriptions
+
+    - path: "playwright/**/*.spec.ts"
+      instructions: |
+        For Playwright E2E tests:
+
+        NOTE: E2E tests are NOT required for bot PRs (dependabot, renovate).
+        For regular PRs, E2E tests should match the feature complexity level.
+
+        When reviewing E2E test changes:
+        - Verify proper use of page object patterns (reusable selectors/actions)
+        - Check for role-based selectors over CSS selectors (accessibility)
+        - Ensure proper wait strategies (no arbitrary timeouts, use waitForLoadState)
+        - Verify authentication helpers are used correctly (login(), disableCookiePrompt())
+        - Check for proper test isolation and cleanup (independent tests)
+        - Tests should cover the full user journey, not individual components
+        - Verify tests are resilient to staging environment delays
+        - Check that E2E_USER and E2E_PASSWORD env vars are documented
+
+        When E2E tests are MISSING:
+        - Assess if the PR changes warrant E2E tests (see "Test Coverage and Strategy" check)
+        - High-complexity features (new routes, auth flows, critical workflows) REQUIRE E2E tests
+        - Medium-complexity features (major features, workflow changes) should have E2E tests
+        - Low-complexity changes (minor UI, docs, refactoring) don't need E2E tests
+
+    - path: "cypress/components/**/*.cy.tsx"
+      instructions: |
+        For Cypress component tests:
+
+        Component tests are SOMETIMES REQUIRED based on component complexity.
+        They sit between unit tests (always required) and E2E tests (complexity-based).
+
+        When reviewing component test changes:
+        - Verify components are tested in isolation (cy.mount)
+        - Check for proper mounting and cleanup
+        - Ensure user interactions are properly tested (clicks, typing, selections)
+        - Verify accessibility of rendered components (role-based queries)
+        - Tests should cover different prop/state combinations
+        - Verify integration with PatternFly components works correctly
+
+        When component tests are MISSING:
+        - NEW components: Recommend component tests for interactive/complex components
+        - SIMPLE components: Unit tests may be sufficient for presentational components
+        - COMPLEX interactions: Require component tests for multi-step interactions, forms
+        - Flag as WARNING if beneficial but not critical
+
+    - path: ".github/workflows/**/*.{yml,yaml}"
+      instructions: |
+        For GitHub Actions workflows:
+        - Verify workflow syntax is valid
+        - Check for proper use of GitHub Actions (no deprecated actions)
+        - Ensure secrets are properly referenced (not hardcoded)
+        - Verify job dependencies and conditions are correct
+        - Check for proper caching strategies (node_modules, etc.)
+        - Ensure workflows are efficient (parallel jobs where possible)
+
+    - path: "**/*.{js,cjs,mjs}"
+      instructions: |
+        For JavaScript configuration files:
+        - Prefer TypeScript for new files when possible
+        - Ensure proper error handling
+        - Verify no security issues (eval, unsafe require patterns)
+        - Check for proper module exports
+
+    - path: "package.json"
+      instructions: |
+        For dependency changes:
+        - Verify new dependencies are necessary and well-maintained
+        - Check for security vulnerabilities (npm audit)
+        - Ensure version ranges are appropriate (use ^ for minor updates)
+        - Verify no duplicate dependencies (check if similar functionality exists)
+        - PatternFly packages must be version 6.x (no v5 or deprecated packages)
+        - Check bundle size impact for new dependencies
+        - Ensure devDependencies vs dependencies are correct
+
+  # Automatic review settings
+  auto_review:
+    enabled: true
+    auto_incremental_review: true
+    drafts: false
+    base_branches:
+      - "master"
+      - "main"
+    ignore_title_keywords:
+      - "WIP"
+      - "DO NOT MERGE"
+      - "[skip ci]"
+    ignore_usernames:
+      - "dependabot"
+      - "dependabot[bot]"
+      - "renovate"
+      - "renovate[bot]"
+      - "github-actions"
+      - "github-actions[bot]"
+
+  # Pre-merge checks
+  #
+  # Testing Strategy:
+  # - BOT PRs (dependabot, renovate, github-actions): E2E tests ignored, basic review only
+  # - REGULAR PRs: Tiered testing approach based on complexity
+  #   * ALWAYS: Unit tests required (src/**/*.{ts,tsx} changes must have tests)
+  #   * SOMETIMES: Component tests for complex/interactive UI components
+  #   * CONDITIONAL: E2E tests based on feature complexity (high/medium/low)
+  #
+  pre_merge_checks:
+    # PR title validation
+    title:
+      mode: "warning"
+      requirements: |
+        PR title should follow conventional commit format:
+
+        ```text
+        <type>: <description>
+        ```
+
+        Examples:
+        ```text
+        feat: add user profile component
+        fix: resolve memory leak in data fetcher
+        test: add e2e tests for authentication flow
+        ```
+
+    # PR description validation
+    description:
+      mode: "warning"
+
+    # Custom checks
+    custom_checks:
+      - name: "PR Description Quality"
+        mode: "warning"
+        instructions: |
+          Verify PR description includes:
+          - Brief summary of changes
+          - Why the change was needed
+          - How to test the changes
+          - Link to JIRA ticket (if applicable)
+          - Screenshots for UI changes (if applicable)
+
+      - name: "Security Check"
+        mode: "error"
+        instructions: |
+          Verify:
+          - No hardcoded secrets, API keys, or credentials
+          - No XSS vulnerabilities (check dangerouslySetInnerHTML usage)
+          - No sensitive data in console.log statements
+          - Dependencies have no critical vulnerabilities (npm audit)
+          - Proper input validation for user inputs
+
+      - name: "Accessibility Check"
+        mode: "warning"
+        instructions: |
+          Verify:
+          - Interactive elements have accessible names
+          - Icon-only buttons have aria-label
+          - Form inputs have associated labels
+          - Images have alt text
+          - Proper semantic HTML usage
+          - Keyboard navigation works (Tab, Enter, Escape)
+
+      - name: "Test Coverage and Strategy"
+        mode: "error"
+        instructions: |
+          IMPORTANT: Skip this check for bot PRs (dependabot, renovate, github-actions).
+
+          For NON-BOT Pull Requests:
+
+          **ALWAYS REQUIRED - Unit Tests:**
+          - Any source code changes (src/**/*.{ts,tsx}) MUST include corresponding unit tests
+          - Minimum test coverage: 60% overall (block PR if not met)
+          - New/modified code should have 80%+ coverage
+          - Critical paths require 100% coverage (auth, data mutation, error handling)
+          - Tests use @testing-library/react for DOM interactions (not enzyme)
+          - Snapshot tests are meaningful and minimal (not just for coverage)
+
+          **SOMETIMES REQUIRED - Component/Integration Tests (Cypress):**
+          Consider requiring Cypress component tests when:
+          - New UI components are added (especially complex interactive components)
+          - Existing components have significant behavior changes
+          - Complex user interactions need testing (multi-step forms, drag-drop, etc.)
+          - PatternFly component integration needs verification
+          - Component props/state management is complex
+
+          Flag as WARNING if component tests would be beneficial but aren't critical.
+
+          **CONDITIONALLY REQUIRED - E2E Tests (Playwright):**
+          E2E tests should be added/updated for:
+
+          HIGH COMPLEXITY (REQUIRED - block PR):
+          - New user authentication/authorization flows
+          - New application routes or navigation changes
+          - Critical user workflows (checkout, form submission, data export)
+          - Integration with Chrome shell navigation
+          - Cross-page data persistence or state management
+          - Changes to Frontend Operator configuration affecting routing
+
+          MEDIUM COMPLEXITY (STRONGLY RECOMMENDED - warning):
+          - New major features with multiple pages/views
+          - Changes to existing critical workflows
+          - Integration with backend APIs for core features
+          - Changes affecting multiple components working together
+
+          LOW COMPLEXITY (OPTIONAL - mention if helpful):
+          - Minor UI tweaks or styling changes
+          - Documentation updates
+          - Dependency updates
+          - Internal refactoring without behavior changes
+          - Bug fixes with unit test coverage
+
+          **Assessment Guidance:**
+          1. Check if unit tests exist - if not, BLOCK PR
+          2. Assess feature complexity and user impact
+          3. Recommend component tests for new/complex UI components
+          4. Require E2E tests for high-complexity features
+          5. Explain WHY each test level is needed for this specific change
+
+      - name: "TypeScript Quality"
+        mode: "error"
+        instructions: |
+          Verify:
+          - No 'any' types used without documented justification
+          - No type assertions with 'as any'
+          - No @ts-ignore or @ts-expect-error without explanation comment
+          - Proper interface definitions for props and data
+          - Return types explicit for exported functions
+          - TypeScript strict mode compliance (tsconfig.json)
+
+  # Tool integrations
+  tools:
+    # JavaScript/TypeScript linting
+    eslint:
+      enabled: true
+
+    # Markdown linting
+    markdownlint:
+      enabled: true
+
+    # YAML linting
+    yamllint:
+      enabled: true
+
+    # Shell script linting
+    shellcheck:
+      enabled: true
+
+    # GitHub Actions workflow linting
+    actionlint:
+      enabled: true
+
+    # Secret scanning tools
+    gitleaks:
+      enabled: true
+
+    trufflehog:
+      enabled: true
+
+    # Security analysis
+    semgrep:
+      enabled: true
+
+    # GitHub checks integration
+    github-checks:
+      enabled: true
+      timeout_ms: 300000  # 5 minutes in milliseconds
+
+    # AST-based code analysis
+    ast-grep:
+      essential_rules: true
+
+# Chat settings
+chat:
+  # Disable ASCII art/poems in chat responses
+  art: false
+  auto_reply: true
+
+# Knowledge base configuration
+knowledge_base:
+  # Enable knowledge base features
+  opt_out: false
+
+  # Enable web search for additional context
+  web_search:
+    enabled: true
+
+  # Use repository code guidelines
+  code_guidelines:
+    enabled: true
+    filePatterns:
+      - "CLAUDE.md"
+      - "docs/**/*.md"
+      - "README.md"
+
+  # Learning from interactions
+  learnings:
+    scope: "auto"
+
+# Tone instructions for reviews
+tone_instructions: "Template repository for HCC teams. Be professional, educational, and constructive. Focus on maintainability and best practices. Distinguish critical issues from nice-to-haves. Explain why behind suggestions."
