@@ -33,3 +33,4 @@ cypress/videos
 # playwright
 playwright-report
 test-results
+playwright/.auth
