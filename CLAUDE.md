@@ -511,15 +511,23 @@ npx playwright show-report       # View HTML report
 - Retries: 2 on CI, 0 locally
 - Timeout: 120s per test, 10s per assertion
 - Parallel execution enabled
+- **Global setup**: Uses `@redhat-cloud-services/playwright-test-auth` for authentication
+- **Storage state**: Authentication state saved to `playwright/.auth/user.json` and reused across tests
 
 **Setup Requirements**:
 - **Environment variables**: `E2E_USER` and `E2E_PASSWORD` required for authentication
 - **Proxy config**: Tests expect proper proxy configuration (no "Lockdown" message)
 - **Stage environment**: Tests run against Red Hat staging environment
+- **Auth package**: `@redhat-cloud-services/playwright-test-auth` handles Red Hat SSO authentication
+
+**Authentication Strategy**:
+- **Global setup**: Authentication happens once before all tests via `globalSetup`
+- **Reusable state**: Login session stored in `playwright/.auth/user.json` and shared across tests
+- **No per-test login**: Tests automatically use the authenticated state without manual login
+- **Cookie handling**: Import `disableCookiePrompt` from the auth package to block TrustArc prompts
 
 **Patterns**:
-- **Authentication**: Use the `login()` helper function for SSO authentication
-- **Cookie prompt handling**: Use `disableCookiePrompt()` to prevent flaky tests
+- **Cookie prompt handling**: Use `disableCookiePrompt()` from `@redhat-cloud-services/playwright-test-auth`
 - **Page object pattern**: Extract common page interactions into reusable functions
 - **Waiting strategies**:
   - Use `waitForLoadState('load')` after navigation
@@ -531,12 +539,12 @@ npx playwright show-report       # View HTML report
 
 ```typescript
 import { test, expect } from '@playwright/test';
+import { disableCookiePrompt } from '@redhat-cloud-services/playwright-test-auth';
 
 test.describe('frontend starter app', () => {
   test.beforeEach(async ({ page }) => {
     await disableCookiePrompt(page);
     await page.goto('/');
-    // Handle login if needed
   });
 
   test('page loads with expected content', async ({ page }) => {
@@ -545,28 +553,13 @@ test.describe('frontend starter app', () => {
 });
 ```
 
-**Common Patterns**:
+**Manual Authentication** (if needed for special cases):
 
 ```typescript
-// Disable cookie prompt (prevents flaky tests)
-async function disableCookiePrompt(page: Page) {
-  await page.route('**/*', async (route, request) => {
-    if (request.url().includes('consent.trustarc.com')) {
-      await route.abort();
-    } else {
-      await route.continue();
-    }
-  });
-}
+import { login } from '@redhat-cloud-services/playwright-test-auth';
 
-// Login helper
-async function login(page: Page, user: string, password: string) {
-  await page.getByLabel('Red Hat login').first().fill(user);
-  await page.getByRole('button', { name: 'Next' }).click();
-  await page.getByLabel('Password').first().fill(password);
-  await page.getByRole('button', { name: 'Log in' }).click();
-  await expect(page.getByText('Invalid login')).not.toBeVisible();
-}
+// Manual login when global setup can't be used
+await login(page, process.env.E2E_USER!, process.env.E2E_PASSWORD!);
 ```
 
 ### Browser Compatibility
