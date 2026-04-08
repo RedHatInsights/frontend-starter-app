@@ -38,7 +38,7 @@
   "devDependencies": {
     "@cypress/code-coverage": "^3.14.7",
     "@cypress/react": "^9.0.1",
-    "@playwright/test": "^1.58.2",
+    "@playwright/test": "^1.59.1",
     "@redhat-cloud-services/eslint-config-redhat-cloud-services": "^3.0.31",
     "@redhat-cloud-services/frontend-components-config": "^6.7.54",
     "@redhat-cloud-services/playwright-test-auth": "^0.0.2",
