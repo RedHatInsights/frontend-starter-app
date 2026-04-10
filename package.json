@@ -36,6 +36,7 @@
     "react-router-dom": "^6.30.3"
   },
   "devDependencies": {
+    "@currents/playwright": "^1.22.2",
     "@cypress/code-coverage": "^3.14.7",
     "@cypress/react": "^9.0.1",
     "@playwright/test": "^1.59.1",

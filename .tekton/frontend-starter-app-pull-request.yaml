@@ -9,7 +9,7 @@ metadata:
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch
       == "master"
-    pipelinesascode.tekton.dev/pipeline: https://raw.githubusercontent.com/RedHatInsights/konflux-pipelines/refs/heads/main/pipelines/platform-ui/docker-build-run-all-tests.yaml
+    pipelinesascode.tekton.dev/pipeline: https://raw.githubusercontent.com/RedHatInsights/konflux-pipelines/refs/heads/main/pipelines/platform-ui/docker-build-run-all-tests-v2.yaml
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: frontend-starter-app
@@ -72,7 +72,21 @@ spec:
       done'
       echo "Dev server ready!"
 
-      echo "Running Playwright tests..."
+      echo "=== Dumping full environment ==="
+      env | sort
+      echo "=== End environment dump ==="
+
+      echo "Checking for required Currents environment variables..."
+      if [ -z "$CURRENTS_RECORD_KEY" ]; then
+        echo "ERROR: CURRENTS_RECORD_KEY is not set"
+        exit 1
+      fi
+      echo "CURRENTS_RECORD_KEY is set"
+
+      echo "Running Playwright tests with Currents reporting..."
+      export CURRENTS_PROJECT_ID=wzCT4R
+      export CURRENTS_CI_BUILD_ID="${PIPELINE_RUN_NAME:-$RANDOM}"
+      export CURRENTS_TAG="pr-{{pull_request_number}}"
       npx playwright test
   - name: e2e-credentials-secret
     value: frontend-starter-app-credentials-secret
@@ -86,12 +100,20 @@ spec:
     - name: revision
       value: main
     - name: pathInRepo
-      value: pipelines/platform-ui/docker-build-run-all-tests.yaml
+      value: pipelines/platform-ui/docker-build-run-all-tests-v2.yaml
   taskRunTemplate:
     serviceAccountName: build-pipeline-frontend-starter-app
   taskRunSpecs:
     - pipelineTaskName: run-e2e-tests
       serviceAccountName: build-pipeline-frontend-starter-app
+      stepSpecs:
+        - name: e2e-tests
+          env:
+            - name: CURRENTS_RECORD_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: frontend-starter-app-credentials-secret
+                  key: currents-record-key
       podTemplate:
         # Override /etc/hosts to redirect stage.foo.redhat.com to localhost
         hostAliases:
