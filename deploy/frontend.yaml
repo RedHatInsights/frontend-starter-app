@@ -73,4 +73,4 @@ parameters:
   - name: IMAGE_TAG
     required: true
   - name: IMAGE
-    value: quay.io/cloudservices/frontend-starter-app
+    value: quay.io/redhat-services-prod/rh-platform-experien-tenant/frontend-starter-app
