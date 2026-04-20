@@ -44,9 +44,7 @@ const routes = [
   },
   /* Catch all unmatched routes */
   {
-    route: {
-      path: '*',
-    },
+    path: '*',
     element: InvalidObject,
   },
 ];
