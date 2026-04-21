@@ -98,7 +98,7 @@ spec:
     - name: url
       value: https://github.com/RedHatInsights/konflux-pipelines
     - name: revision
-      value: main
+      value: btweed/v2-default-playwright-image
     - name: pathInRepo
       value: pipelines/platform-ui/docker-build-run-all-tests-v2.yaml
   taskRunTemplate:
