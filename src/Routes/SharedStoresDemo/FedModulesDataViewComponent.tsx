@@ -1,4 +1,4 @@
-import React from 'react';
+import type { FC } from 'react';
 import {
   DataView,
   DataViewTable,
@@ -29,7 +29,7 @@ interface FedModulesDataViewComponentProps {
   setSortConfig?: (key: string, direction: 'asc' | 'desc') => void;
 }
 
-export const FedModulesDataViewComponent: React.FC<
+export const FedModulesDataViewComponent: FC<
   FedModulesDataViewComponentProps
 > = ({
   fedModulesData,

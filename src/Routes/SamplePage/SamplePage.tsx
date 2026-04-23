@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useEffect } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 
 import {
   Button,
@@ -38,7 +38,7 @@ const SamplePage = () => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <PageHeader>
         <PageHeaderTitle title="Sample Insights App" />
         <p> This is page header text </p>
@@ -85,7 +85,7 @@ const SamplePage = () => {
           </StackItem>
         </Stack>
       </section>
-    </React.Fragment>
+    </>
   );
 };
 

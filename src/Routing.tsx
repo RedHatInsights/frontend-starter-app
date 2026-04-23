@@ -1,4 +1,5 @@
-import React, { Suspense, lazy, useMemo } from 'react';
+import { Suspense, lazy, useMemo } from 'react';
+import type { ComponentType } from 'react';
 import { Route as RouterRoute, Routes as RouterRoutes } from 'react-router-dom';
 import { InvalidObject } from '@redhat-cloud-services/frontend-components/InvalidObject';
 import { Bullseye, Spinner } from '@patternfly/react-core';
@@ -51,7 +52,7 @@ const routes = [
 
 interface RouteType {
   path?: string;
-  element: React.ComponentType;
+  element: ComponentType;
   childRoutes?: RouteType[];
   elementProps?: Record<string, unknown>;
 }
