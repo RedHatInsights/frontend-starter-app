@@ -7,7 +7,6 @@ import {
   StackItem,
   Title,
 } from '@patternfly/react-core';
-import { Main } from '@redhat-cloud-services/frontend-components/Main';
 import {
   PageHeader,
   PageHeaderTitle,
@@ -44,7 +43,7 @@ const SamplePage = () => {
         <PageHeaderTitle title="Sample Insights App" />
         <p> This is page header text </p>
       </PageHeader>
-      <Main>
+      <section>
         <Stack hasGutter>
           <StackItem>
             <Title headingLevel="h2" size="3xl">
@@ -85,7 +84,7 @@ const SamplePage = () => {
             </Stack>
           </StackItem>
         </Stack>
-      </Main>
+      </section>
     </React.Fragment>
   );
 };
