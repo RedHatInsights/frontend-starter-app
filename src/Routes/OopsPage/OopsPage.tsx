@@ -10,9 +10,9 @@ const OopsPage = () => {
   }, []);
 
   return (
-    <section>
+    <main>
       <Unavailable />
-    </section>
+    </main>
   );
 };
 

@@ -11,9 +11,9 @@ const NoPermissionsPage = () => {
   }, []);
 
   return (
-    <section>
+    <main>
       <NotAuthorized serviceName="Sample app" />
-    </section>
+    </main>
   );
 };
 
