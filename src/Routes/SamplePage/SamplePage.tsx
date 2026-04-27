@@ -43,7 +43,7 @@ const SamplePage = () => {
         <PageHeaderTitle title="Sample Insights App" />
         <p> This is page header text </p>
       </PageHeader>
-      <section>
+      <main>
         <Stack hasGutter>
           <StackItem>
             <Title headingLevel="h2" size="3xl">
@@ -84,7 +84,7 @@ const SamplePage = () => {
             </Stack>
           </StackItem>
         </Stack>
-      </section>
+      </main>
     </>
   );
 };
