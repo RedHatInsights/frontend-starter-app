@@ -1,5 +1,4 @@
 import { useEffect, useMemo } from 'react';
-import type { FC } from 'react';
 import {
   Alert,
   Bullseye,
@@ -25,7 +24,7 @@ import { FedModulesDataViewComponent } from './FedModulesDataViewComponent';
  * - Remote hooks exposed via Module Federation
  * - Clean separation of data fetching from UI presentation
  */
-const FedModulesDataContainer: FC = () => {
+const FedModulesDataContainer = () => {
   const storeArgs = useMemo(() => [], []);
 
   // 🎯 Main demonstration: useRemoteHook accessing shared store
@@ -95,7 +94,7 @@ const FedModulesDataContainer: FC = () => {
  * - Type-safe remote hook integration
  * - Rendering optimization through separated concerns
  */
-const SharedStoresDemo: FC = () => {
+const SharedStoresDemo = () => {
   const { appAction } = useChrome();
 
   useEffect(() => {

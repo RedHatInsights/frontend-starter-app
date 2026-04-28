@@ -1,7 +1,7 @@
 import './sample-component.scss';
-import type { FC, PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 
-const SampleComponent: FC<PropsWithChildren> = (props) => {
+const SampleComponent = (props: PropsWithChildren) => {
   return <span className="sample-component"> {props.children} </span>;
 };
 
