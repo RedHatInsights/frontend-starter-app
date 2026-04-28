@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useEffect } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 
 import {
   Button,
@@ -7,7 +7,6 @@ import {
   StackItem,
   Title,
 } from '@patternfly/react-core';
-import { Main } from '@redhat-cloud-services/frontend-components/Main';
 import {
   PageHeader,
   PageHeaderTitle,
@@ -39,12 +38,12 @@ const SamplePage = () => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <PageHeader>
         <PageHeaderTitle title="Sample Insights App" />
         <p> This is page header text </p>
       </PageHeader>
-      <Main>
+      <main>
         <Stack hasGutter>
           <StackItem>
             <Title headingLevel="h2" size="3xl">
@@ -85,8 +84,8 @@ const SamplePage = () => {
             </Stack>
           </StackItem>
         </Stack>
-      </Main>
-    </React.Fragment>
+      </main>
+    </>
   );
 };
 

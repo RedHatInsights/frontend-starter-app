@@ -1,4 +1,3 @@
-import React from 'react';
 import SampleComponent from '../../src/Components/SampleComponent/sample-component';
 
 describe('SampleComponent', () => {

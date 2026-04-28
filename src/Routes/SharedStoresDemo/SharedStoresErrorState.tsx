@@ -1,4 +1,3 @@
-import React from 'react';
 import { DataViewTh } from '@patternfly/react-data-view/dist/dynamic/DataViewTable';
 import { ErrorState } from '@patternfly/react-component-groups';
 import { Tbody, Td, Tr } from '@patternfly/react-table';
