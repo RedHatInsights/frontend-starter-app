@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
-import { Main } from '@redhat-cloud-services/frontend-components/Main';
 import { NotAuthorized } from '@redhat-cloud-services/frontend-components/NotAuthorized';
 import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 
@@ -12,9 +11,9 @@ const NoPermissionsPage = () => {
   }, []);
 
   return (
-    <Main>
+    <main>
       <NotAuthorized serviceName="Sample app" />
-    </Main>
+    </main>
   );
 };
 

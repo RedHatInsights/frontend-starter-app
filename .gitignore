@@ -34,3 +34,6 @@ cypress/videos
 playwright-report
 test-results
 playwright/.auth
+
+# Project tmp folder
+/tmp

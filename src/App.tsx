@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import { useEffect } from 'react';
 import NotificationsProvider from '@redhat-cloud-services/frontend-components-notifications/NotificationsProvider';
 import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 
@@ -14,11 +14,9 @@ const App = () => {
   }, []);
 
   return (
-    <Fragment>
-      <NotificationsProvider>
-        <Routing />
-      </NotificationsProvider>
-    </Fragment>
+    <NotificationsProvider>
+      <Routing />
+    </NotificationsProvider>
   );
 };
 
