@@ -57,6 +57,13 @@ spec:
 
       set -e
 
+      # Guard against Tekton nop image replacement
+      # See: https://github.com/tektoncd/pipeline/issues/1347
+      if ! command -v caddy >/dev/null 2>&1; then
+        echo "Caddy not found - running in Tekton nop image, exiting gracefully"
+        exit 0
+      fi
+
       echo "Starting application with Caddy using ConfigMap Caddyfile..."
       exec caddy run --config /etc/caddy/Caddyfile
   - name: e2e-tests-script
