@@ -23,9 +23,9 @@ module.exports = {
     exposes: {
       './RootApp': './src/AppEntry',
       './frontendModules/useFedModulesStore':
-        './src/hooks/sharedStores/useFedModulesStore',
+        './src/features/shared-stores/hooks/useFedModulesStore',
       './frontendModules/useFedModulesFilter':
-        './src/hooks/sharedStores/useFedModulesFilter',
+        './src/features/shared-stores/hooks/useFedModulesFilter',
     },
     shared: [],
   },

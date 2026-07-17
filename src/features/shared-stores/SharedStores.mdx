@@ -1,0 +1,76 @@
+# Shared Stores — Cross-App State with Scalprum
+
+This is an **advanced pattern** for sharing state across micro-frontend boundaries. Most applications won't need it — use it only when two independently deployed apps need to read or write the same state.
+
+## How it works
+
+HCC applications run as federated modules inside the Chrome shell. Scalprum provides a shared store mechanism that lets one app expose state hooks via Module Federation, and another app consume them at runtime.
+
+```
+┌─────────────────────────────────────────────┐
+│  Chrome Shell                               │
+│  ┌──────────────┐   ┌──────────────┐       │
+│  │  App A       │   │  App B       │       │
+│  │  (producer)  │──▶│  (consumer)  │       │
+│  │  exposes     │   │  useRemote   │       │
+│  │  store hook  │   │  Hook()      │       │
+│  └──────────────┘   └──────────────┘       │
+└─────────────────────────────────────────────┘
+```
+
+## Key concepts
+
+### Producer side (this app)
+
+The store hooks are defined in `src/features/shared-stores/hooks/` and exposed via Module Federation in `fec.config.js`:
+
+```js
+moduleFederation: {
+  exposes: {
+    './RootApp': './src/AppEntry',
+    './frontendModules/useFedModulesStore': './src/features/shared-stores/hooks/useFedModulesStore',
+    './frontendModules/useFedModulesFilter': './src/features/shared-stores/hooks/useFedModulesFilter',
+  },
+}
+```
+
+`useFedModulesStore` uses `createSharedStore()` from Scalprum to create a singleton store with event-driven updates. It manages federated module metadata: fetching, filtering, sorting.
+
+`useFedModulesFilter` uses `useSubscribeStore()` to subscribe only to filter events — preventing unnecessary re-renders when data changes but filters don't.
+
+### Consumer side (another app)
+
+Any other HCC app can consume these hooks at runtime:
+
+```tsx
+import { useRemoteHook } from '@scalprum/react-core';
+
+const { hookResult, loading, error } = useRemoteHook({
+  scope: 'frontendStarterApp',
+  module: './frontendModules/useFedModulesStore',
+  args: [],
+});
+```
+
+The consumer doesn't need to install or import the store code — Scalprum loads it from the producer's federated bundle at runtime.
+
+## Demo page
+
+Navigate to `/shared-stores-demo` in the running app to see the integration in action. The demo page:
+
+1. Loads the shared store via `useRemoteHook`
+2. Fetches federated module metadata from Chrome
+3. Renders a DataView table with filtering and sorting
+4. Demonstrates separated filter subscriptions for render optimization
+
+## Why no Storybook stories?
+
+The shared stores demo depends on Scalprum's Module Federation runtime (`useRemoteHook`), which requires a running federation host. Storybook's webpack dev server doesn't configure the federation plugin, so `useRemoteHook` can't resolve the federated modules.
+
+The presentational components (`FedModulesDataViewComponent`, empty/error/loading states) could be tested in isolation, but the core value of this demo is the cross-app integration — which only works in the real Chrome shell.
+
+## Further reading
+
+- `docs/scalprum-remote-hooks-shared-stores.md` — Full implementation guide
+- `docs/scalprum-quick-reference.md` — Quick code snippets
+- `src/features/shared-stores/README.md` — Feature island documentation

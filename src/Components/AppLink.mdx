@@ -1,0 +1,51 @@
+# AppLink & useAppNavigate
+
+HCC apps run under a basename like `/staging/starter` (derived from Chrome's `getBundle()/getApp()`). Raw React Router `<Link>` and `useNavigate()` don't know about this prefix — links break in production.
+
+## AppLink (declarative)
+
+Drop-in replacement for React Router's `<Link>` that prepends the basename automatically.
+
+```tsx
+import { AppLink } from '../Components/AppLink';
+
+<AppLink to="/roles/create">Create role</AppLink>
+// Renders href="/staging/starter/roles/create" in browser
+```
+
+Idempotent — if the path already starts with the basename, it won't double-prepend.
+
+## useAppNavigate (programmatic)
+
+Drop-in replacement for `useNavigate()` for programmatic navigation.
+
+```tsx
+import { useAppNavigate } from '../hooks/useAppNavigate';
+
+const navigate = useAppNavigate();
+navigate('/roles/create');
+// Navigates to /staging/starter/roles/create
+```
+
+## How the basename is resolved
+
+Both `AppLink` and `useAppNavigate` call `useChrome()` to get `getBundle()` and `getApp()`, then build the basename as `/${getBundle()}/${getApp()}`. In Storybook, the mock Chrome from `hcc-storybook-hub` provides these values via `StorybookMockProvider`'s `bundle` and `app` props.
+
+## Rules
+
+- **Never use raw `useNavigate()`** in feature code. Use `useAppNavigate()`.
+- **Never use raw `<Link>`** for internal navigation. Use `<AppLink>`.
+- The only place `useNavigate` is acceptable is inside `useAppNavigate` itself.
+- Route definitions in `Routing.tsx` use relative paths (no basename) — React Router handles that at the router level.
+
+## Storybook setup
+
+Stories that test navigation need a `MemoryRouter` with the full basename path and a route matching it:
+
+```tsx
+<MemoryRouter initialEntries={['/staging/starter/roles']}>
+  <Routes>
+    <Route path="/staging/starter/*" element={<Story />} />
+  </Routes>
+</MemoryRouter>
+```

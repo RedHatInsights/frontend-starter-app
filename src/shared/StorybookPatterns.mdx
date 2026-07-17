@@ -1,0 +1,144 @@
+# Storybook Patterns
+
+## Mock Data
+
+Every feature island defines its mock data in `data/mocks/db.ts`. The data flows through three layers: seed constants, a resettable collection, and handler factories that serve it via MSW.
+
+### 1. Define seed data
+
+Seed items are plain arrays matching your API types. Keep them in a constant so stories and tests can reference them by name instead of hardcoding strings.
+
+```ts
+// data/mocks/db.ts
+import type { Item } from '../queries/items';
+
+const SEED_ITEMS: Item[] = [
+  { id: 'item-1', name: 'Dashboard Widget', description: 'A reusable component', created: '2025-01-15T10:00:00Z' },
+  { id: 'item-2', name: 'API Gateway', description: 'Central routing service', created: '2025-02-20T14:30:00Z' },
+  // ... more items
+];
+```
+
+### 2. Wrap in a ResettableMockCollection
+
+`createResettableCollection` gives you a mutable in-memory database that can reset to its initial state. This is critical for test isolation — without it, a "Delete" story would affect a subsequent "Browse" story.
+
+```ts
+import { createResettableCollection } from '../../../../shared/test-utils/mockCollections';
+
+export function createSampleMockDb() {
+  return createResettableCollection(SEED_ITEMS);
+}
+```
+
+The collection provides `findAll()`, `findById()`, `create()`, `update()`, `delete()`, and `reset()`. Handler factories use these methods to serve and mutate data.
+
+### 3. Create the database in your story file
+
+Create the collection at module scope (shared across stories in the file), and reset it in a decorator so each story starts fresh.
+
+```ts
+const db = createSampleMockDb();
+
+const meta: Meta<typeof SamplePage> = {
+  component: SamplePage,
+  parameters: {
+    msw: {
+      handlers: createSampleHandlers(db),
+    },
+  },
+  decorators: [
+    (Story) => {
+      db.reset();  // Fresh data for each story
+      return <Story />;
+    },
+  ],
+};
+```
+
+### Empty and error states
+
+For empty state stories, pass an empty seed:
+
+```ts
+const emptyDb = createResettableCollection([]);
+// parameters: { msw: { handlers: createSampleHandlers(emptyDb) } }
+```
+
+For error states, create handlers that return error responses instead of using the collection.
+
+## MSW Handler Factories
+
+Every feature island defines its MSW handlers in `data/mocks/handlers.ts` as a factory function.
+
+```ts
+export function createSampleHandlers(
+  collection: ResettableMockCollection<Item>,
+  options: SampleHandlerOptions = {},
+) {
+  const { networkDelay = 200, onList, onCreate, onDelete } = options;
+  return [
+    http.get('/api/starter/v1/items', async ({ request }) => {
+      await delay(networkDelay);
+      // ... filter, sort, paginate from collection
+      onList?.(url.searchParams);
+      return HttpResponse.json(response);
+    }),
+    // ... POST, DELETE handlers
+  ];
+}
+```
+
+### Rules
+- **No inline MSW handlers in stories.** Always import from handler factories.
+- **Spy callbacks** (`onList`, `onCreate`, `onDelete`) enable assertions on API calls.
+- **Network delay** simulates real latency; set to 0 for fast tests if needed.
+
+## ResettableMockCollection
+
+A mock database that can reset to its initial state between stories.
+
+```ts
+const db = createSampleMockDb();
+
+// In story decorator:
+decorators: [
+  (Story) => {
+    db.reset(); // Fresh data for each story
+    return <Story />;
+  },
+],
+```
+
+### Why reset?
+
+Stories run in sequence in test-storybook. Without reset, a "Delete" story would affect a subsequent "Browse" story. `db.reset()` in decorators ensures isolation.
+
+## Story Parameters for MSW
+
+```ts
+parameters: {
+  msw: {
+    handlers: createSampleHandlers(db, {
+      onList: onListSpy,
+      onCreate: onCreateSpy,
+      onDelete: onDeleteSpy,
+    }),
+  },
+},
+```
+
+The `msw` parameter is picked up by `msw-storybook-addon` (provided by hcc-storybook-hub) to intercept network requests.
+
+## Spy Assertions
+
+Use `fn()` from `storybook/test` to create spy callbacks:
+
+```ts
+const onCreateSpy = fn();
+
+// In play function:
+expect(onCreateSpy).toHaveBeenCalledWith(
+  expect.objectContaining({ name: 'My New Service' }),
+);
+```
