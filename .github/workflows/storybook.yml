@@ -6,6 +6,10 @@ on:
   push:
     branches: [master]
 
+concurrency:
+  group: storybook-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
@@ -22,7 +26,7 @@ jobs:
       - name: Node setup
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
 
       - name: Install dependencies
@@ -57,7 +61,7 @@ jobs:
       - name: Node setup
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
 
       - name: Install dependencies
@@ -69,7 +73,7 @@ jobs:
       - name: Run Storybook tests
         run: |
           npx http-server storybook-static --port 6006 --silent &
-          npx wait-on http://localhost:6006
+          npx wait-on --timeout 60000 http://localhost:6006
           npm run test-storybook:ci -- --url http://localhost:6006
         env:
           CI: true

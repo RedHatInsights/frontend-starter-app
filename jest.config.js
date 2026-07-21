@@ -6,7 +6,7 @@ module.exports = {
   testEnvironment: 'jsdom',
   coverageDirectory: './coverage/',
   collectCoverage: true,
-  collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/stories/*'],
+  collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/stories/*', '!src/**/*.stories.{ts,tsx}'],
   roots: ['<rootDir>/src/'],
   moduleNameMapper: {
     '\\.(css|scss)$': 'identity-obj-proxy',

@@ -5,6 +5,10 @@ on:
     workflows: ["Storybook"]
     types: [completed]
 
+concurrency:
+  group: chromatic-${{ github.event.workflow_run.head_repository.full_name }}-${{ github.event.workflow_run.head_branch }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
   actions: read
@@ -14,14 +18,16 @@ jobs:
     runs-on: ubuntu-24.04
     if: >
       github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_repository.full_name == github.repository &&
       (github.event.workflow_run.event == 'pull_request' || github.event.workflow_run.event == 'push')
     outputs:
       storybookUrl: ${{ steps.chromatic.outputs.storybookUrl }}
       buildUrl: ${{ steps.chromatic.outputs.buildUrl }}
     steps:
-      - name: Checkout Base Repository
+      - name: Checkout Triggering Commit
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
+          ref: ${{ github.event.workflow_run.head_sha }}
           persist-credentials: false
           fetch-depth: 0
 
@@ -40,6 +46,10 @@ jobs:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           storybookBuildDir: storybook-static
           autoAcceptChanges: ${{ github.event.workflow_run.event == 'push' }}
+        env:
+          CHROMATIC_SHA: ${{ github.event.workflow_run.head_sha }}
+          CHROMATIC_BRANCH: ${{ github.event.workflow_run.head_branch }}
+          CHROMATIC_SLUG: ${{ github.repository }}
 
   comment:
     runs-on: ubuntu-24.04
@@ -59,15 +69,12 @@ jobs:
               return prs[0].number;
             }
             const head_sha = context.payload.workflow_run.head_sha;
-            const { data: pulls } = await github.rest.pulls.list({
+            const { data: associatedPRs } = await github.rest.repos.listPullRequestsAssociatedWithCommit({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              state: 'open',
-              sort: 'updated',
-              direction: 'desc',
-              per_page: 10,
+              commit_sha: head_sha,
             });
-            const matched = pulls.find(pr => pr.head.sha === head_sha);
+            const matched = associatedPRs.find(pr => pr.state === 'open');
             return matched ? matched.number : '';
 
       - name: Find existing comment
