@@ -35,5 +35,9 @@ playwright-report
 test-results
 playwright/.auth
 
+# storybook
+storybook-static
+debug-storybook.log
+
 # Project tmp folder
 /tmp
