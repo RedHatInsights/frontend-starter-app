@@ -1,82 +1,47 @@
-import { Suspense, lazy, useMemo } from 'react';
-import type { ComponentType } from 'react';
-import { Route as RouterRoute, Routes as RouterRoutes } from 'react-router-dom';
+import { Suspense, lazy } from 'react';
+import {
+  Navigate,
+  Route as RouterRoute,
+  Routes as RouterRoutes,
+} from 'react-router-dom';
 import { InvalidObject } from '@redhat-cloud-services/frontend-components/InvalidObject';
 import { Bullseye, Spinner } from '@patternfly/react-core';
 
-const SamplePage = lazy(
-  () =>
-    import(
-      /* webpackChunkName: "SamplePage" */ './Routes/SamplePage/SamplePage'
-    ),
-);
 const SharedStoresDemo = lazy(
   () =>
     import(
-      /* webpackChunkName: "SharedStoresDemo" */ './Routes/SharedStoresDemo/SharedStoresDemo'
+      /* webpackChunkName: "SharedStoresDemo" */ './features/shared-stores/SharedStoresDemo'
     ),
 );
 const OopsPage = lazy(
-  () => import(/* webpackChunkName: "OopsPage" */ './Routes/OopsPage/OopsPage'),
+  () => import(/* webpackChunkName: "OopsPage" */ './Components/OopsPage'),
 );
 const NoPermissionsPage = lazy(
   () =>
     import(
-      /* webpackChunkName: "NoPermissionsPage" */ './Routes/NoPermissionsPage/NoPermissionsPage'
+      /* webpackChunkName: "NoPermissionsPage" */ './Components/NoPermissionsPage'
     ),
 );
 
-const routes = [
-  {
-    path: 'no-permissions',
-    element: NoPermissionsPage,
-  },
-  {
-    path: 'oops',
-    element: OopsPage,
-  },
-  {
-    path: 'shared-stores-demo',
-    element: SharedStoresDemo,
-  },
-  {
-    path: '/',
-    element: SamplePage,
-  },
-  /* Catch all unmatched routes */
-  {
-    path: '*',
-    element: InvalidObject,
-  },
-];
-
-interface RouteType {
-  path?: string;
-  element: ComponentType;
-  childRoutes?: RouteType[];
-  elementProps?: Record<string, unknown>;
-}
-
-const renderRoutes = (routes: RouteType[] = []) =>
-  routes.map(({ path, element: Element, childRoutes, elementProps }) => (
-    <RouterRoute key={path} path={path} element={<Element {...elementProps} />}>
-      {renderRoutes(childRoutes)}
-    </RouterRoute>
-  ));
-
-const Routing = () => {
-  const renderedRoutes = useMemo(() => renderRoutes(routes), [routes]);
-  return (
-    <Suspense
-      fallback={
-        <Bullseye>
-          <Spinner />
-        </Bullseye>
-      }
-    >
-      <RouterRoutes>{renderedRoutes}</RouterRoutes>
-    </Suspense>
-  );
-};
+const Routing = () => (
+  <Suspense
+    fallback={
+      <Bullseye>
+        <Spinner />
+      </Bullseye>
+    }
+  >
+    <RouterRoutes>
+      <RouterRoute path="shared-stores-demo" element={<SharedStoresDemo />} />
+      <RouterRoute path="oops" element={<OopsPage />} />
+      <RouterRoute path="no-permissions" element={<NoPermissionsPage />} />
+      <RouterRoute
+        path="/"
+        element={<Navigate to="shared-stores-demo" replace />}
+      />
+      <RouterRoute path="*" element={<InvalidObject />} />
+    </RouterRoutes>
+  </Suspense>
+);
 
 export default Routing;

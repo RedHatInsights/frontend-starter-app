@@ -1,0 +1,115 @@
+# TableView + useTableState
+
+A unified table component from `@redhat-cloud-services/frontend-components/TableView`, paired with a state management hook.
+
+## useTableState
+
+Manages sort, pagination, filters, selection, and expansion. Returns `apiParams` ready for query hooks.
+
+```ts
+import { useTableState } from '@redhat-cloud-services/frontend-components/TableView';
+
+const COLUMNS = ['name', 'description', 'created'] as const;
+
+const tableState = useTableState<typeof COLUMNS, Item, 'name' | 'created'>({
+  columns: COLUMNS,
+  sortableColumns: ['name', 'created'] as const,
+  initialSort: { column: 'name', direction: 'asc' },
+  initialPerPage: 10,
+  getRowId: (row) => row.id,
+});
+
+// Pass to query hook
+const query = useItemsQuery({
+  offset: tableState.apiParams.offset,
+  limit: tableState.apiParams.limit,
+  orderBy: tableState.apiParams.orderBy,
+  filters: tableState.apiParams.filters,
+});
+```
+
+## TableView Component
+
+Renders a PatternFly Table with toolbar, pagination, filters, loading skeletons, empty states, and error handling.
+
+```tsx
+import { TableView, type ColumnConfigMap, type FilterConfig } from '@redhat-cloud-services/frontend-components/TableView';
+
+const columnConfig: ColumnConfigMap<typeof COLUMNS> = {
+  name: { label: 'Name', width: 25, sortable: true },
+  description: { label: 'Description', width: 45 },
+  created: { label: 'Created', width: 30, sortable: true },
+};
+
+const filterConfig: FilterConfig[] = [
+  { type: 'search', id: 'name', placeholder: 'Filter by name...' },
+];
+
+<TableView
+  columns={COLUMNS}
+  columnConfig={columnConfig}
+  data={data}
+  totalCount={totalCount}
+  getRowId={(row) => row.id}
+  cellRenderers={cellRenderers}
+  sort={tableState.sort}
+  onSortChange={tableState.onSortChange}
+  page={tableState.page}
+  perPage={tableState.perPage}
+  onPageChange={tableState.onPageChange}
+  onPerPageChange={tableState.onPerPageChange}
+  filterConfig={filterConfig}
+  filters={tableState.filters}
+  onFiltersChange={tableState.onFiltersChange}
+  clearAllFilters={tableState.clearAllFilters}
+  renderActions={renderActions}
+  error={query.error}
+  ariaLabel="Items table"
+/>
+```
+
+## Key Features
+
+- **Type-safe columns** — Const tuple columns enforce renderer and config completeness
+- **Sortable columns** — Declared via `sortable: true` in column config
+- **Auto page clamping** — Corrects out-of-range page when data changes
+- **Loading state** — Shows skeleton rows while data is undefined
+- **Error state** — Displays error message when an error is provided
+- **Empty states** — Differentiates "no data" vs "no results matching filters"
+- **Sort reset** — Changing sort or filters resets to page 1
+- **Selection** — Row selection with bulk select support
+- **Compound expansion** — Expandable row cells
+- **Cursor pagination** — Alternative to offset pagination for cursor-based APIs
+- **Date formatting** — `format: 'date'` on a column auto-formats ISO strings (relative for recent, absolute for older)
+
+## Column Format
+
+Use `format: 'date'` on date columns. The cell renderer returns the raw ISO string; TableView handles formatting via `DateFormat` from frontend-components. Recent dates show as relative ("2 days ago"), older dates show as absolute.
+
+```ts
+const columnConfig = {
+  modified: { label: 'Last modified', sortable: true, format: 'date' },
+};
+
+const cellRenderers = {
+  modified: (row) => row.modified,  // return raw ISO string, not formatted
+};
+```
+
+Never use `toLocaleDateString()` — it produces locale-dependent output that breaks story assertions across environments.
+
+## Filter Types
+
+```ts
+{ type: 'search', id: 'name', placeholder: 'Search...' }
+{ type: 'text', id: 'name', label: 'Name', placeholder: '...' }
+{ type: 'select', id: 'status', label: 'Status', options: [...] }
+{ type: 'checkbox', id: 'tags', label: 'Tags', options: [...] }
+```
+
+## Rules
+
+- Always pair `TableView` with `useTableState` for server-side data
+- Never hand-roll pagination state with `useState`
+- Column config and cell renderers must cover every column in the tuple
+- Import from `@redhat-cloud-services/frontend-components/TableView`

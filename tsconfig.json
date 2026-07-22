@@ -7,7 +7,7 @@
       "target": "esnext",
       "jsx": "react-jsx",
       "allowJs": true,
-      "moduleResolution": "node",
+      "moduleResolution": "bundler",
       "removeComments": false,
       "strict": true,
       "skipLibCheck": true,
@@ -22,8 +22,6 @@
       "src/**/*.tsx",
       "src/**/*.js",
       "src/**/*.jsx",
-      "config/**/*.ts",
-      "cypress/**/*.ts",
-      "cypress/**/*.tsx"
+      "config/**/*.ts"
   ]
 }
