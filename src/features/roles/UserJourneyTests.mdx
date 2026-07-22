@@ -1,0 +1,97 @@
+# User Journey Tests
+
+User journey stories test real user workflows end-to-end using Storybook play functions. They exercise the full component tree with MSW-backed API mocks.
+
+## Structure
+
+```ts
+export const CreateItem: Story = {
+  play: async ({ canvasElement, step }) => {
+    const user = userEvent.setup();
+
+    await step('Wait for the table to load', async () => {
+      await waitForContentReady(canvasElement);
+    });
+
+    await step('Click "Create item" button', async () => {
+      const canvas = within(canvasElement);
+      const button = canvas.getByRole('button', { name: 'Create item' });
+      await user.click(button);
+    });
+
+    // ... more steps
+  },
+};
+```
+
+## Key Rules
+
+### 1. Use `step()` closures
+
+Every logical phase wraps in a `step()` call. This:
+- Creates closure boundaries (prevents stale DOM references)
+- Labels phases in the Storybook interactions panel
+- Makes failures easy to locate
+
+### 2. Re-query DOM inside each step
+
+```ts
+// GOOD — fresh query inside step
+await step('Verify', async () => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('Dashboard Widget')).toBeInTheDocument();
+});
+
+// BAD — stale reference from outer scope
+const canvas = within(canvasElement);
+await step('Verify', async () => {
+  await expect(canvas.getByText('Dashboard Widget')).toBeInTheDocument(); // may be stale
+});
+```
+
+### 3. Reset state in decorators
+
+```ts
+decorators: [
+  (Story) => {
+    db.reset();          // Reset mock database
+    onCreateSpy.mockClear(); // Clear spy call history
+    return <Story />;
+  },
+],
+```
+
+### 4. Wait before asserting
+
+- `waitForContentReady()` — Wait for skeletons to disappear
+- `waitForModal()` — Wait for a dialog to appear
+- `waitForModalClose()` — Wait for all dialogs to close
+- `waitForNotification()` — Wait for a toast notification
+
+### 5. Use `findBy*` for async, `getBy*` for sync
+
+- `findByRole` — Async, retries until element appears (use after mutations)
+- `getByRole` — Sync, throws immediately if not found (use after `waitFor*`)
+
+## Interaction Helpers
+
+Import from `shared/test-utils/interactionHelpers`:
+
+| Helper | Purpose |
+|--------|---------|
+| `waitForContentReady(el)` | Wait for loading skeletons to disappear |
+| `waitForModal()` | Wait for a `[role="dialog"]` and return `within()` handle |
+| `waitForModalClose()` | Wait for all dialogs to close |
+| `clearAndType(user, getEl, text)` | Clear an input and type new text |
+| `waitForNotification(text)` | Wait for a PF alert containing text |
+| `confirmDestructiveModal(action)` | Click the action button in a confirmation modal |
+
+## Running
+
+```bash
+# Interactive — see steps execute in real time
+npm run storybook
+
+# CI — headless test runner
+npm run test-storybook
+```

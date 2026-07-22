@@ -1,0 +1,62 @@
+# Query Keys Factory Pattern
+
+Every feature's data layer defines a **query keys factory** — a plain object that produces structured, composable keys for TanStack Query.
+
+## The Pattern
+
+```ts
+export const itemKeys = {
+  all: ['items'] as const,
+  lists: () => [...itemKeys.all, 'list'] as const,
+  list: (params: ItemListParams) => [...itemKeys.lists(), params] as const,
+  details: () => [...itemKeys.all, 'detail'] as const,
+  detail: (id: string) => [...itemKeys.details(), id] as const,
+};
+```
+
+## Why
+
+1. **Granular invalidation** — After creating an item, invalidate `itemKeys.all` to refetch all list queries. After updating one, invalidate `itemKeys.detail(id)`.
+2. **Type safety** — `as const` tuples give exact types, catching key drift at compile time.
+3. **Composability** — Keys nest naturally: `['items', 'list', { offset: 0 }]`.
+
+## Usage in Hooks
+
+```ts
+export function useItemsQuery(params: ItemListParams = {}) {
+  const { axios } = useAppServices();
+  return useQuery({
+    queryKey: itemKeys.list(params),
+    queryFn: async () => {
+      const { data } = await axios.get('/api/starter/v1/items', { params });
+      return data;
+    },
+  });
+}
+```
+
+## Mutation Invalidation
+
+```ts
+export function useCreateItemMutation() {
+  const { axios, notify } = useAppServices();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (item: CreateItemParams) => {
+      const { data } = await axios.post('/api/starter/v1/items', item);
+      return data;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: itemKeys.all });
+      notify('success', 'Item created');
+    },
+  });
+}
+```
+
+## Rules
+
+- Every feature island owns its keys factory in `data/queries/`
+- Key names match the domain noun: `itemKeys`, `userKeys`, `roleKeys`
+- Mutations always invalidate via the keys factory, never with string literals
+- Data layer hooks only import `useAppServices()`, never platform hooks directly
