@@ -1,3 +1,4 @@
+import Axios from 'axios';
 import type {
   AppServices,
   CVE,
@@ -19,11 +20,26 @@ export function createBrowserServices(
 ): AppServices {
   const environment: Environment = chrome.isProd() ? 'production' : 'stage';
 
+  const axiosInstance = Axios.create();
+  axiosInstance.interceptors.request.use(async (config) => {
+    const token = await chrome.auth.getToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  });
+
+  const notify: AppServices['notify'] = (variant, title, description) => {
+    addNotification({ variant, title, description });
+  };
+
   return {
     appAction: chrome.appAction,
     addNotification,
     getToken: async () => (await chrome.auth.getToken()) ?? '',
     environment,
+    axios: axiosInstance,
+    notify,
     fetchCVEs: async (params = {}) => {
       const url = new URL(CVE_API_URL);
       url.searchParams.set('per_page', String(params.per_page ?? 10));

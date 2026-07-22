@@ -34,8 +34,8 @@ objects:
           position: 200
           navItems:
             - id: frontend-starter-app-two
-              title: Starter app link two
-              href: /staging/foo/starter
+              title: Roles CRUD Reference
+              href: /staging/starter/roles
         - segmentId: starter-app
           bundleId: staging
           position: 100

@@ -1,3 +1,5 @@
+import type { AxiosInstance } from 'axios';
+
 export interface Notification {
   variant: 'success' | 'danger' | 'warning' | 'info' | 'custom';
   title: React.ReactNode;
@@ -5,6 +7,14 @@ export interface Notification {
 }
 
 export type Environment = 'production' | 'stage' | 'qa';
+
+export type NotificationVariant = 'success' | 'danger' | 'warning' | 'info';
+
+export type NotifyFn = (
+  variant: NotificationVariant,
+  title: string,
+  description?: string,
+) => void;
 
 export interface CVE {
   CVE: string;
@@ -22,4 +32,6 @@ export interface AppServices {
   getToken: () => Promise<string>;
   environment: Environment;
   fetchCVEs: (params?: { per_page?: number }) => Promise<CVE[]>;
+  axios: AxiosInstance;
+  notify: NotifyFn;
 }

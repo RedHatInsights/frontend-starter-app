@@ -1,0 +1,90 @@
+# ServiceContext — Dependency Injection
+
+The ServiceContext pattern decouples your data layer from platform-specific code (Chrome SDK, notifications, etc.), making hooks testable in Storybook without mocking platform internals.
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────┐
+│  Browser Runtime                            │
+│  createBrowserServices() → AppServices      │
+│    - axios with 401 interceptor             │
+│    - chrome.auth.getToken                   │
+│    - useAddNotification → notify            │
+└─────────────┬───────────────────────────────┘
+              │ ServiceProvider
+              ▼
+┌─────────────────────────────────────────────┐
+│  Data Layer Hooks                           │
+│  useAppServices() → { axios, notify, ... }  │
+│  Query hooks, mutation hooks                │
+└─────────────────────────────────────────────┘
+              ▲
+              │ ServiceProvider (Storybook)
+┌─────────────────────────────────────────────┐
+│  Storybook Runtime                          │
+│  createBrowserServices() with mock values   │
+│    - axios (intercepted by MSW)             │
+│    - mock token                             │
+│    - useAddNotification → notify            │
+└─────────────────────────────────────────────┘
+```
+
+## AppServices Interface
+
+```ts
+interface AppServices {
+  appAction: (action: string) => void;
+  addNotification: (notification: Notification) => void;
+  getToken: () => Promise<string>;
+  environment: Environment;
+  fetchCVEs: (params?: { per_page?: number }) => Promise<CVE[]>;
+  axios: AxiosInstance;
+  notify: NotifyFn;
+}
+```
+
+## The Rule
+
+**Data layer hooks (`data/queries/`) must only import `useAppServices()`.**
+
+Never import directly:
+- `useChrome()`
+- `useAddNotification()`
+- `useFlag()`
+- Any platform-specific hook
+
+## Usage
+
+```ts
+// GOOD — uses DI
+function useItemsQuery() {
+  const { axios } = useAppServices();
+  return useQuery({
+    queryKey: itemKeys.all,
+    queryFn: () => axios.get('/api/items').then(r => r.data),
+  });
+}
+
+// BAD — imports platform code directly
+function useItemsQuery() {
+  const chrome = useChrome(); // ❌ Not testable in Storybook
+  // ...
+}
+```
+
+## Wiring in AppEntry
+
+```tsx
+const services = createBrowserServices({
+  addNotification,
+  getToken: chrome.auth.getToken,
+  environment: chrome.getEnvironment(),
+});
+
+<ServiceProvider value={services}>
+  <QueryClientSetup>
+    <App />
+  </QueryClientSetup>
+</ServiceProvider>
+```

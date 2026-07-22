@@ -9,6 +9,7 @@ import {
   StorybookMockProvider,
   hccPreviewDefaults,
 } from '@redhat-cloud-services/hcc-storybook-hub';
+import Axios from 'axios';
 import { ServiceProvider } from '../src/shared/ServiceContext';
 import type { AppServices } from '../src/shared/AppServices.types';
 
@@ -17,6 +18,7 @@ const baseMockServices: Omit<AppServices, 'addNotification' | 'notify'> = {
   getToken: async () => 'mock-token',
   environment: 'stage',
   fetchCVEs: async () => [],
+  axios: Axios.create(),
 };
 
 const ServiceProviderWithNotifications: React.FC<{

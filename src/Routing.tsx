@@ -23,6 +23,22 @@ const NoPermissionsPage = lazy(
       /* webpackChunkName: "NoPermissionsPage" */ './Routes/NoPermissionsPage/NoPermissionsPage'
     ),
 );
+const RolesPage = lazy(
+  () =>
+    import(/* webpackChunkName: "RolesPage" */ './features/roles/RolesPage'),
+);
+const CreateRoleWizard = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "CreateRoleWizard" */ './features/roles/components/CreateRoleWizard'
+    ),
+);
+const EditRoleWizard = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "EditRoleWizard" */ './features/roles/components/EditRoleWizard'
+    ),
+);
 
 const routes = [
   {
@@ -40,6 +56,14 @@ const routes = [
   {
     path: '/',
     element: SamplePage,
+  },
+  {
+    path: 'roles',
+    element: RolesPage,
+    childRoutes: [
+      { path: 'create', element: CreateRoleWizard },
+      { path: ':uuid/edit', element: EditRoleWizard },
+    ],
   },
   /* Catch all unmatched routes */
   {

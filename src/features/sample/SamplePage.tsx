@@ -19,7 +19,7 @@ const SampleComponent = lazy(
 
 import CVEList from './components/CVEList';
 import './sample-page.scss';
-import AppLink from '../../Components/AppLink';
+import { AppLink } from '../../Components/AppLink';
 
 const SamplePage = () => {
   const { appAction, addNotification } = useAppServices();

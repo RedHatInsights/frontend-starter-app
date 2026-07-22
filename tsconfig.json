@@ -7,7 +7,7 @@
       "target": "esnext",
       "jsx": "react-jsx",
       "allowJs": true,
-      "moduleResolution": "node",
+      "moduleResolution": "bundler",
       "removeComments": false,
       "strict": true,
       "skipLibCheck": true,
@@ -26,6 +26,8 @@
   ],
   "exclude": [
       "src/**/*.stories.ts",
-      "src/**/*.stories.tsx"
+      "src/**/*.stories.tsx",
+      "src/**/*.mdx",
+      "src/shared/interactionHelpers.ts"
   ]
 }

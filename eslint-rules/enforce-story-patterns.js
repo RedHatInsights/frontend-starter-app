@@ -1,74 +1,60 @@
 /**
- * enforce-story-patterns
+ * ESLint Rule: enforce-story-patterns
  *
- * Enforces Storybook story conventions in *.stories.tsx files:
- * 1. Stories must have a `title` in the meta object
- * 2. Stories must export a default meta object
+ * Enforces correct query patterns in Storybook play functions.
+ * Configured as error — violations must be fixed, not suppressed.
+ *
+ * Patterns detected:
+ *   - canvasElement.querySelector / canvasElement.querySelectorAll
+ *     (use within() + role/text queries instead)
+ *   - getBy* / getAllBy* inside waitFor callbacks
+ *     (use queryBy* + expect inside waitFor, or findBy* outside it)
  */
-
-/* eslint-disable @typescript-eslint/no-require-imports */
 
 /** @type {import('eslint').Rule.RuleModule} */
 module.exports = {
   meta: {
-    type: 'problem',
+    type: 'suggestion',
     docs: {
-      description: 'Enforce Storybook story patterns for consistency',
+      description: 'Warn about discouraged patterns in Storybook play functions',
     },
     messages: {
-      missingDefaultExport:
-        'Story files must have a default export with a meta object.',
-      missingTitle: 'Story meta must include a `title` property.',
+      noCanvasElementQuery:
+        'canvasElement.{{method}} is discouraged in play functions. Use within() + role/text queries instead.',
+      noGetByInWaitFor:
+        '{{method}} inside waitFor throws before retry. Use queryBy* + expect inside waitFor, or findBy* outside it.',
     },
     schema: [],
   },
   create(context) {
-    const filename = context.filename || context.getFilename();
-    if (!filename.endsWith('.stories.tsx') && !filename.endsWith('.stories.ts')) {
-      return {};
-    }
-
-    let hasDefaultExport = false;
-    let metaVariableName = null;
-    let metaHasTitle = false;
-
     return {
-      ExportDefaultDeclaration(node) {
-        hasDefaultExport = true;
-        if (node.declaration.type === 'Identifier') {
-          metaVariableName = node.declaration.name;
-        }
-      },
-
-      VariableDeclarator(node) {
+      // canvasElement.querySelector() / canvasElement.querySelectorAll()
+      CallExpression(node) {
         if (
-          node.id.type === 'Identifier' &&
-          node.init &&
-          node.init.type === 'ObjectExpression'
+          node.callee.type === 'MemberExpression' &&
+          node.callee.object.type === 'Identifier' &&
+          node.callee.object.name === 'canvasElement' &&
+          node.callee.property.type === 'Identifier' &&
+          (node.callee.property.name === 'querySelector' || node.callee.property.name === 'querySelectorAll')
         ) {
-          const hasTitle = node.init.properties.some(
-            (prop) =>
-              prop.type === 'Property' &&
-              prop.key.type === 'Identifier' &&
-              prop.key.name === 'title',
-          );
-          if (hasTitle) {
-            metaHasTitle = true;
-          }
-        }
-      },
-
-      'Program:exit'() {
-        if (!hasDefaultExport) {
           context.report({
-            loc: { line: 1, column: 0 },
-            messageId: 'missingDefaultExport',
+            node,
+            messageId: 'noCanvasElementQuery',
+            data: { method: node.callee.property.name },
           });
         }
-        if (hasDefaultExport && !metaHasTitle) {
+      },
+
+      // getBy* / getAllBy* inside waitFor(() => { ... })
+      'CallExpression[callee.name="waitFor"] MemberExpression'(node) {
+        if (
+          node.property.type === 'Identifier' &&
+          /^(getBy|getAllBy)/.test(node.property.name)
+        ) {
           context.report({
-            loc: { line: 1, column: 0 },
-            messageId: 'missingTitle',
+            node,
+            messageId: 'noGetByInWaitFor',
+            data: { method: node.property.name },
           });
         }
       },
