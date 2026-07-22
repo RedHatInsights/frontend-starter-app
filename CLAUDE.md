@@ -22,6 +22,9 @@ This is a **starter template and reference implementation** that frontend teams 
 - **Module Federation**: Webpack Module Federation configured for micro-frontend architecture
 - **Frontend Operator (FEO)**: Complete deployment configuration template
 - **Scalprum**: Cross-micro-frontend state management examples
+- **TanStack Query**: Server state management with query keys factory pattern
+- **ServiceContext DI**: Dependency injection for environment-agnostic data hooks
+- **Storybook**: Component development and user journey testing with hcc-storybook-hub
 
 ### Build and Development Tools
 - **TypeScript 5** with strict mode enabled
@@ -32,13 +35,18 @@ This is a **starter template and reference implementation** that frontend teams 
 - **ESLint** with HCC coding standards
 
 ### Testing Infrastructure
+- **Storybook stories**: User journey tests with MSW handler factories and play functions (primary)
 - **Unit tests**: Jest + Testing Library configured and working
 - **Component tests**: Cypress with PatternFly support
 - **E2E tests**: Playwright with HCC auth helpers
 - **CI/CD**: GitHub Actions workflow for automated testing
 
 ### Working Examples
-- Sample components demonstrating PatternFly usage
+- **Feature island pattern** with CRUD operations (list, create, delete)
+- **TableView + useTableState** for data tables with sort, filter, pagination
+- **Query keys factory** for TanStack Query cache management
+- **MSW handler factories** with spy callbacks for Storybook testing
+- **User journey stories** demonstrating browse, create, delete workflows
 - Scalprum shared stores demo (cross-app state management)
 - Chrome integration patterns
 - Routing with React Router v6
@@ -152,9 +160,13 @@ All dependencies are already configured in `package.json`:
 - **Framework**: React 18 with TypeScript 5
 - **UI Library**: PatternFly 6 (`@patternfly/react-core`, `@patternfly/react-table`, `@patternfly/react-data-view`)
 - **Build Tool**: `@redhat-cloud-services/frontend-components-config` (FEC) - Webpack-based
+- **Server State**: TanStack Query v5 (`@tanstack/react-query`)
+- **HTTP Client**: Axios (injected via ServiceContext DI)
 - **Routing**: React Router v6
 - **Micro-frontend**: Scalprum (`@scalprum/react-core`, `@scalprum/core`)
+- **Storybook**: `@redhat-cloud-services/hcc-storybook-hub` (MSW, Chrome mocks, PatternFly)
 - **Testing**:
+  - **User Journey Stories**: Storybook play functions with MSW (primary)
   - **Unit**: Jest + Testing Library
   - **Component**: Cypress
   - **E2E**: Playwright
@@ -168,25 +180,39 @@ All dependencies are already configured in `package.json`:
 ```
 frontend-starter-app/
 ├── src/
-│   ├── Components/         # Reusable React components
-│   ├── Routes/            # Page-level route components
-│   │   └── SharedStoresDemo/  # Scalprum shared stores example
-│   ├── index.tsx          # Entry point
-│   └── RootApp.tsx        # Root application component
-├── config/                # Webpack and build configuration
-├── build-tools/           # Git submodule (insights-frontend-builder-common)
+│   ├── features/                          # Feature islands
+│   │   └── sample/                        # Example CRUD feature
+│   │       ├── SamplePage.tsx             # Page with TableView + CRUD
+│   │       ├── SamplePage.stories.tsx     # User journey stories
+│   │       ├── README.md                  # Feature documentation
+│   │       ├── components/                # Feature-specific components
+│   │       ├── data/
+│   │       │   ├── queries/items.ts       # TanStack Query hooks + keys factory
+│   │       │   └── mocks/                 # MSW handler factory + mock DB
+│   │       └── hooks/useSampleTable.ts    # useTableState instance
+│   ├── shared/
+│   │   ├── components/
+│   │   │   ├── QueryClientSetup.tsx       # TanStack Query provider
+│   │   │   └── table-view/               # TableView + useTableState
+│   │   ├── contexts/ServiceContext.tsx    # DI context
+│   │   ├── services/                     # AppServices types + browser factory
+│   │   └── test-utils/                   # Interaction helpers, mock collections
+│   ├── Routes/                            # Error pages (OopsPage, NoPermissionsPage)
+│   ├── docs/                              # Storybook MDX documentation
+│   ├── hooks/sharedStores/               # Scalprum shared stores example
+│   ├── App.tsx
+│   ├── AppEntry.tsx                       # Entry with ServiceProvider + QueryClientSetup
+│   └── Routing.tsx
+├── .storybook/                            # Storybook configuration
+├── config/                                # Webpack and build configuration
 ├── deploy/
-│   └── frontend.yaml      # Frontend Operator configuration
-├── cypress/
-│   └── components/        # Cypress component tests (*.cy.tsx)
-├── playwright/            # Playwright e2e tests (*.spec.ts)
-├── docs/                  # Documentation
-│   ├── frontend-operator/ # FEO configuration guides
-│   ├── scalprum-remote-hooks-shared-stores.md
-│   └── scalprum-quick-reference.md
-├── fec.config.js          # FEC build configuration
-├── cypress.config.ts      # Cypress configuration
-└── playwright.config.ts   # Playwright configuration
+│   └── frontend.yaml                      # Frontend Operator configuration
+├── cypress/                               # Cypress component tests
+├── playwright/                            # Playwright e2e tests
+├── docs/                                  # Project documentation
+├── fec.config.js                          # FEC build configuration
+├── AGENTS.md                              # AI agent architecture rules
+└── CLAUDE.md                              # This file
 ```
 
 ## Development Workflow
@@ -218,6 +244,7 @@ CHROME_SERVICE=8000 npm start
 # Run tests while developing
 npm test -- --watch           # Unit tests in watch mode
 npm run test:cypress:open     # Interactive component testing
+npm run storybook             # Storybook with user journey stories
 
 # Lint and fix code
 npm run lint:js:fix
@@ -419,6 +446,117 @@ For **cross-application state management** and **shared stores**:
 - Synchronizing data without prop drilling
 
 **Most applications won't need this** — it's for advanced cross-app integration.
+
+### TanStack Query Patterns
+
+**Query Keys Factory**: Every feature defines a keys object for structured cache management:
+
+```ts
+export const itemKeys = {
+  all: ['items'] as const,
+  lists: () => [...itemKeys.all, 'list'] as const,
+  list: (params) => [...itemKeys.lists(), params] as const,
+  detail: (id: string) => [...itemKeys.all, 'detail', id] as const,
+};
+```
+
+**Query Hooks**: Use `useAppServices()` for dependencies, never platform hooks:
+
+```ts
+export function useItemsQuery(params: ItemListParams) {
+  const { axios } = useAppServices();
+  return useQuery({
+    queryKey: itemKeys.list(params),
+    queryFn: () => axios.get('/api/items', { params }).then(r => r.data),
+  });
+}
+```
+
+**Mutations**: Invalidate queries via keys factory on success, notify on error:
+
+```ts
+export function useCreateItemMutation() {
+  const { axios, notify } = useAppServices();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (item) => axios.post('/api/items', item).then(r => r.data),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: itemKeys.all });
+      notify('success', 'Item created');
+    },
+    onError: (error) => notify('danger', 'Failed to create item', error.message),
+  });
+}
+```
+
+### ServiceContext DI Pattern
+
+Data hooks get ALL dependencies from `useAppServices()`:
+- `axios` — HTTP client (browser uses cookies, Storybook uses MSW)
+- `notify` — Notification function (browser uses Redux/Toast)
+- `getToken` — Auth token resolver
+- `environment` — Deployment environment
+
+**Rule**: Never import `useChrome()`, `useAddNotification()`, or any platform hook in data layer files (`data/queries/`).
+
+### Feature Islands Pattern
+
+Each feature owns its full vertical: components, data layer, mocks, hooks, and stories.
+
+```
+src/features/<feature>/
+├── FeaturePage.tsx              # Page component
+├── FeaturePage.stories.tsx      # User journey stories
+├── README.md                    # Feature documentation
+├── components/                  # Feature-specific components
+├── data/
+│   ├── queries/                 # TanStack Query hooks + keys factory
+│   └── mocks/
+│       ├── db.ts               # Mock database
+│       └── handlers.ts         # MSW handler factory
+└── hooks/                       # Feature-specific hooks (e.g., useTableState)
+```
+
+### Storybook Development
+
+```bash
+npm run storybook        # Start Storybook dev server on port 6006
+npm run build-storybook  # Build static Storybook
+npm run test-storybook   # Run all story tests headlessly
+```
+
+**MSW Handler Factories**: Define in `data/mocks/handlers.ts`, never inline in stories:
+
+```ts
+export function createFeatureHandlers(collection, options = {}) {
+  const { networkDelay = 200, onList, onCreate, onDelete } = options;
+  return [
+    http.get('/api/endpoint', async ({ request }) => { /* ... */ }),
+  ];
+}
+```
+
+**Story Structure**:
+```ts
+parameters: {
+  msw: { handlers: createFeatureHandlers(db, { onList: spy }) },
+},
+decorators: [(Story) => { db.reset(); return <Story />; }],
+```
+
+**User Journey Play Functions**: Use `step()` closures, interaction helpers, spy assertions:
+
+```ts
+play: async ({ canvasElement, step }) => {
+  await step('Wait for content', async () => {
+    await waitForContentReady(canvasElement);
+  });
+  await step('Verify data', async () => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByText('Expected')).toBeInTheDocument();
+  });
+};
+```
 
 ## Testing Strategy (Pre-configured and Ready to Use)
 
@@ -685,6 +823,9 @@ spec:
 | `npm test` | Run Jest unit tests |
 | `npm test -- --watch` | Run tests in watch mode |
 | `npm test -- --coverage` | Run with coverage report |
+| `npm run storybook` | Start Storybook dev server (port 6006) |
+| `npm run build-storybook` | Build static Storybook |
+| `npm run test-storybook` | Run all Storybook tests headlessly |
 | `npm run test:cypress` | Run Cypress component tests (headless) |
 | `npm run test:cypress:open` | Open Cypress interactive UI |
 | `npx playwright test` | Run Playwright e2e tests |
