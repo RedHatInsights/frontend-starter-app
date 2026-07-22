@@ -19,10 +19,16 @@
     "test:cypress": "cypress run --component",
     "test:cypress:open": "cypress open --component",
     "test:cypress:component": "cypress run --component",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "test-storybook": "test-storybook --testTimeout=30000",
+    "test-storybook:ci": "test-storybook --ci --testTimeout=60000",
+    "test:storybook": "storybook build && start-server-and-test 'http-server storybook-static -p 6007 -s' http://127.0.0.1:6007 'test-storybook --ci --testTimeout=60000 --url http://127.0.0.1:6007'",
     "postinstall": "ts-patch install && rimraf .cache",
     "verify": "npm-run-all build lint test"
   },
   "dependencies": {
+    "@patternfly/patternfly": "^6.6.0",
     "@patternfly/react-core": "^6.4.3",
     "@patternfly/react-data-view": "^6.4.0",
     "@patternfly/react-table": "^6.4.3",
@@ -41,6 +47,7 @@
     "@playwright/test": "^1.59.1",
     "@redhat-cloud-services/eslint-config-redhat-cloud-services": "^3.1.1",
     "@redhat-cloud-services/frontend-components-config": "^6.10.0",
+    "@redhat-cloud-services/hcc-storybook-hub": "^0.2.0",
     "@redhat-cloud-services/playwright-test-auth": "^0.0.2",
     "@redhat-cloud-services/tsc-transform-imports": "^1.1.1",
     "@testing-library/jest-dom": "^6.9.1",
@@ -50,10 +57,13 @@
     "@types/react-dom": "^18.3.7",
     "@typescript-eslint/parser": "^8.59.2",
     "cypress": "^15.14.2",
+    "http-server": "^14.1.1",
     "identity-obj-proxy": "^3.0.0",
     "jest-environment-jsdom": "^29.7.0",
     "npm-run-all2": "^5.0.2",
+    "remark-gfm": "^4.0.0",
     "rimraf": "^5.0.10",
+    "start-server-and-test": "^3.0.11",
     "ts-jest": "^29.4.9",
     "ts-patch": "^3.3.0",
     "typescript": "^5.9.3",
@@ -62,5 +72,10 @@
   },
   "insights": {
     "appname": "frontend-starter-app"
+  },
+  "msw": {
+    "workerDirectory": [
+      "static"
+    ]
   }
 }
