@@ -11,7 +11,7 @@ import {
   PageHeader,
   PageHeaderTitle,
 } from '@redhat-cloud-services/frontend-components/PageHeader';
-import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
+import { useAppServices } from '../../shared/ServiceContext';
 
 const SampleComponent = lazy(
   () => import('./components/SampleComponent/sample-component'),
@@ -19,11 +19,9 @@ const SampleComponent = lazy(
 
 import './sample-page.scss';
 import AppLink from '../../Components/AppLink';
-import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 
 const SamplePage = () => {
-  const { appAction } = useChrome();
-  const addNotification = useAddNotification();
+  const { appAction, addNotification } = useAppServices();
 
   useEffect(() => {
     appAction('sample-page');

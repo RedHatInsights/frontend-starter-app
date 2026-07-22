@@ -7,6 +7,15 @@ import {
   StorybookMockProvider,
   hccPreviewDefaults,
 } from '@redhat-cloud-services/hcc-storybook-hub';
+import { ServiceProvider } from '../src/shared/ServiceContext';
+import type { AppServices } from '../src/shared/AppServices.types';
+
+const mockServices: AppServices = {
+  appAction: () => {},
+  addNotification: () => {},
+  getToken: async () => 'mock-token',
+  environment: 'stage',
+};
 
 const preview: Preview = {
   ...hccPreviewDefaults,
@@ -20,7 +29,9 @@ const preview: Preview = {
         }
       >
         <NotificationsProvider>
-          <Story />
+          <ServiceProvider value={parameters.services ?? mockServices}>
+            <Story />
+          </ServiceProvider>
         </NotificationsProvider>
       </StorybookMockProvider>
     ),
