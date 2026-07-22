@@ -36,14 +36,4 @@ module.exports = defineConfig(
       '@typescript-eslint/no-unused-vars': 'error',
     },
   },
-  {
-    files: ['cypress/**/*.ts', 'cypress/**/*.tsx'],
-    languageOptions: {
-      parser: tsParser,
-    },
-    plugins: ['jest'],
-    rules: {
-      'jest/expect-expect': 'off',
-    },
-  },
 );
