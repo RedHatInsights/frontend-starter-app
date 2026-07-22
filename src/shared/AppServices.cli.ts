@@ -7,5 +7,9 @@ export function createCliServices(): AppServices {
       console.log(`[cli] notification: ${n.variant} - ${n.title}`),
     getToken: async () => 'cli-stub-token',
     environment: 'stage',
+    fetchCVEs: async () => {
+      console.log('[cli] fetchCVEs called');
+      return [];
+    },
   };
 }

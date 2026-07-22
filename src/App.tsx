@@ -4,6 +4,7 @@ import { useAddNotification } from '@redhat-cloud-services/frontend-components-n
 import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 
 import Routing from './Routing';
+import { QueryClientSetup } from './shared/QueryClientSetup';
 import { ServiceProvider } from './shared/ServiceContext';
 import { createBrowserServices } from './shared/AppServices.browser';
 import './App.scss';
@@ -18,7 +19,9 @@ const AppWithServices = () => {
 
   return (
     <ServiceProvider value={services}>
-      <Routing />
+      <QueryClientSetup>
+        <Routing />
+      </QueryClientSetup>
     </ServiceProvider>
   );
 };

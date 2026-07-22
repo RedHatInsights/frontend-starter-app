@@ -17,6 +17,7 @@ const SampleComponent = lazy(
   () => import('./components/SampleComponent/sample-component'),
 );
 
+import CVEList from './components/CVEList';
 import './sample-page.scss';
 import AppLink from '../../Components/AppLink';
 
@@ -57,6 +58,9 @@ const SamplePage = () => {
             <Suspense fallback={<Spinner />}>
               <SampleComponent />
             </Suspense>
+          </StackItem>
+          <StackItem>
+            <CVEList />
           </StackItem>
           <StackItem>
             <Stack hasGutter>
