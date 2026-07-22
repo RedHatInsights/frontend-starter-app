@@ -3,6 +3,7 @@ import NotificationsProvider from '@redhat-cloud-services/frontend-components-no
 import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 
+import ErrorBoundary from './Components/ErrorBoundary';
 import Routing from './Routing';
 import { QueryClientSetup } from './shared/QueryClientSetup';
 import { ServiceProvider } from './shared/ServiceContext';
@@ -20,7 +21,9 @@ const AppWithServices = () => {
   return (
     <ServiceProvider value={services}>
       <QueryClientSetup>
-        <Routing />
+        <ErrorBoundary>
+          <Routing />
+        </ErrorBoundary>
       </QueryClientSetup>
     </ServiceProvider>
   );

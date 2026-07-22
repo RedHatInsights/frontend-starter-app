@@ -15,12 +15,12 @@ const SharedStoresDemo = lazy(
     ),
 );
 const OopsPage = lazy(
-  () => import(/* webpackChunkName: "OopsPage" */ './Routes/OopsPage/OopsPage'),
+  () => import(/* webpackChunkName: "OopsPage" */ './Components/OopsPage'),
 );
 const NoPermissionsPage = lazy(
   () =>
     import(
-      /* webpackChunkName: "NoPermissionsPage" */ './Routes/NoPermissionsPage/NoPermissionsPage'
+      /* webpackChunkName: "NoPermissionsPage" */ './Components/NoPermissionsPage'
     ),
 );
 const RolesPage = lazy(

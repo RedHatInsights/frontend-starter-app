@@ -1,0 +1,255 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Documentation/Storybook Mandatory Rules" />
+
+# Storybook Mandatory Rules
+
+These rules apply to **every** `.stories.tsx` file. Violations cause silent test failures or broken Interactions panel output.
+
+---
+
+## 1. Import Rule
+
+```typescript
+// Always import from 'storybook/test' (no @ prefix)
+import { userEvent, within, expect, fn, waitFor } from 'storybook/test';
+
+// Never
+import { expect } from '@storybook/test';
+import { userEvent } from '@storybook/testing-library';
+```
+
+---
+
+## 2. Query Rule — `findBy*` not `getBy*`
+
+In play functions, always use async `findBy*` queries. `getBy*` throws immediately if the element is not in the DOM yet.
+
+```typescript
+// Correct — waits for async content
+const button = await canvas.findByRole('button', { name: /save/i });
+
+// Wrong — fails if element isn't immediately present
+const button = canvas.getByRole('button', { name: /save/i });
+```
+
+**Exceptions where `getBy*` is acceptable:**
+
+- Inside `within(alreadyFoundElement)` when the parent was already awaited
+- `queryBy*` for asserting absence: `expect(canvas.queryByText('error')).not.toBeInTheDocument()`
+
+---
+
+## 3. `await expect(...)` Rule
+
+Always `await` your `expect` calls in play functions so failures appear in Storybook's **Interactions** panel:
+
+```typescript
+// Awaited — shows in Interactions panel
+await expect(canvas.findByText('Success')).resolves.toBeInTheDocument();
+await expect(spy).toHaveBeenCalled();
+
+// Not awaited — Interactions panel may not report failures
+expect(canvas.findByText('Success')).resolves.toBeInTheDocument();
+```
+
+---
+
+## 4. Modal Rule
+
+Modals render to `document.body` via React portals, not inside the canvas:
+
+```typescript
+import { screen, within } from 'storybook/test';
+
+// Modals are in document.body
+const modal = screen.getByRole('dialog');
+expect(within(modal).getByText('Confirm deletion')).toBeInTheDocument();
+
+// Modal is not in canvas
+const modal = canvas.getByRole('dialog'); // wrong
+```
+
+Use `waitForModal()` from `src/shared/interactionHelpers.ts`.
+
+---
+
+## 5. PatternFly Table Role
+
+PatternFly tables render as `role="grid"`, not `role="table"`:
+
+```typescript
+// Correct
+const table = await canvas.findByRole('grid');
+
+// Wrong
+const table = await canvas.findByRole('table');
+```
+
+---
+
+## 6. Component vs User Journey Stories
+
+**Component stories** test a component in isolation with inline mock data:
+
+```typescript
+const meta: Meta<typeof CVEList> = {
+  component: CVEList,
+  parameters: {
+    services: {
+      fetchCVEs: async () => [{ CVE: 'CVE-2024-12345', ... }],
+    },
+  },
+};
+```
+
+**User journey stories** test full flows with MSW handlers from handler factories:
+
+```typescript
+import { createRolesHandlers } from './data/mocks/handlers';
+
+const meta: Meta<typeof RolesPage> = {
+  component: RolesPage,
+  parameters: {
+    msw: { handlers: createRolesHandlers(db, spies) },
+  },
+};
+```
+
+Component stories should not need MSW. User journey stories must use handler factories — no inline `http.get()` handlers.
+
+---
+
+## 7. API Spy Pattern
+
+Test that API calls are made with correct parameters using `fn()` spies in MSW handlers:
+
+```typescript
+const listRolesSpy = fn();
+
+// Inside MSW handler
+http.get('/api/rbac/v1/roles/', ({ request }) => {
+  listRolesSpy({ name: new URL(request.url).searchParams.get('name') });
+  return HttpResponse.json({ data: roles, meta: { count: roles.length } });
+});
+
+// In play function
+await waitFor(() => {
+  expect(listRolesSpy).toHaveBeenCalledWith({ name: 'admin' });
+});
+```
+
+---
+
+## 8. No Hardcoded Mock Data Strings
+
+Play functions must reference seed constants, not hardcoded strings:
+
+```typescript
+// Correct — reference seed data
+import { SEED_ROLES } from './data/mocks/db';
+await canvas.findByText(SEED_ROLES[0].display_name);
+
+// Wrong — hardcoded string that drifts from seed
+await canvas.findByText('Org Administrator');
+```
+
+---
+
+## 9. Use Shared Interaction Helpers
+
+Do not inline modal waits, drawer scoping, or destructive confirmations. Import from `src/shared/interactionHelpers.ts`:
+
+| Helper | Replaces |
+|--------|----------|
+| `waitForContentReady(el)` | inline skeleton/spinner polling |
+| `waitForModal()` | `screen.getByRole('dialog')` |
+| `waitForModalClose()` | inline `waitFor` + dialog check |
+| `confirmDestructiveModal()` | modal + button click sequence |
+| `clearAndType(user, getEl, text)` | `user.clear()` + `user.type()` |
+
+**Banned in play functions:**
+- `document.querySelector` / `document.getElementById`
+- `dispatchEvent(new MouseEvent(...))` / raw `.click()`
+- Hand-rolled polling loops
+- Sync `getByRole` / `getByText` after any async boundary (use `findBy*`)
+
+---
+
+## 10. User Journey Steps
+
+User journey play functions must use `step` for every logical phase:
+
+```typescript
+play: async ({ canvasElement, step }) => {
+  const canvas = within(canvasElement);
+  const user = userEvent.setup();
+
+  await step('Load the page', async () => {
+    await waitForContentReady(canvasElement);
+  });
+
+  await step('Filter by name', async () => {
+    const search = await canvas.findByPlaceholderText(/filter/i);
+    await user.type(search, 'admin');
+  });
+
+  await step('Verify filtered results', async () => {
+    await waitFor(() => {
+      expect(listRolesSpy).toHaveBeenCalledWith(
+        expect.objectContaining({ name: 'admin' }),
+      );
+    });
+  });
+};
+```
+
+---
+
+## 11. Banned Patterns (ESLint-enforced)
+
+### `findBy*` inside `waitFor` (double-retry)
+
+```typescript
+// BAD — double retry, console.error noise
+await waitFor(async () => {
+  await dialog.findByDisplayValue('Production');
+});
+
+// GOOD — single retry
+await waitFor(() => {
+  expect(dialog.queryByDisplayValue('Production')).toBeInTheDocument();
+});
+```
+
+### `getBy*` / `getAllBy*` inside `waitFor`
+
+```typescript
+// BAD — throws before retry
+await waitFor(() => {
+  canvas.getByText('Loaded');
+});
+
+// GOOD
+await waitFor(() => {
+  expect(canvas.queryByText('Loaded')).toBeInTheDocument();
+});
+```
+
+---
+
+## Pre-flight Checklist
+
+Before writing or submitting any `.stories.tsx` file:
+
+- [ ] Imports from `storybook/test` (no `@`)
+- [ ] All play function queries use `await canvas.findBy*()`
+- [ ] All `expect()` calls are `await`ed
+- [ ] Modals use `waitForModal()` (not `canvas.getByRole('dialog')`)
+- [ ] PatternFly tables use `role="grid"`
+- [ ] Component stories: inline mock data via `parameters.services`
+- [ ] User journey stories: MSW handlers from factories, not inline
+- [ ] API spies defined with `fn()` and asserted in play functions
+- [ ] No hardcoded mock data strings — reference seed constants
+- [ ] Use shared interaction helpers — no inline DOM queries
+- [ ] User journey play functions wrap phases in `await step(...)`
