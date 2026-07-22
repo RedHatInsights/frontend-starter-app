@@ -3,6 +3,17 @@ const { defineConfig } = require('eslint/config');
 const fecPlugin = require('@redhat-cloud-services/eslint-config-redhat-cloud-services');
 const tsParser = require('@typescript-eslint/parser');
 const tseslint = require('typescript-eslint');
+const enforceStoryPatterns = require('./eslint-rules/enforce-story-patterns');
+
+const localRulesPlugin = {
+  plugins: {
+    'local-rules': {
+      rules: {
+        'enforce-story-patterns': enforceStoryPatterns,
+      },
+    },
+  },
+};
 
 module.exports = defineConfig(
   fecPlugin,
@@ -34,6 +45,13 @@ module.exports = defineConfig(
       'react/react-in-jsx-scope': 'off',
       'react/jsx-uses-react': 'off',
       '@typescript-eslint/no-unused-vars': 'error',
+    },
+  },
+  localRulesPlugin,
+  {
+    files: ['src/**/*.stories.ts', 'src/**/*.stories.tsx'],
+    rules: {
+      'local-rules/enforce-story-patterns': 'error',
     },
   },
 );

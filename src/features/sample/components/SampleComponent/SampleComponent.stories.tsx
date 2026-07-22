@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import SampleComponent from './sample-component';
 
 const meta: Meta<typeof SampleComponent> = {
-  title: 'Components/SampleComponent',
+  title: 'features/sample/SampleComponent',
   component: SampleComponent,
 };
 
