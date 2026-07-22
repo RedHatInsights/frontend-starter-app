@@ -128,6 +128,29 @@ reviews:
         - Check for performance optimizations (React.memo, useMemo, useCallback where appropriate)
         - Ensure no XSS vulnerabilities (no dangerouslySetInnerHTML without sanitization)
 
+    - path: "src/features/**"
+      instructions: |
+        Feature islands are self-contained. Flag imports between features.
+        Components should use useAppServices(), not useChrome() directly.
+        Data fetching should use TanStack Query hooks, not useEffect+useState.
+
+    - path: "src/**/*.stories.tsx"
+      instructions: |
+        Stories must have a title in meta. Play functions should use
+        within() + role queries, not canvasElement.querySelector().
+        Use userEvent.setup() for interactions.
+
+    - path: "src/features/roles/**"
+      instructions: |
+        This is a REFERENCE GUIDE, not production code. Changes here should
+        maintain the teaching quality of the code. Every pattern demonstrated
+        should be the recommended approach.
+
+    - path: "eslint-rules/**"
+      instructions: |
+        Custom ESLint rules must land in the same PR as the pattern
+        they enforce. Update eslint-rules/README.md when adding rules.
+
     - path: "deploy/frontend.yaml"
       instructions: |
         For Frontend Operator configuration:
@@ -159,27 +182,6 @@ reviews:
         - High-complexity features (new routes, auth flows, critical workflows) REQUIRE E2E tests
         - Medium-complexity features (major features, workflow changes) should have E2E tests
         - Low-complexity changes (minor UI, docs, refactoring) don't need E2E tests
-
-    - path: "cypress/components/**/*.cy.tsx"
-      instructions: |
-        For Cypress component tests:
-
-        Component tests are SOMETIMES REQUIRED based on component complexity.
-        They sit between unit tests (always required) and E2E tests (complexity-based).
-
-        When reviewing component test changes:
-        - Verify components are tested in isolation (cy.mount)
-        - Check for proper mounting and cleanup
-        - Ensure user interactions are properly tested (clicks, typing, selections)
-        - Verify accessibility of rendered components (role-based queries)
-        - Tests should cover different prop/state combinations
-        - Verify integration with PatternFly components works correctly
-
-        When component tests are MISSING:
-        - NEW components: Recommend component tests for interactive/complex components
-        - SIMPLE components: Unit tests may be sufficient for presentational components
-        - COMPLEX interactions: Require component tests for multi-step interactions, forms
-        - Flag as WARNING if beneficial but not critical
 
     - path: ".github/workflows/**/*.{yml,yaml}"
       instructions: |

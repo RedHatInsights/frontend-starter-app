@@ -1,5 +1,10 @@
 # Frontend Starter App
 
+> **Note:** Cypress has been removed — component testing is now handled by
+> Storybook with play functions. Cypress references below are historical.
+> See `AGENTS.md` for the current architecture patterns: feature islands,
+> ServiceContext DI, TanStack Query, and custom ESLint governance rules.
+
 **Seed repository** for creating new Red Hat Hybrid Cloud Console (HCC) frontend applications. Use this as a template when starting a new HCC UI project — it provides a working foundation with all required integrations, build tooling, and testing infrastructure pre-configured.
 
 ## Purpose
