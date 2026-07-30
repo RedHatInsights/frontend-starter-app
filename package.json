@@ -19,6 +19,7 @@
     "test:cypress": "cypress run --component",
     "test:cypress:open": "cypress open --component",
     "test:cypress:component": "cypress run --component",
+    "playwright": "PLAYWRIGHT=true playwright test",
     "postinstall": "ts-patch install && rimraf .cache",
     "verify": "npm-run-all build lint test"
   },
