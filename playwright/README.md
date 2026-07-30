@@ -44,13 +44,17 @@ npx playwright show-report
 - `breadcrumbs-incremental-mode.spec.ts` - Tests incremental breadcrumb mode (`useBreadcrumbs`)
 - `breadcrumbs-replace-mode.spec.ts` - Tests replace breadcrumb mode (`useReplaceBreadcrumbs`)
 
-### Fixtures (`fixtures.ts`)
+### Cookie Prompt Handling
 
-Custom Playwright fixtures that extend the base test:
+Tests disable the TrustArc cookie prompt in `test.beforeEach` using `disableCookiePrompt()` from `./test-utils` (re-exported from `@redhat-cloud-services/playwright-test-auth`):
 
-- **Page fixture**: Disables TrustArc cookie prompt via `disableCookiePrompt()` from `@redhat-cloud-services/playwright-test-auth`
+```ts
+test.beforeEach(async ({ page }) => {
+  await disableCookiePrompt(page);
+});
+```
 
-### Global Setup (`global-setup.ts`)
+### Global Setup (`global-setup-with-proxy.ts`)
 
 Handles authentication before all tests:
 - Logs in to Red Hat SSO using test credentials

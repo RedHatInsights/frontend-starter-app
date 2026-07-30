@@ -31,11 +31,11 @@ import { useRemoteHook } from '@scalprum/react-core';
 
 const BASE_PATH = '/staging/starter/breadcrumb-demo';
 
-type AppBreadcrumbSegment = {
+interface AppBreadcrumbSegment {
   pathname: string;
   title: string;
   options?: NavigateOptions;
-};
+}
 
 const REPLACE_MODE_EXAMPLE = `import { useRemoteHook } from '@scalprum/react-core';
 
@@ -97,7 +97,7 @@ const TAB_NAMES: Record<string, string> = {
 
 // ─── Replace Mode Demo ───────────────────────────────────────────────
 
-const BreadcrumbDemo = () => {
+const BreadcrumbDemo = (): React.JSX.Element => {
   const { id, tab } = useParams<{ id?: string; tab?: string }>();
   const [activeTab, setActiveTab] = useState(0);
 
@@ -126,10 +126,11 @@ const BreadcrumbDemo = () => {
     return crumbs;
   }, [id, tab]);
 
+  const replaceBreadcrumbArgs = useMemo(() => [breadcrumbs], [breadcrumbs]);
   useRemoteHook<void>({
     scope: 'chrome',
     module: './breadcrumbs/useReplaceBreadcrumbs',
-    args: [breadcrumbs],
+    args: replaceBreadcrumbArgs,
   });
 
   if (id && tab) {
@@ -357,12 +358,13 @@ export default BreadcrumbDemo;
 // ─── Incremental Mode Demo (nested routes) ───────────────────────────
 
 const NESTED_BASE = `${BASE_PATH}/nested`;
+const INCREMENTAL_ROOT_ARGS = [NESTED_BASE, 'Breadcrumb Demo'];
 
-export const IncrementalRoot = () => {
+export const IncrementalRoot = (): React.JSX.Element => {
   useRemoteHook<void>({
     scope: 'chrome',
     module: './breadcrumbs/useBreadcrumbs',
-    args: [NESTED_BASE, 'Breadcrumb Demo'],
+    args: INCREMENTAL_ROOT_ARGS,
   });
 
   return (
@@ -376,11 +378,13 @@ export const IncrementalRoot = () => {
   );
 };
 
+const INCREMENTAL_ITEMS_ARGS = [`${NESTED_BASE}/items`, 'Items'];
+
 const IncrementalItems = () => {
   useRemoteHook<void>({
     scope: 'chrome',
     module: './breadcrumbs/useBreadcrumbs',
-    args: [`${NESTED_BASE}/items`, 'Items'],
+    args: INCREMENTAL_ITEMS_ARGS,
   });
   const isExactPath = useMatch(`${NESTED_BASE}/items`);
 
@@ -437,15 +441,19 @@ const IncrementalDetail = () => {
   const { id } = useParams<{ id: string }>();
   const isExactPath = useMatch(`${NESTED_BASE}/items/:id`);
 
-  const filters = { status: 'active', view: 'detail' };
-  useRemoteHook<void>({
-    scope: 'chrome',
-    module: './breadcrumbs/useBreadcrumbs',
-    args: [
+  const filters = useMemo(() => ({ status: 'active', view: 'detail' }), []);
+  const detailArgs = useMemo(
+    () => [
       `${NESTED_BASE}/items/${id}`,
       `Item ${id}`,
       { state: { filters, returnPath: NESTED_BASE } },
     ],
+    [id, filters],
+  );
+  useRemoteHook<void>({
+    scope: 'chrome',
+    module: './breadcrumbs/useBreadcrumbs',
+    args: detailArgs,
   });
 
   return (
@@ -505,14 +513,18 @@ const IncrementalTab = () => {
   const { id, tab } = useParams<{ id: string; tab: string }>();
   const tabTitle = (tab && TAB_NAMES[tab]) || tab || 'Unknown';
 
-  useRemoteHook<void>({
-    scope: 'chrome',
-    module: './breadcrumbs/useBreadcrumbs',
-    args: [
+  const tabArgs = useMemo(
+    () => [
       `${NESTED_BASE}/items/${id}/${tab}`,
       tabTitle,
       { state: { activeTab: tab } },
     ],
+    [id, tab, tabTitle],
+  );
+  useRemoteHook<void>({
+    scope: 'chrome',
+    module: './breadcrumbs/useBreadcrumbs',
+    args: tabArgs,
   });
 
   return (

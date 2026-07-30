@@ -4,9 +4,9 @@ Demonstrates Chrome global breadcrumbs API usage in a real application.
 
 ## Features Shown
 
-1. **Root breadcrumb** - `/starter/breadcrumb-demo`
-2. **Nested breadcrumbs** - `/starter/breadcrumb-demo/items/:id`
-3. **Tab breadcrumbs** - `/starter/breadcrumb-demo/items/:id/:tab`
+1. **Root breadcrumb** - `/staging/starter/breadcrumb-demo`
+2. **Nested breadcrumbs** - `/staging/starter/breadcrumb-demo/items/:id`
+3. **Tab breadcrumbs** - `/staging/starter/breadcrumb-demo/items/:id/:tab`
 4. **State preservation** - NavigateOptions with state for filters/context
 
 ## How to Use
@@ -15,26 +15,31 @@ Demonstrates Chrome global breadcrumbs API usage in a real application.
 
 ```tsx
 import { useRemoteHook } from '@scalprum/react-core';
-
-const { hookResult: useBreadcrumbs } = useRemoteHook({
-  scope: 'chrome',
-  module: './breadcrumbs/useBreadcrumbs',
-});
 ```
 
-### 2. Register breadcrumbs in each route
+### 2. Register breadcrumbs via args
 
 ```tsx
-// Root route
-useBreadcrumbs?.('/starter/breadcrumb-demo', 'Breadcrumb Demo');
+// Root route — pass pathname and title via args
+useRemoteHook({
+  scope: 'chrome',
+  module: './breadcrumbs/useBreadcrumbs',
+  args: ['/staging/starter/breadcrumb-demo', 'Breadcrumb Demo'],
+});
 
-// Detail route with state
-const filters = { status: 'active', view: 'detail' };
-useBreadcrumbs?.(
-  `/starter/breadcrumb-demo/items/${id}`,
+// Detail route with state — memoize args for stable references
+const filters = useMemo(() => ({ status: 'active', view: 'detail' }), []);
+const args = useMemo(() => [
+  `/staging/starter/breadcrumb-demo/items/${id}`,
   `Item ${id}`,
-  { state: { filters, returnPath: '/starter/breadcrumb-demo' } }
-);
+  { state: { filters, returnPath: '/staging/starter/breadcrumb-demo' } }
+], [id, filters]);
+
+useRemoteHook({
+  scope: 'chrome',
+  module: './breadcrumbs/useBreadcrumbs',
+  args,
+});
 ```
 
 ### 3. Access state when navigating back
@@ -58,7 +63,7 @@ useEffect(() => {
 ### `useBreadcrumbs(pathname, title, options?)`
 
 **Parameters:**
-- `pathname` (string) - Full pathname including bundle prefix (e.g., `/starter/breadcrumb-demo/items/123`)
+- `pathname` (string) - Full pathname including bundle prefix (e.g., `/staging/starter/breadcrumb-demo/items/123`)
 - `title` (string) - Breadcrumb title to display
 - `options` (NavigateOptions, optional) - React Router navigation options:
   - `state` - Any data to pass when navigating via breadcrumb

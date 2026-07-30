@@ -1,10 +1,10 @@
 import { useEffect, useMemo } from 'react';
 import {
+  DataViewTr,
   useDataViewFilters,
   useDataViewPagination,
   useDataViewSort,
 } from '@patternfly/react-data-view';
-import { DataViewTr } from '@patternfly/react-data-view';
 import { DataViewState } from '@patternfly/react-data-view/dist/dynamic/DataView';
 import { Label, Stack, StackItem } from '@patternfly/react-core';
 import { useSearchParams } from 'react-router-dom';

@@ -5,6 +5,7 @@ export default defineConfig({
   testMatch: /\.spec\.(ts|tsx)$/,
   workers: 1,
   fullyParallel: false,
+  retries: process.env.CI ? 2 : 0,
   globalSetup: './playwright/global-setup-with-proxy.ts',
   expect: {
     timeout: 10000,

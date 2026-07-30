@@ -1,16 +1,7 @@
-import { chromium, type FullConfig, type Page, type Route, type Request } from 'playwright';
+import { chromium, type FullConfig, type Page } from 'playwright';
+import { disableCookiePrompt } from './test-utils';
 
-async function disableCookiePrompt(page: Page) {
-  await page.route('**/*', async (route: Route, request: Request) => {
-    if (request.url().includes('consent.trustarc.com') && request.resourceType() !== 'document') {
-      await route.abort();
-    } else {
-      await route.continue();
-    }
-  });
-}
-
-async function login(page: Page, user: string, password: string) {
+async function login(page: Page, user: string, password: string, baseURL: string) {
   const lockdownCount = await page.locator('text=Lockdown').count();
   if (lockdownCount > 0) {
     throw new Error('Proxy config incorrect - Lockdown page detected');
@@ -22,7 +13,7 @@ async function login(page: Page, user: string, password: string) {
   await page.getByLabel('Password').first().fill(password);
   await page.getByRole('button', { name: 'Log in' }).click();
 
-  await page.waitForURL('https://stage.foo.redhat.com:1337/**', { timeout: 60000 });
+  await page.waitForURL(`${baseURL}/**`, { timeout: 60000 });
 
   await page.getByText('Hi,').waitFor({ state: 'visible', timeout: 60000 });
 }
@@ -56,7 +47,7 @@ async function globalSetup(config: FullConfig) {
 
     await page.waitForLoadState('load');
 
-    await login(page, user, password);
+    await login(page, user, password, baseURL as string);
 
     await context.storageState({ path: storageState as string });
 
