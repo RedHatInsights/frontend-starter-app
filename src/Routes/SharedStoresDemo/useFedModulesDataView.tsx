@@ -4,7 +4,7 @@ import {
   useDataViewPagination,
   useDataViewSort,
 } from '@patternfly/react-data-view';
-import { DataViewTh, DataViewTr } from '@patternfly/react-data-view';
+import { DataViewTr } from '@patternfly/react-data-view';
 import { DataViewState } from '@patternfly/react-data-view/dist/dynamic/DataView';
 import { Label, Stack, StackItem } from '@patternfly/react-core';
 import { useSearchParams } from 'react-router-dom';
@@ -116,7 +116,7 @@ export const useFedModulesDataView = ({
   };
 
   // Define table columns with sort params
-  const columns: DataViewTh[] = columnsData.map((column, index) => ({
+  const columns = columnsData.map((column, index) => ({
     cell: column.label,
     props: {
       sort: getSortParams(index),

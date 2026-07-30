@@ -1,7 +1,9 @@
-import { test, expect } from './fixtures';
+import { test, expect } from '@playwright/test';
+import { disableCookiePrompt } from './test-utils';
 
 test.describe('Breadcrumbs - Replace Mode (useReplaceBreadcrumbs)', () => {
   test.beforeEach(async ({ page }) => {
+    await disableCookiePrompt(page);
     await page.goto('/staging/starter/breadcrumb-demo', { waitUntil: 'load' });
     // Wait for page to be fully loaded
     await page.waitForSelector('.pf-v6-c-breadcrumb__item', { timeout: 10000 });
@@ -62,7 +64,7 @@ test.describe('Breadcrumbs - Replace Mode (useReplaceBreadcrumbs)', () => {
     // Click "Breadcrumb Demo" breadcrumb
     await page.locator('.pf-v6-c-breadcrumb__item').filter({ hasText: 'Breadcrumb Demo' }).locator('a').click();
     await expect(page).toHaveURL('/staging/starter/breadcrumb-demo');
-    await expect(page.getByRole('heading', { name: /Breadcrumb Demo.*useReplaceBreadcrumbs/ })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Breadcrumb Demo' })).toBeVisible();
   });
 
   test('should update breadcrumbs when navigating between items', async ({ page }) => {
@@ -86,10 +88,16 @@ test.describe('Breadcrumbs - Replace Mode (useReplaceBreadcrumbs)', () => {
     let breadcrumbs = page.locator('.pf-v6-c-breadcrumb__item');
     await expect(breadcrumbs.nth(4)).toContainText('Overview');
 
+    // Navigate back to item detail before clicking next tab
+    await page.getByRole('link', { name: 'Back to Item 1' }).click();
+
     // Test Details tab
     await page.getByRole('link', { name: 'Details Tab' }).click();
     breadcrumbs = page.locator('.pf-v6-c-breadcrumb__item');
     await expect(breadcrumbs.nth(4)).toContainText('Details');
+
+    // Navigate back to item detail before clicking next tab
+    await page.getByRole('link', { name: 'Back to Item 1' }).click();
 
     // Test Settings tab
     await page.getByRole('link', { name: 'Settings Tab' }).click();

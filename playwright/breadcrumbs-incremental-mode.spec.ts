@@ -1,7 +1,9 @@
-import { test, expect } from './fixtures';
+import { test, expect } from '@playwright/test';
+import { disableCookiePrompt } from './test-utils';
 
 test.describe('Breadcrumbs - Incremental Mode (useBreadcrumbs)', () => {
   test.beforeEach(async ({ page }) => {
+    await disableCookiePrompt(page);
     await page.goto('/staging/starter/breadcrumb-demo/nested/items', { waitUntil: 'load' });
     await page.waitForSelector('.pf-v6-c-breadcrumb__item', { timeout: 10000 });
   });
@@ -57,11 +59,11 @@ test.describe('Breadcrumbs - Incremental Mode (useBreadcrumbs)', () => {
 
     await page.locator('.pf-v6-c-breadcrumb__item').filter({ hasText: 'Items' }).locator('a').click();
     await expect(page).toHaveURL('/staging/starter/breadcrumb-demo/nested/items');
-    await expect(page.getByRole('heading', { name: 'Items' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Items', exact: true })).toBeVisible();
   });
 
   test('should only show content for exact route match', async ({ page }) => {
-    await expect(page.getByRole('heading', { name: 'Items' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Items', exact: true })).toBeVisible();
     await expect(page.getByText('Available Items')).toBeVisible();
 
     await page.getByRole('link', { name: 'View Item 1' }).click();
@@ -95,8 +97,14 @@ test.describe('Breadcrumbs - Incremental Mode (useBreadcrumbs)', () => {
     await page.getByRole('link', { name: 'Overview Tab' }).click();
     await expect(page.locator('.pf-v6-c-breadcrumb__item').nth(5)).toContainText('Overview');
 
+    // Navigate back to item detail before clicking next tab
+    await page.getByRole('link', { name: 'Back to Item 1' }).click();
+
     await page.getByRole('link', { name: 'Details Tab' }).click();
     await expect(page.locator('.pf-v6-c-breadcrumb__item').nth(5)).toContainText('Details');
+
+    // Navigate back to item detail before clicking next tab
+    await page.getByRole('link', { name: 'Back to Item 1' }).click();
 
     await page.getByRole('link', { name: 'Settings Tab' }).click();
     await expect(page.locator('.pf-v6-c-breadcrumb__item').nth(5)).toContainText('Settings');
