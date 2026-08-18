@@ -19,6 +19,7 @@
     "test:cypress": "cypress run --component",
     "test:cypress:open": "cypress open --component",
     "test:cypress:component": "cypress run --component",
+    "playwright": "PLAYWRIGHT=true playwright test",
     "postinstall": "ts-patch install && rimraf .cache",
     "verify": "npm-run-all build lint test"
   },
@@ -51,6 +52,7 @@
     "@typescript-eslint/parser": "^8.59.2",
     "cypress": "^15.14.2",
     "identity-obj-proxy": "^3.0.0",
+    "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "npm-run-all2": "^5.0.2",
     "rimraf": "^5.0.10",

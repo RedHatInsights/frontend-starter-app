@@ -69,6 +69,9 @@ const SamplePage = () => {
                 </Title>
               </StackItem>
               <StackItem>
+                <AppLink to="/breadcrumb-demo">Breadcrumb Demo</AppLink>
+              </StackItem>
+              <StackItem>
                 <AppLink to="/shared-stores-demo">
                   Shared Stores Demo - Remote Hooks & Data Visualization
                 </AppLink>
