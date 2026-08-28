@@ -1,0 +1,103 @@
+name: Chromatic Upload
+
+on:
+  workflow_run:
+    workflows: ["Storybook"]
+    types: [completed]
+
+concurrency:
+  group: chromatic-${{ github.event.workflow_run.head_repository.full_name }}-${{ github.event.workflow_run.head_branch }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  upload:
+    runs-on: ubuntu-24.04
+    if: >
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_repository.full_name == github.repository &&
+      (github.event.workflow_run.event == 'pull_request' || github.event.workflow_run.event == 'push')
+    outputs:
+      storybookUrl: ${{ steps.chromatic.outputs.storybookUrl }}
+      buildUrl: ${{ steps.chromatic.outputs.buildUrl }}
+    steps:
+      - name: Checkout Triggering Commit
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Download Artifact
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: storybook-static
+          path: storybook-static
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish to Chromatic
+        id: chromatic
+        uses: chromaui/action@a01e849cbc1f51ec5743358b4d7f9a1eadadf44e # v1
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          storybookBuildDir: storybook-static
+          autoAcceptChanges: ${{ github.event.workflow_run.event == 'push' }}
+        env:
+          CHROMATIC_SHA: ${{ github.event.workflow_run.head_sha }}
+          CHROMATIC_BRANCH: ${{ github.event.workflow_run.head_branch }}
+          CHROMATIC_SLUG: ${{ github.repository }}
+
+  comment:
+    runs-on: ubuntu-24.04
+    needs: [upload]
+    if: github.event.workflow_run.event == 'pull_request'
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Find PR number
+        id: find-pr
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        with:
+          result-encoding: string
+          script: |
+            const prs = context.payload.workflow_run.pull_requests;
+            if (prs && prs.length > 0) {
+              return prs[0].number;
+            }
+            const head_sha = context.payload.workflow_run.head_sha;
+            const { data: associatedPRs } = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: head_sha,
+            });
+            const matched = associatedPRs.find(pr => pr.state === 'open');
+            return matched ? matched.number : '';
+
+      - name: Find existing comment
+        id: find-comment
+        if: steps.find-pr.outputs.result != ''
+        uses: peter-evans/find-comment@3eae4d37986fb5a8592848f6a574fdf654e61f9e # v3
+        with:
+          issue-number: ${{ steps.find-pr.outputs.result }}
+          comment-author: 'github-actions[bot]'
+          body-includes: '<!-- chromatic-build -->'
+
+      - name: Comment on PR
+        if: steps.find-pr.outputs.result != ''
+        uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043 # v4
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ steps.find-pr.outputs.result }}
+          edit-mode: replace
+          body: |
+            <!-- chromatic-build -->
+            ### Chromatic Build
+
+            | | Link |
+            |---|---|
+            | Storybook | ${{ needs.upload.outputs.storybookUrl }} |
+            | Build | ${{ needs.upload.outputs.buildUrl }} |
