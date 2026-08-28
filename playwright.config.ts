@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import { currentsReporter } from "@currents/playwright";
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -18,8 +19,7 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
 
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [currentsReporter()], // 👈🏻 add Currents reporter
 
   /* Global setup for authentication */
   globalSetup: require.resolve('@redhat-cloud-services/playwright-test-auth/global-setup'),
@@ -29,14 +29,14 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('/')` */
     baseURL: process.env.PLAYWRIGHT_BASE_URL || 'https://stage.foo.redhat.com:1337',
 
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
-
     /* Ignore HTTPS errors */
     ignoreHTTPSErrors: true,
 
     /* Reuse authentication state from global setup */
     storageState: 'playwright/.auth/user.json',
+    trace: "on",
+    video: "on",
+    screenshot: "on",
   },
 
   /* Configure projects for major browsers */
