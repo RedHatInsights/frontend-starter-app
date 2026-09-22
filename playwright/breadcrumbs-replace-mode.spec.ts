@@ -1,18 +1,31 @@
 import { expect, test } from '@playwright/test';
+import type { Page } from '@playwright/test';
 import { disableCookiePrompt } from './test-utils';
 
-// NOTE: Chrome renders leading breadcrumb segments (e.g. "Red Hat Hybrid
-// Cloud Console", "staging", the app nav link) itself, and that set is
-// environment dependent. Assert only the app-owned tail crumbs via relative
-// locators (filter by text / last) so these tests don't break when Chrome
-// changes the leading segments.
+// NOTE: `breadcrumb-demo` is an app-internal React Router route and is NOT a
+// registered FEO route (deploy/frontend.yaml only registers /staging/starter).
+// Chrome only mounts this app for its registered routes, so a direct
+// page.goto('/staging/starter/breadcrumb-demo') does NOT mount the app in
+// deployed environments (stage/CI) — the demo (and its breadcrumbs) never
+// render. Always reach the demo by client-side navigation from the registered
+// /staging/starter route, the same way the main starter-app spec navigates.
+//
+// Chrome also renders the leading breadcrumb segments itself (e.g. the console
+// root and the app nav link) and that set is environment dependent. Assert only
+// the app-owned tail crumbs via relative locators (filter by text / last).
+
+async function openBreadcrumbDemo(page: Page): Promise<void> {
+  await disableCookiePrompt(page);
+  await page.goto('/staging/starter', { waitUntil: 'load', timeout: 60000 });
+  await expect(page.getByText('Sample Insights App')).toBeVisible();
+  await page.getByRole('link', { name: 'Breadcrumb Demo' }).click();
+  await expect(page).toHaveURL(/\/staging\/starter\/breadcrumb-demo$/);
+  await page.waitForSelector('.pf-v6-c-breadcrumb__item', { timeout: 10000 });
+}
 
 test.describe('Breadcrumbs - Replace Mode (useReplaceBreadcrumbs)', () => {
   test.beforeEach(async ({ page }) => {
-    await disableCookiePrompt(page);
-    await page.goto('/staging/starter/breadcrumb-demo', { waitUntil: 'load' });
-    // Wait for page to be fully loaded
-    await page.waitForSelector('.pf-v6-c-breadcrumb__item', { timeout: 10000 });
+    await openBreadcrumbDemo(page);
   });
 
   test('should show root breadcrumb at base route', async ({ page }) => {

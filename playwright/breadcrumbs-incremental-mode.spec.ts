@@ -1,19 +1,32 @@
 import { expect, test } from '@playwright/test';
+import type { Page } from '@playwright/test';
 import { disableCookiePrompt } from './test-utils';
 
-// NOTE: Chrome renders leading breadcrumb segments (e.g. "Red Hat Hybrid
-// Cloud Console", "staging", the app nav link) itself, and that set is
-// environment dependent. Assert only the app-owned tail crumbs via relative
-// locators (filter by text / last) so these tests don't break when Chrome
-// changes the leading segments.
+// NOTE: `breadcrumb-demo` (and its nested routes) are app-internal React Router
+// routes, NOT registered FEO routes (deploy/frontend.yaml only registers
+// /staging/starter). Chrome only mounts this app for its registered routes, so a
+// direct page.goto() to a breadcrumb-demo sub-path does NOT mount the app in
+// deployed environments (stage/CI) and nothing renders. Always reach these
+// routes by client-side navigation from the registered /staging/starter route.
+//
+// Chrome also renders the leading breadcrumb segments itself (environment
+// dependent), so assert only the app-owned tail crumbs via relative locators.
+
+async function openIncrementalItems(page: Page): Promise<void> {
+  await disableCookiePrompt(page);
+  await page.goto('/staging/starter', { waitUntil: 'load', timeout: 60000 });
+  await expect(page.getByText('Sample Insights App')).toBeVisible();
+  await page.getByRole('link', { name: 'Breadcrumb Demo' }).click();
+  await expect(page).toHaveURL(/\/staging\/starter\/breadcrumb-demo$/);
+  await page.getByRole('tab', { name: 'Incremental Mode' }).click();
+  await page.getByRole('link', { name: 'View Items List' }).click();
+  await expect(page).toHaveURL('/staging/starter/breadcrumb-demo/nested/items');
+  await page.waitForSelector('.pf-v6-c-breadcrumb__item', { timeout: 10000 });
+}
 
 test.describe('Breadcrumbs - Incremental Mode (useBreadcrumbs)', () => {
   test.beforeEach(async ({ page }) => {
-    await disableCookiePrompt(page);
-    await page.goto('/staging/starter/breadcrumb-demo/nested/items', {
-      waitUntil: 'load',
-    });
-    await page.waitForSelector('.pf-v6-c-breadcrumb__item', { timeout: 10000 });
+    await openIncrementalItems(page);
   });
 
   test('should show breadcrumb trail at items list route', async ({ page }) => {
@@ -109,9 +122,16 @@ test.describe('Breadcrumbs - Incremental Mode (useBreadcrumbs)', () => {
     await expect(page.getByText('Item Details')).not.toBeVisible();
   });
 
-  test('should handle direct navigation to deep route', async ({ page }) => {
-    await page.goto('/staging/starter/breadcrumb-demo/nested/items/2/details');
-    await page.waitForSelector('.pf-v6-c-breadcrumb__item', { timeout: 10000 });
+  test('should show full trail at a deep tab route (via navigation)', async ({
+    page,
+  }) => {
+    // Navigate to the deep route via client-side clicks (a direct page.goto to
+    // this unregistered sub-path would not mount the app in stage/CI).
+    await page.getByRole('link', { name: 'View Item 2' }).click();
+    await page.getByRole('link', { name: 'Details Tab' }).click();
+    await expect(page).toHaveURL(
+      '/staging/starter/breadcrumb-demo/nested/items/2/details',
+    );
 
     const breadcrumbs = page.locator('.pf-v6-c-breadcrumb__item');
     await expect(
