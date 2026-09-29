@@ -107,12 +107,15 @@ test.describe('Breadcrumbs - Replace Mode (useReplaceBreadcrumbs)', () => {
   }) => {
     // Go to Item 1
     await page.getByRole('link', { name: 'View Item 1' }).click();
+    await expect(page).toHaveURL('/staging/starter/breadcrumb-demo/items/1');
     const breadcrumbs = page.locator('.pf-v6-c-breadcrumb__item');
     await expect(breadcrumbs.last()).toContainText('Item 1');
 
     // Go back and click Item 3
     await page.goBack();
+    await expect(page).toHaveURL(/\/staging\/starter\/breadcrumb-demo$/);
     await page.getByRole('link', { name: 'View Item 3' }).click();
+    await expect(page).toHaveURL('/staging/starter/breadcrumb-demo/items/3');
     await expect(breadcrumbs.last()).toContainText('Item 3');
   });
 
