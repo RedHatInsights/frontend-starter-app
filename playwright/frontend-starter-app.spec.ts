@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { disableCookiePrompt } from '@redhat-cloud-services/playwright-test-auth';
+import { disableCookiePrompt } from './test-utils';
 
 test.describe('frontend starter app', async () => {
     test.beforeEach(async ({page}): Promise<void> => {

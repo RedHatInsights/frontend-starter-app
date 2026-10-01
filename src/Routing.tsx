@@ -25,6 +25,17 @@ const NoPermissionsPage = lazy(
       /* webpackChunkName: "NoPermissionsPage" */ './Routes/NoPermissionsPage/NoPermissionsPage'
     ),
 );
+const BreadcrumbDemo = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "BreadcrumbDemo" */ './Routes/BreadcrumbDemo/BreadcrumbDemo'
+    ),
+);
+const IncrementalRoot = lazy(() =>
+  import(
+    /* webpackChunkName: "BreadcrumbDemo" */ './Routes/BreadcrumbDemo/BreadcrumbDemo'
+  ).then((m) => ({ default: m.IncrementalRoot })),
+);
 
 const routes = [
   {
@@ -38,6 +49,22 @@ const routes = [
   {
     path: 'shared-stores-demo',
     element: SharedStoresDemo,
+  },
+  {
+    path: 'breadcrumb-demo',
+    element: BreadcrumbDemo,
+  },
+  {
+    path: 'breadcrumb-demo/items/:id',
+    element: BreadcrumbDemo,
+  },
+  {
+    path: 'breadcrumb-demo/items/:id/:tab',
+    element: BreadcrumbDemo,
+  },
+  {
+    path: 'breadcrumb-demo/nested/*',
+    element: IncrementalRoot,
   },
   {
     path: '/',
