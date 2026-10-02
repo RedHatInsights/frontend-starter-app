@@ -1,6 +1,5 @@
-import { expect, test } from '@playwright/test';
 import type { Page } from '@playwright/test';
-import { disableCookiePrompt } from './test-utils';
+import { expect, test } from './test-utils';
 
 // NOTE: `breadcrumb-demo` (and its nested routes) are app-internal React Router
 // routes, NOT registered FEO routes (deploy/frontend.yaml only registers
@@ -13,7 +12,6 @@ import { disableCookiePrompt } from './test-utils';
 // dependent), so assert only the app-owned tail crumbs via relative locators.
 
 async function openIncrementalItems(page: Page): Promise<void> {
-  await disableCookiePrompt(page);
   await page.goto('/staging/starter', { waitUntil: 'load', timeout: 60000 });
   await expect(page.getByText('Sample Insights App')).toBeVisible();
   await page.getByRole('link', { name: 'Breadcrumb Demo' }).click();

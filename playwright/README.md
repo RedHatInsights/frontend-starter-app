@@ -46,12 +46,19 @@ npx playwright show-report
 
 ### Cookie Prompt Handling
 
-Tests disable the TrustArc cookie prompt in `test.beforeEach` using `disableCookiePrompt()` from `./test-utils` (re-exported from `@redhat-cloud-services/playwright-test-auth`):
+The TrustArc cookie prompt is handled automatically via a custom Playwright
+fixture in `./test-utils`. Specs import `test` from `./test-utils` instead of
+`@playwright/test`; the fixture calls `disableCookiePrompt(page)` before every
+test so individual specs don't need to.
+
+`disableCookiePrompt` works via `page.route()` — a per-page network interceptor
+that blocks `consent.trustarc.com` requests. This cannot be persisted through
+`storageState` (which only saves cookies/localStorage), so it must be applied to
+each new page instance.
 
 ```ts
-test.beforeEach(async ({ page }) => {
-  await disableCookiePrompt(page);
-});
+// test-utils.ts provides this automatically:
+import { test, expect } from './test-utils';
 ```
 
 ### Global Setup

@@ -1,9 +1,7 @@
-import { test, expect } from '@playwright/test';
-import { disableCookiePrompt } from './test-utils';
+import { test, expect } from './test-utils';
 
 test.describe('frontend starter app', async () => {
     test.beforeEach(async ({page}): Promise<void> => {
-        await disableCookiePrompt(page);
         await page.goto('/', { waitUntil: 'load', timeout: 60000 });
     });
 
