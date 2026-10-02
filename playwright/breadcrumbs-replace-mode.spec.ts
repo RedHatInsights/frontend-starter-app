@@ -1,6 +1,5 @@
 import { expect, test } from '@playwright/test';
 import type { Page } from '@playwright/test';
-import { disableCookiePrompt } from './test-utils';
 
 // NOTE: `breadcrumb-demo` is an app-internal React Router route and is NOT a
 // registered FEO route (deploy/frontend.yaml only registers /staging/starter).
@@ -15,7 +14,6 @@ import { disableCookiePrompt } from './test-utils';
 // the app-owned tail crumbs via relative locators (filter by text / last).
 
 async function openBreadcrumbDemo(page: Page): Promise<void> {
-  await disableCookiePrompt(page);
   await page.goto('/staging/starter', { waitUntil: 'load', timeout: 60000 });
   await expect(page.getByText('Sample Insights App')).toBeVisible();
   await page.getByRole('link', { name: 'Breadcrumb Demo' }).click();
