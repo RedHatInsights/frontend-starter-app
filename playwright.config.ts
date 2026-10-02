@@ -6,7 +6,9 @@ export default defineConfig({
   workers: 1,
   fullyParallel: false,
   retries: process.env.CI ? 2 : 0,
-  globalSetup: './playwright/global-setup-with-proxy.ts',
+  globalSetup: process.env.E2E_PROXY
+    ? './playwright/global-setup-with-proxy.ts'
+    : require.resolve('@redhat-cloud-services/playwright-test-auth/global-setup'),
   expect: {
     timeout: 10000,
   },

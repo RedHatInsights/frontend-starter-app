@@ -54,12 +54,21 @@ test.beforeEach(async ({ page }) => {
 });
 ```
 
-### Global Setup (`global-setup-with-proxy.ts`)
+### Global Setup
 
-Handles authentication before all tests:
-- Logs in to Red Hat SSO using test credentials
+By default (including CI), Playwright uses the package's global setup directly.
+CI does not need `E2E_PROXY`. For local environments that require a proxy, set
+`E2E_PROXY` to its URL; this selects `global-setup-with-proxy.ts`, which:
+- Uses the package's `disableCookiePrompt()` and `login()` helpers for Red Hat SSO authentication
+- Passes the configured proxy to the browser context, including `E2E_PROXY`
 - Saves authentication state to `playwright/.auth/user.json`
 - Runs once before test suite
+
+The local setup is needed because `@redhat-cloud-services/playwright-test-auth`
+v0.0.2 does not forward Playwright's `use.proxy` setting in its global setup.
+SSO selectors, credential checks, and post-login navigation are owned by the
+package; do not duplicate them here. Once the package supports the proxy setting,
+the local setup can be replaced with the package's global setup.
 
 ## Authentication
 
@@ -72,6 +81,7 @@ Tests use `@redhat-cloud-services/playwright-test-auth` package:
 
 See `playwright.config.ts` for full configuration:
 - Base URL: `https://stage.foo.redhat.com:1337` (override with `PLAYWRIGHT_BASE_URL`)
+- Proxy: optional `E2E_PROXY`, applied to authentication and tests
 - Browser: Chromium
 - Retries: 2 on CI, 0 locally
 - Timeout: 120s per test, 10s per assertion
