@@ -13,12 +13,24 @@ import { expect, test } from './test-utils';
 // root and the app nav link) and that set is environment dependent. Assert only
 // the app-owned tail crumbs via relative locators (filter by text / last).
 
+/**
+ * Returns a locator for the breadcrumb navigation landmark.
+ * Uses the semantic `navigation` role with accessible name instead of CSS classes.
+ */
+function getBreadcrumbNav(page: Page) {
+  return page.getByRole('navigation', { name: /breadcrumb/i });
+}
+
 async function openBreadcrumbDemo(page: Page): Promise<void> {
   await page.goto('/staging/starter', { waitUntil: 'load', timeout: 60000 });
   await expect(page.getByText('Sample Insights App')).toBeVisible();
   await page.getByRole('link', { name: 'Breadcrumb Demo' }).click();
   await expect(page).toHaveURL(/\/staging\/starter\/breadcrumb-demo$/);
-  await page.waitForSelector('.pf-v6-c-breadcrumb__item', { timeout: 10000 });
+  await expect(
+    getBreadcrumbNav(page)
+      .getByRole('listitem')
+      .filter({ hasText: 'Breadcrumb Demo' }),
+  ).toBeVisible({ timeout: 10000 });
 }
 
 test.describe('Breadcrumbs - Replace Mode (useReplaceBreadcrumbs)', () => {
@@ -27,7 +39,7 @@ test.describe('Breadcrumbs - Replace Mode (useReplaceBreadcrumbs)', () => {
   });
 
   test('should show root breadcrumb at base route', async ({ page }) => {
-    const breadcrumbs = page.locator('.pf-v6-c-breadcrumb__item');
+    const breadcrumbs = getBreadcrumbNav(page).getByRole('listitem');
 
     await expect(
       breadcrumbs.filter({ hasText: 'Breadcrumb Demo' }),
@@ -42,7 +54,7 @@ test.describe('Breadcrumbs - Replace Mode (useReplaceBreadcrumbs)', () => {
     await page.getByRole('link', { name: 'View Item 1' }).click();
     await expect(page).toHaveURL('/staging/starter/breadcrumb-demo/items/1');
 
-    const breadcrumbs = page.locator('.pf-v6-c-breadcrumb__item');
+    const breadcrumbs = getBreadcrumbNav(page).getByRole('listitem');
 
     await expect(
       breadcrumbs.filter({ hasText: 'Breadcrumb Demo' }),
@@ -60,7 +72,7 @@ test.describe('Breadcrumbs - Replace Mode (useReplaceBreadcrumbs)', () => {
       '/staging/starter/breadcrumb-demo/items/1/overview',
     );
 
-    const breadcrumbs = page.locator('.pf-v6-c-breadcrumb__item');
+    const breadcrumbs = getBreadcrumbNav(page).getByRole('listitem');
 
     await expect(
       breadcrumbs.filter({ hasText: 'Breadcrumb Demo' }),
@@ -73,6 +85,8 @@ test.describe('Breadcrumbs - Replace Mode (useReplaceBreadcrumbs)', () => {
   test.skip('should navigate back when clicking breadcrumb links', async ({
     page,
   }) => {
+    const nav = getBreadcrumbNav(page);
+
     // Navigate to tab
     await page.getByRole('link', { name: 'View Item 2' }).click();
     await page.getByRole('link', { name: 'Details Tab' }).click();
@@ -80,21 +94,13 @@ test.describe('Breadcrumbs - Replace Mode (useReplaceBreadcrumbs)', () => {
       '/staging/starter/breadcrumb-demo/items/2/details',
     );
 
-    // Click "Item 2" breadcrumb
-    await page
-      .locator('.pf-v6-c-breadcrumb__item')
-      .filter({ hasText: 'Item 2' })
-      .locator('a')
-      .click();
+    // Click "Item 2" breadcrumb link
+    await nav.getByRole('link', { name: 'Item 2' }).click();
     await expect(page).toHaveURL('/staging/starter/breadcrumb-demo/items/2');
     await expect(page.getByRole('heading', { name: 'Item 2' })).toBeVisible();
 
-    // Click "Breadcrumb Demo" breadcrumb
-    await page
-      .locator('.pf-v6-c-breadcrumb__item')
-      .filter({ hasText: 'Breadcrumb Demo' })
-      .locator('a')
-      .click();
+    // Click "Breadcrumb Demo" breadcrumb link
+    await nav.getByRole('link', { name: 'Breadcrumb Demo' }).click();
     await expect(page).toHaveURL('/staging/starter/breadcrumb-demo');
     await expect(
       page.getByRole('heading', { name: 'Breadcrumb Demo' }),
@@ -104,24 +110,26 @@ test.describe('Breadcrumbs - Replace Mode (useReplaceBreadcrumbs)', () => {
   test('should update breadcrumbs when navigating between items', async ({
     page,
   }) => {
-    // Go to Item 1
+    const breadcrumbs = getBreadcrumbNav(page).getByRole('listitem');
+
+    // Go to Item 1 — breadcrumbs update asynchronously via Scalprum remote hook,
+    // so assert on filter({ hasText }) which retries finding matching elements.
     await page.getByRole('link', { name: 'View Item 1' }).click();
     await expect(page).toHaveURL('/staging/starter/breadcrumb-demo/items/1');
-    const breadcrumbs = page.locator('.pf-v6-c-breadcrumb__item');
-    await expect(breadcrumbs.last()).toContainText('Item 1');
+    await expect(breadcrumbs.filter({ hasText: 'Item 1' })).toBeVisible();
 
     // Go back and click Item 3
     await page.goBack();
     await expect(page).toHaveURL(/\/staging\/starter\/breadcrumb-demo$/);
     await page.getByRole('link', { name: 'View Item 3' }).click();
     await expect(page).toHaveURL('/staging/starter/breadcrumb-demo/items/3');
-    await expect(breadcrumbs.last()).toContainText('Item 3');
+    await expect(breadcrumbs.filter({ hasText: 'Item 3' })).toBeVisible();
   });
 
   // TODO(RHCLOUD-51825): Re-enable once tab navigation reliably updates replacement breadcrumbs.
   test.skip('should show all tab variations', async ({ page }) => {
     await page.getByRole('link', { name: 'View Item 1' }).click();
-    const breadcrumbs = page.locator('.pf-v6-c-breadcrumb__item');
+    const breadcrumbs = getBreadcrumbNav(page).getByRole('listitem');
 
     // Test Overview tab
     await page.getByRole('link', { name: 'Overview Tab' }).click();
