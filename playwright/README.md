@@ -46,20 +46,36 @@ npx playwright show-report
 
 ### Cookie Prompt Handling
 
-Tests disable the TrustArc cookie prompt in `test.beforeEach` using `disableCookiePrompt()` from `./test-utils` (re-exported from `@redhat-cloud-services/playwright-test-auth`):
+The TrustArc cookie prompt is handled automatically via a custom Playwright
+fixture in `./test-utils`. Specs import `test` from `./test-utils` instead of
+`@playwright/test`; the fixture calls `disableCookiePrompt(page)` before every
+test so individual specs don't need to.
+
+`disableCookiePrompt` works via `page.route()` — a per-page network interceptor
+that blocks `consent.trustarc.com` requests. This cannot be persisted through
+`storageState` (which only saves cookies/localStorage), so it must be applied to
+each new page instance.
 
 ```ts
-test.beforeEach(async ({ page }) => {
-  await disableCookiePrompt(page);
-});
+// test-utils.ts provides this automatically:
+import { test, expect } from './test-utils';
 ```
 
-### Global Setup (`global-setup-with-proxy.ts`)
+### Global Setup
 
-Handles authentication before all tests:
-- Logs in to Red Hat SSO using test credentials
+By default (including CI), Playwright uses the package's global setup directly.
+CI does not need `E2E_PROXY`. For local environments that require a proxy, set
+`E2E_PROXY` to its URL; this selects `global-setup-with-proxy.ts`, which:
+- Uses the package's `disableCookiePrompt()` and `login()` helpers for Red Hat SSO authentication
+- Passes the configured proxy to the browser context, including `E2E_PROXY`
 - Saves authentication state to `playwright/.auth/user.json`
 - Runs once before test suite
+
+The local setup is needed because `@redhat-cloud-services/playwright-test-auth`
+v0.0.2 does not forward Playwright's `use.proxy` setting in its global setup.
+SSO selectors, credential checks, and post-login navigation are owned by the
+package; do not duplicate them here. Once the package supports the proxy setting,
+the local setup can be replaced with the package's global setup.
 
 ## Authentication
 
@@ -72,6 +88,7 @@ Tests use `@redhat-cloud-services/playwright-test-auth` package:
 
 See `playwright.config.ts` for full configuration:
 - Base URL: `https://stage.foo.redhat.com:1337` (override with `PLAYWRIGHT_BASE_URL`)
+- Proxy: optional `E2E_PROXY`, applied to authentication and tests
 - Browser: Chromium
 - Retries: 2 on CI, 0 locally
 - Timeout: 120s per test, 10s per assertion

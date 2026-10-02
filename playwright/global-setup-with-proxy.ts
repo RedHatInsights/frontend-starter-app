@@ -1,23 +1,9 @@
-import { chromium, type FullConfig, type Page } from 'playwright';
-import { disableCookiePrompt } from './test-utils';
+import type { FullConfig } from '@playwright/test';
+import { chromium } from 'playwright';
+import { disableCookiePrompt, login } from './test-utils';
 
-async function login(page: Page, user: string, password: string, baseURL: string) {
-  const lockdownCount = await page.locator('text=Lockdown').count();
-  if (lockdownCount > 0) {
-    throw new Error('Proxy config incorrect - Lockdown page detected');
-  }
-
-  await page.getByLabel('Red Hat login').first().fill(user);
-  await page.getByRole('button', { name: 'Next' }).click();
-
-  await page.getByLabel('Password').first().fill(password);
-  await page.getByRole('button', { name: 'Log in' }).click();
-
-  await page.waitForURL(`${baseURL}/**`, { timeout: 60000 });
-
-  await page.getByText('Hi,').waitFor({ state: 'visible', timeout: 60000 });
-}
-
+// The package's global setup in v0.0.2 does not forward use.proxy.
+// Keep browser setup here for E2E_PROXY support and delegate auth to the package.
 async function globalSetup(config: FullConfig) {
   const { storageState, baseURL, proxy } = config.projects[0].use;
 
@@ -47,7 +33,7 @@ async function globalSetup(config: FullConfig) {
 
     await page.waitForLoadState('load');
 
-    await login(page, user, password, baseURL as string);
+    await login(page, user, password);
 
     await context.storageState({ path: storageState as string });
 

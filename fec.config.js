@@ -27,6 +27,15 @@ module.exports = {
       './frontendModules/useFedModulesFilter':
         './src/hooks/sharedStores/useFedModulesFilter',
     },
-    shared: [],
+    shared: [
+      {
+        // Use Chrome's router so routes and navigation share its context.
+        'react-router-dom': {
+          version: require('./package.json').dependencies['react-router-dom'],
+          singleton: true,
+          import: false,
+        },
+      },
+    ],
   },
 };
