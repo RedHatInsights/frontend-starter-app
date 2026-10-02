@@ -71,7 +71,7 @@ test.describe('Breadcrumbs - Replace Mode (useReplaceBreadcrumbs)', () => {
     await expect(breadcrumbs.last()).toContainText('Overview');
   });
 
-  // TODO: Re-enable once the missing Item 2 breadcrumb link is resolved.
+  // TODO(RHCLOUD-51825): Re-enable once the missing Item 2 breadcrumb link is resolved.
   test.skip('should navigate back when clicking breadcrumb links', async ({
     page,
   }) => {
@@ -120,7 +120,7 @@ test.describe('Breadcrumbs - Replace Mode (useReplaceBreadcrumbs)', () => {
     await expect(breadcrumbs.last()).toContainText('Item 3');
   });
 
-  // TODO: Re-enable once tab navigation reliably updates replacement breadcrumbs.
+  // TODO(RHCLOUD-51825): Re-enable once tab navigation reliably updates replacement breadcrumbs.
   test.skip('should show all tab variations', async ({ page }) => {
     await page.getByRole('link', { name: 'View Item 1' }).click();
     const breadcrumbs = page.locator('.pf-v6-c-breadcrumb__item');
