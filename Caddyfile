@@ -1,0 +1,45 @@
+{
+	{$CADDY_TLS_MODE}
+	auto_https disable_redirects
+	servers {
+		metrics
+	}
+}
+
+:9000 {
+	metrics /metrics
+}
+
+:8000 {
+	{$CADDY_TLS_CERT}
+	log
+
+	# Handle main app route
+	@app_match {
+		path /apps/frontend-starter-app*
+	}
+	handle @app_match {
+		uri strip_prefix /apps/frontend-starter-app
+		file_server * {
+			root /srv/dist
+			browse
+		}
+	}
+
+	# Handle env based main route
+	@env_match {
+		path {$ENV_PUBLIC_PATH}*
+	}
+
+	handle @env_match {
+		uri strip_prefix {$ENV_PUBLIC_PATH}
+		file_server * {
+			root /srv/dist
+			browse
+		}
+	}
+
+	handle / {
+		redir /apps/chrome/index.html permanent
+	}
+}
