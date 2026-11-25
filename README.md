@@ -49,8 +49,11 @@ See the complete implementation in `/src/Routes/SharedStoresDemo/` and read the 
 
 ### Federated HelloWorld preview
 
-`./HelloWorld` is a default-exported React component. Its optional `text` string
-defaults to `Hello World`. The generated `fed-mods.json` names the container
+`./HelloWorld` is a default-exported React component. Its required `runId` string
+is appended after its optional `text` string, which defaults to `Hello World`.
+Both strings must be nonempty when supplied. The same module exposes a named
+`getContract` function describing its inputs and read-only output as JSON.
+The generated `fed-mods.json` names the container
 `frontendStarterApp`; Chrome must also have that scope registered in its
 fed-modules configuration.
 
@@ -87,13 +90,13 @@ To verify with [Astro PR #426](https://github.com/RedHatInsights/astro-virtual-a
      detail: {
        scope: 'frontendStarterApp',
        module: './HelloWorld',
-       props: JSON.stringify({ text: 'Hello from the starter app' }),
+       props: JSON.stringify({ text: 'Hello from the starter app', runId: 'preview-123' }),
      },
    }));
    ```
 
    `importName` is deliberately omitted to select the default export. Confirm a
-   chat reply displays `Hello from the starter app`, and check the network and
+   chat reply displays `Hello from the starter app preview-123`, and check the network and
    console for loading errors. Stop both local servers when finished.
 
 ### Testing
