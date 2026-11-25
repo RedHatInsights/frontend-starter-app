@@ -47,6 +47,58 @@ See the complete implementation in `/src/Routes/SharedStoresDemo/` and read the 
 - [Full Guide](./docs/scalprum-remote-hooks-shared-stores.md) - Comprehensive documentation
 - [Quick Reference](./docs/scalprum-quick-reference.md) - Code snippets and cheat sheet
 
+### Federated HelloWorld preview
+
+`./HelloWorld` is a default-exported React component. Its required `runId` string
+is appended after its optional `text` string, which defaults to `Hello World`.
+Both strings must be nonempty when supplied. The same module exposes a named
+`getContract` function describing its inputs and read-only output as JSON.
+The generated `fed-mods.json` names the container
+`frontendStarterApp`; Chrome must also have that scope registered in its
+fed-modules configuration.
+
+To verify with [Astro PR #426](https://github.com/RedHatInsights/astro-virtual-assistant-frontend/pull/426):
+
+1. On a machine with the usual Console hosts setup, container runtime, stage
+   access and a Red Hat login, check out this starter app change. Run
+   `npm install` and `npm run static -- --port=8005`; leave it running until
+   the build completes. This serves the generated manifest and chunks at
+   `http://localhost:8005/apps/frontend-starter-app/`.
+2. Check out Astro PR #426 in a separate checkout. Temporarily add the following
+   route inside `getRoutes()` in Astro's `fec.config.js` (keep any existing
+   routes). This routes both the manifest and its chunks to the local build:
+
+   ```js
+   routes['/apps/frontend-starter-app'] = { host: 'http://127.0.0.1:8005' };
+   ```
+
+   Install Astro's dependencies and run `npm run start -- --clouddotEnv=stage`.
+   Revert this local-only config change after testing.
+3. Open `https://stage.foo.redhat.com:1337/staging/starter?masComponentPreview=1`,
+   authenticate, and open the enabled chat. In browser DevTools, disable cache
+   and reload before loading the starter module. Confirm the network response for
+   `/apps/frontend-starter-app/fed-mods.json` is the local manifest, with
+   `name: "frontendStarterApp"` and `baseURL: "/apps/frontend-starter-app/"`.
+   Check that Chrome's `/api/chrome-service/v1/static/fed-modules-generated.json`
+   contains the `frontendStarterApp` key with that manifest location. If it does
+   not, use an environment where Chrome registers that scope; the manifest's
+   container name alone does not register it.
+4. With the chat open, dispatch this in the browser console:
+
+   ```js
+   window.dispatchEvent(new CustomEvent('mas-component-preview', {
+     detail: {
+       scope: 'frontendStarterApp',
+       module: './HelloWorld',
+       props: JSON.stringify({ text: 'Hello from the starter app', runId: 'preview-123' }),
+     },
+   }));
+   ```
+
+   `importName` is deliberately omitted to select the default export. Confirm a
+   chat reply displays `Hello from the starter app preview-123`, and check the network and
+   console for loading errors. Stop both local servers when finished.
+
 ### Testing
 
 `npm run verify` will run `npm run lint` (eslint) and `npm test` (Jest)
@@ -60,4 +112,3 @@ This project includes component tests using Cypress for testing React components
 - `npm run test:cypress:component` - Run component tests (same as test:cypress)
 
 Component tests are fast, reliable, and don't require a running server. They're perfect for testing individual UI components with different props and states.
-
