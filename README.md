@@ -49,10 +49,11 @@ See the complete implementation in `/src/Routes/SharedStoresDemo/` and read the 
 
 ### Federated HelloWorld preview
 
-`./HelloWorld` is a default-exported React component. Its required `runId` string
-is appended after its optional `text` string, which defaults to `Hello World`.
-Both strings must be nonempty when supplied. The same module exposes a named
-`getContract` function describing its inputs and read-only output as JSON.
+`./HelloWorld` exposes the read-only widget `frontendStarterApp.HelloWorld@1.0`.
+The default React export reads `input={{ runId, text }}` directly. `runId` is
+required and `text` defaults to `Hello World`. The debug widget trusts the
+supplied input. The named `getContract()` export describes that input and
+returns `outputSchema: null`; the widget emits no actions.
 The generated `fed-mods.json` names the container
 `frontendStarterApp`; Chrome must also have that scope registered in its
 fed-modules configuration.
@@ -83,21 +84,58 @@ To verify with [Astro PR #426](https://github.com/RedHatInsights/astro-virtual-a
    contains the `frontendStarterApp` key with that manifest location. If it does
    not, use an environment where Chrome registers that scope; the manifest's
    container name alone does not register it.
-4. With the chat open, dispatch this in the browser console:
+4. Select MAS and open an active conversation. For an Astro build with the
+   [ai-web-clients #73](https://github.com/RedHatInsights/ai-web-clients/pull/73)
+   debug-event adapter (`detail.events`), dispatch this in DevTools. Only the
+   outer `mas-debug-message` wrapper is local; `widget.upserted` is the MAS
+   wire event. Astro passes `payload.input` through as the widget's `input`.
 
    ```js
-   window.dispatchEvent(new CustomEvent('mas-component-preview', {
+   window.dispatchEvent(new CustomEvent('mas-debug-message', {
      detail: {
-       scope: 'frontendStarterApp',
-       module: './HelloWorld',
-       props: JSON.stringify({ text: 'Hello from the starter app', runId: 'preview-123' }),
+       answer: 'Here is the starter widget.',
+       events: [{
+         type: 'widget.upserted',
+         event_id: 'evt-1',
+         execution_id: 'exec-7',
+         invocation_id: 'inv-2',
+         node_uid: 'starter-demo',
+         payload: {
+           type: 'widget',
+           widgetId: 'hello-1',
+           widget: 'frontendStarterApp.HelloWorld',
+           schemaVersion: '1.0',
+           revision: 1,
+           input: { runId: 'preview-123', text: 'Hello from the starter app' },
+         },
+         interaction: null,
+       }],
      },
    }));
    ```
 
-   `importName` is deliberately omitted to select the default export. Confirm a
-   chat reply displays `Hello from the starter app preview-123`, and check the network and
-   console for loading errors. Stop both local servers when finished.
+   If your Astro checkout still expects `detail.widgets` (as in PR #426 at
+   `5e88221`), use this debug command instead:
+
+   ```js
+   window.dispatchEvent(new CustomEvent('mas-debug-message', {
+     detail: {
+       turnId: 'exec-7',
+       answer: 'Here is the starter widget.',
+       widgets: [{
+         type: 'widget',
+         widget: 'frontendStarterApp.HelloWorld',
+         schemaVersion: '1.0',
+         instanceId: 'hello-1',
+         props: { runId: 'preview-123', text: 'Hello from the starter app' },
+       }],
+     },
+   }));
+   ```
+
+   Confirm the widget displays `Hello from the starter app preview-123` below
+   the reply.
+   Stop both local servers when finished.
 
 ### Testing
 
