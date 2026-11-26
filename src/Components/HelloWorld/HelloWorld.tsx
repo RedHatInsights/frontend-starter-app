@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface HelloWorldProps {
+interface HelloWorldInput {
   runId: string;
   text?: string;
 }
@@ -22,7 +22,7 @@ interface HelloWorldContract {
 
 export function getContract(): HelloWorldContract {
   return {
-    widget: 'starter.hello-world',
+    widget: 'frontendStarterApp.HelloWorld',
     schemaVersion: '1.0',
     inputSchema: {
       type: 'object',
@@ -37,13 +37,15 @@ export function getContract(): HelloWorldContract {
   };
 }
 
-const HelloWorld = ({
-  text = 'Hello World',
-  runId,
-}: HelloWorldProps): JSX.Element => (
-  <>
-    {text} {runId}
-  </>
-);
-
-export default HelloWorld;
+export default function HelloWorld({
+  input: { text = 'Hello World', runId },
+}: {
+  input: HelloWorldInput;
+  meta?: unknown;
+}): JSX.Element {
+  return (
+    <>
+      {text} {runId}
+    </>
+  );
+}
