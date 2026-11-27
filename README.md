@@ -61,3 +61,13 @@ This project includes component tests using Cypress for testing React components
 
 Component tests are fast, reliable, and don't require a running server. They're perfect for testing individual UI components with different props and states.
 
+#### Hermetic Konflux builds
+
+The PR and push pipelines prefetch npm dependencies and build the `deploy` target
+of `build-tools/Dockerfile.hermetic`. The shared builder generates the Caddy
+route from `insights.appname` and produces app metadata. Its default public path
+(`/default`) is used for the PR pipeline's readiness check, including when this
+template is renamed. Push-cache jobs use the frontend-operator's separate Valpop
+image rather than a binary embedded in this frontend image.
+
+Run `npm run test:hermetic` to check pipeline settings and the shared generators.

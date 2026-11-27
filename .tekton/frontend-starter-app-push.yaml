@@ -25,11 +25,19 @@ spec:
   - name: output-image
     value: quay.io/redhat-user-workloads/rh-platform-experien-tenant/frontend-starter-app/frontend-starter-app:{{revision}}
   - name: dockerfile
-    value: Dockerfile.hermetic
+    value: build-tools/Dockerfile.hermetic
+  - name: target-stage
+    value: deploy
   - name: hermetic
     value: "true"
   - name: prefetch-input
     value: '{"type": "npm", "path": "."}'
+  - name: build-args
+    value:
+    - "LABEL_COMPONENT=frontend-starter-app-hermetic"
+    - "LABEL_DESCRIPTION=Frontend Starter App - Hermetic Build"
+    - "LABEL_URL=https://github.com/RedHatInsights/frontend-starter-app"
+    - "LABEL_SUMMARY=Frontend Starter App"
   - name: path-context
     value: .
   - name: unit-tests-script
@@ -40,6 +48,7 @@ spec:
       npm install
       npm run lint
       npm test --  --runInBand --no-cache
+      npm run test:hermetic
   pipelineRef:
     name: docker-build
   taskRunTemplate:
@@ -54,7 +63,7 @@ spec:
         - ReadWriteOnce
         resources:
           requests:
-            storage: 1Gi
+            storage: 5Gi
       status: {}
   - name: git-auth
     secret:
