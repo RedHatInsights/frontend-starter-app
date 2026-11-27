@@ -22,6 +22,7 @@ module.exports = {
   moduleFederation: {
     exposes: {
       './RootApp': './src/AppEntry',
+      './HelloWorld': './src/Components/HelloWorld/HelloWorld',
       './frontendModules/useFedModulesStore':
         './src/hooks/sharedStores/useFedModulesStore',
       './frontendModules/useFedModulesFilter':
