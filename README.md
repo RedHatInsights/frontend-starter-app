@@ -160,4 +160,9 @@ route from `insights.appname` and produces app metadata. Its default public path
 template is renamed. Push-cache jobs use the frontend-operator's separate Valpop
 image rather than a binary embedded in this frontend image.
 
-Run `npm run test:hermetic` to check pipeline settings and the shared generators.
+Initialize the shared build tools before checking pipeline settings and generators:
+
+```bash
+git submodule update --init --recursive build-tools
+npm run test:hermetic
+```

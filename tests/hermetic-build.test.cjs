@@ -8,6 +8,8 @@ const test = require('node:test');
 const root = path.resolve(__dirname, '..');
 const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
 const param = (name, value) => new RegExp(`  - name: ${name}\n    value: ${value}(?:\n|$)`);
+const pkg = JSON.parse(read('package.json'));
+const appName = pkg.insights.appname;
 
 test('PR and push select the shared hermetic deploy target', () => {
   for (const kind of ['pull-request', 'push']) {
@@ -16,8 +18,8 @@ test('PR and push select the shared hermetic deploy target', () => {
     assert.match(pipeline, param('target-stage', 'deploy'));
     assert.match(pipeline, param('hermetic', '"true"'));
     assert.match(pipeline, /"type": "npm", "path": "\."/);
-    assert.match(pipeline, /LABEL_COMPONENT=frontend-starter-app-hermetic/);
-    assert.match(pipeline, /LABEL_URL=https:\/\/github\.com\/RedHatInsights\/frontend-starter-app/);
+    assert.ok(pipeline.includes(`"LABEL_COMPONENT=${appName}-hermetic"`));
+    assert.ok(pipeline.includes(`"LABEL_URL=https://github.com/RedHatInsights/${appName}"`));
     assert.match(pipeline, /npm run lint/);
     assert.match(pipeline, /npm test --/);
     assert.match(pipeline, /npm run test:hermetic/);
@@ -29,23 +31,23 @@ test('PR and push select the shared hermetic deploy target', () => {
   assert.match(pr, /npx playwright test/);
 });
 
-test('shared generators preserve starter route and app metadata', () => {
+for (const name of [appName, 'renamed-app']) test(`shared generators preserve route and metadata for ${name}`, () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'starter-hermetic-'));
   try {
-    fs.copyFileSync(path.join(root, 'package.json'), path.join(tmp, 'package.json'));
+    fs.writeFileSync(path.join(tmp, 'package.json'), JSON.stringify({ ...pkg, insights: { ...pkg.insights, appname: name } }));
     fs.mkdirSync(path.join(tmp, 'dist'));
     for (const script of ['caddyfile_gen_hermetic.js', 'build_app_info_hermetic.js']) {
       execFileSync(process.execPath, [path.join(root, 'build-tools', script)], { cwd: tmp });
     }
     const caddy = fs.readFileSync(path.join(tmp, 'Caddyfile'), 'utf8');
-    assert.match(caddy, /path \/apps\/frontend-starter-app\*/);
-    assert.match(caddy, /uri strip_prefix \/apps\/frontend-starter-app/);
+    assert.ok(caddy.includes(`path /apps/${name}*`));
+    assert.ok(caddy.includes(`uri strip_prefix /apps/${name}\n`));
     assert.match(caddy, /root \/srv\/dist/);
     assert.match(caddy, /path \{\$ENV_PUBLIC_PATH\}\*/);
     assert.match(read('build-tools/Dockerfile.hermetic'), /ENV ENV_PUBLIC_PATH "\/default"/);
     for (const file of ['app.info.json', 'app.info.deps.json']) {
       const metadata = JSON.parse(fs.readFileSync(path.join(tmp, 'dist', file), 'utf8'));
-      assert.equal(metadata.app_name, 'frontend-starter-app');
+      assert.equal(metadata.app_name, name);
     }
   } finally {
     fs.rmSync(tmp, { recursive: true, force: true });
